@@ -11,7 +11,7 @@ function App() {
   function handleOnClick():void {
     console.log(storedUser.user);
   }
-  const storedUser = useSelector<any, any>(
+  const storedUser = useSelector<User, any>(
     
     (state:User) => state
   );
