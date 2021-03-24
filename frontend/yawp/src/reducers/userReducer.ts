@@ -1,23 +1,21 @@
 import { bindActionCreators } from "redux";
-import { ADD_USER, FETCH_USER, UPDATE_USER } from "../actions/types";
+import { ADD_USER, FETCH_USER, UPDATE_USER, LOGIN_USER } from "../actions/types";
 
 export interface User {
   username: string;
   id: number;
-  password: string;
   bio: string;
   profile_pic: string;
-  email: string;
 }
 
 const initialState = {
-  user: {username: "",
+  user: {
+    username: "",
     id: -1,
-    password: "",
     bio: "",
     profile_pic: "",
-    email: "",
-  },  
+    loggedIn: false
+  },
 };
 export type Action = { type: string; payload: string };
 export const userReducer = (state: any = initialState, action: Action) => {
@@ -38,6 +36,11 @@ export const userReducer = (state: any = initialState, action: Action) => {
         ...state,
         user: action.payload,
       };
+    case LOGIN_USER:
+      return{
+        ...state,
+        user: action.payload
+      }
     default:
       console.log("reducer call" + action.type);
       console.log(state);

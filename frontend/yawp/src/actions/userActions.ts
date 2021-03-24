@@ -1,4 +1,4 @@
-import {ADD_USER,FETCH_USER,UPDATE_USER} from '../actions/types'
+import {ADD_USER,FETCH_USER,UPDATE_USER, LOGIN_USER} from '../actions/types'
 
 
 export function fetchUser() {
@@ -14,6 +14,25 @@ export function fetchUser() {
         dispatch({
             type:FETCH_USER,
             payload:u,
+        })
+    }
+}
+
+export function loginUser(){
+    return function (dispatch:any){
+        /* axios.get(...) */
+        const u = {
+            username:'',
+            id:'1',
+            bio:'',
+            profile_pic:'',
+            loggedIn: true
+        }
+        console.log("in login user");
+        localStorage.setItem('id', u.id);
+        dispatch({
+            type:LOGIN_USER,
+            payload: u,
         })
     }
 }
