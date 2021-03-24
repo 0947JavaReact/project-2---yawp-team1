@@ -1,39 +1,46 @@
-import {ADD_USER,FETCH_USER,UPDATE_USER} from '../actions/types'
+import { bindActionCreators } from "redux";
+import { ADD_USER, FETCH_USER, UPDATE_USER } from "../actions/types";
 
 export interface User {
-    username:string,
-    id:number,
-    password:string,
-    bio:string,
-    profile_pic:string,
-    email:string,
-    followers:User[],
-    following:User[],
+  username: string;
+  id: number;
+  password: string;
+  bio: string;
+  profile_pic: string;
+  email: string;
 }
 
 const initialState = {
-    item:{}
-}
-export type Action={type:string; payload:string};
-export const userReducer=(state=initialState, action:Action) =>{
-
-    switch(action.type) {
-        case ADD_USER:
-            return {
-                ...state,
-                item: action.payload
-            }
-        case FETCH_USER:
-            return {
-                ...state,
-                item: action.payload
-            }
-        case UPDATE_USER:
-            return {
-                ...state,
-                item: action.payload
-            }
-        default:
-            return state;
-    }
-}
+  user: {username: "",
+    id: -1,
+    password: "",
+    bio: "",
+    profile_pic: "",
+    email: "",
+  },  
+};
+export type Action = { type: string; payload: string };
+export const userReducer = (state: any = initialState, action: Action) => {
+  switch (action.type) {
+    case ADD_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case FETCH_USER:
+      console.log("in fetch" + JSON.stringify(action.payload));
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    default:
+      console.log("reducer call" + action.type);
+      console.log(state);
+      return state;
+  }
+};
