@@ -15,14 +15,15 @@ export const RegisterForm: React.FC<any> = () => {
     }
 
     const registerUser = (e:any) => {
-        e.preventDefault();
         console.log(register);
         if(register.password !== register.password2){
             alert("passwords must match");
             return;
         }
         /* Axios Request */
-        e.target.reset();
+        Array.from(document.querySelectorAll("input")).forEach(
+        input => (input.value = "")
+        );
     }
 
     return(
@@ -36,8 +37,8 @@ export const RegisterForm: React.FC<any> = () => {
                 <input type="password" name="password" placeholder="Password" onChange={handleChange} required/>
                 <h4 className="register-h4">Confirm Password</h4>
                 <input type="password" name="password2" placeholder="Confirm Password" onChange={handleChange} required/>
-                <input type="submit" name="submit" value="Register" />
             </form>
+            <button onClick={registerUser} >Register</button>
         </div>
     )
 }
