@@ -6,11 +6,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import { store } from './store';
 import LoginPage from './views/LoginPage';
 import RegisterPage from './views/RegisterPage';
+import Navbar from './components/Navbar/Navbar';
 
 
 function App() {
   return (
     <Router>
+      <Navbar />
       <Switch>
         <Route exact path="/"><LoginPage/></Route>
         <Route exact path="/forgotpass"></Route>
