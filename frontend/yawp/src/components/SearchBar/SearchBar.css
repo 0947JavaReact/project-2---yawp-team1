@@ -1,0 +1,12 @@
+.search-bar {
+    height: 30px;
+}
+
+.search-bar-button {
+    height: 30px;
+}
+
+.search-bar-section {
+    display: flex;
+    align-items: center;
+}

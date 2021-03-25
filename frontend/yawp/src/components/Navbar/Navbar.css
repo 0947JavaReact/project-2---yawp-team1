@@ -97,3 +97,10 @@
     transition: 250ms;
     border: 1px solid var(--orange);
 }
+
+.profile-pic-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    object-fit: cover;
+}

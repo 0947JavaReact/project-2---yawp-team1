@@ -7,6 +7,8 @@ import { store } from './store';
 import LoginPage from './views/LoginPage';
 import RegisterPage from './views/RegisterPage';
 import Navbar from './components/Navbar/Navbar';
+import YawpPost from './components/YawpPost/YawpPost';
+import img from './img/profile-picture-default.jpeg';
 
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
         <Route exact path="/forgotpass"></Route>
         <Route exact path="/register"><RegisterPage/></Route>
       </Switch>
+
+      <YawpPost id={15} content="HOHYEAH" username="username" userPic={img} likes={90} />
     </Router>
   );
 }
