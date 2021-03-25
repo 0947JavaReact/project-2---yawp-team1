@@ -6,7 +6,7 @@ export interface Yawp {
     id: number,
     content: string,
     username: string,
-    userPic: string
+    profilePic: string
     likes: number
 };
 
@@ -14,7 +14,7 @@ export const YawpPost: React.FC<Yawp> = (props) => {
     return (
         <div>
             <div className="yawp-profile">
-                <img className="yawp-image" src={props.userPic} />
+                <img className="yawp-image" src={props.profilePic} />
                 <h5 className="yawp-username">{props.username}</h5>
             </div>
 
