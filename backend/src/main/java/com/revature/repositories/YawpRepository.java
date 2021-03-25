@@ -35,15 +35,15 @@ public class YawpRepository {
 		return sesFactory.getCurrentSession().get(Yawp.class, id);
 	}
 	
-	public Yawp selectByName(String name) {
+	public List<Yawp> selectByName(int id) {
 		
 		List<Yawp> fList = new ArrayList<>();
-		fList = sesFactory.getCurrentSession().createQuery("from Yawp where name = '"+name+"'",Yawp.class).list();
+		fList = sesFactory.getCurrentSession().createQuery("from Yawp where author_id = '"+id+"'",Yawp.class).list();
 		if (fList.size() == 0) {
 			System.out.println("Panic");
 			return null;
 		}
-		return fList.get(0);
+		return fList;
 
 		
 	}

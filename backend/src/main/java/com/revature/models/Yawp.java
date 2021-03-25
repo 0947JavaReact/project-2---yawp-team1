@@ -50,6 +50,14 @@ public class Yawp {
 		this.yawpTime = yawpTime;
 		this.likesCount = likesCount;
 	}
+	
+	
+
+	public Yawp(String message, int authorId) {
+		super();
+		this.message = message;
+		this.authorId = authorId;
+	}
 
 	public int getYawpId() {
 		return yawpId;

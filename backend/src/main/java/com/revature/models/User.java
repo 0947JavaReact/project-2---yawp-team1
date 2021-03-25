@@ -77,6 +77,15 @@ public class User {
 		this.followers = followers;
 	}
 
+	
+	public User(String username, String password, String email, String bio) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.bio = bio;
+	}
+
 	public int getUserId() {
 		return userId;
 	}

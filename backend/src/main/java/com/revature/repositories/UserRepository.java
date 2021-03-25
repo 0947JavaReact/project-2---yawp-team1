@@ -48,6 +48,16 @@ public class UserRepository {
 		
 	}
 	
+	public List<User> searchByName(String name) {
+		List<User> fList = new ArrayList<>();
+		fList = sesFactory.getCurrentSession().createQuery("from User where name like '%"+name+"%'",User.class).list();
+		if (fList.size() == 0) {
+			System.out.println("Panic");
+			return null;
+		}
+		return fList;
+	}
+	
 	public List<User> selectAll() {
 		return sesFactory.getCurrentSession().createQuery("from User", User.class).list();
 	}
