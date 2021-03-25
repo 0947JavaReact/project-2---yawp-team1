@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,7 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -36,32 +41,32 @@ public class User {
 	@Column(name = "pic_url")
 	private String picUrl;
 
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@Column(name = "followers")
-	private List<User> followersIds;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "followerTable")
+	private Set<User> followers;
 	
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@Column(name = "following")
-	private List<User> followingIds;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name="followingTable")
+	private Set<User> following;
+
+	//private Follower followingHolder;
 
 	public User() {
 		super();
 	}
 
-	public User(String username, String password, String email, String bio, String picUrl, List<User> followersIds,
-			List<User> followingIds) {
+	public User(String username, String password, String email, String bio, String picUrl, Set<User> followers, Set<User> following) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.bio = bio;
 		this.picUrl = picUrl;
-		this.followersIds = followersIds;
-		this.followingIds = followingIds;
+		this.followers = followers;
 	}
 
 	public User(int userId, String username, String password, String email, String bio, String picUrl,
-			List<User> followersIds, List<User> followingIds) {
+			Set<User> followers, Set<User> following) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -69,8 +74,7 @@ public class User {
 		this.email = email;
 		this.bio = bio;
 		this.picUrl = picUrl;
-		this.followersIds = followersIds;
-		this.followingIds = followingIds;
+		this.followers = followers;
 	}
 
 	public int getUserId() {
@@ -121,27 +125,31 @@ public class User {
 		this.picUrl = picUrl;
 	}
 
-	public List<User> getFollowersIds() {
-		return followersIds;
+	public Set<User> getFollowers() {
+		return followers;
+	}
+	
+
+	public Set<User> getFollowing() {
+		return following;
 	}
 
-	public void setFollowersIds(List<User> followersIds) {
-		this.followersIds = followersIds;
+	public void setFollowing(Set<User> following) {
+		this.following = following;
 	}
 
-	public List<User> getFollowingIds() {
-		return followingIds;
-	}
-
-	public void setFollowingIds(List<User> followingIds) {
-		this.followingIds = followingIds;
+	public void setFollowers(Set<User> followers) {
+		this.followers = followers;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", bio=" + bio + ", picUrl=" + picUrl + ", followersIds=" + followersIds + ", followingIds="
-				+ followingIds + "]";
+				+ ", bio=" + bio + ", picUrl=" + picUrl + ", followers=" + followers.size() + ", following=" + following.size() + "]";
 	}
+
+	
+	
+
 	
 }

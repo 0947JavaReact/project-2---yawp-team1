@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -19,10 +19,12 @@ public class MainDriver {
 	public static UserService userv = applicationContext.getBean("userServ",UserService.class); 
 	public static YawpService yserv = applicationContext.getBean("yawpServ", YawpService.class);
 	
+	
 	public static void main(String[] args) {
 		insertInitialValues();
 		System.out.println(userv.getAllUsers());
 		System.out.println(yserv.getAllYawps());
+		System.out.println(urepo.selectById(1).getFollowers());
 	}
 	
 	public static void insertInitialValues() {
@@ -38,19 +40,35 @@ public class MainDriver {
 		this.followingIds = followingIds;
 		 */
 		
-		List<User>userfollowers = new ArrayList<>();
-		List<User>userfollowing = new ArrayList<>();
+		Set<User> f1 = new HashSet<>();
+		Set<User> f2 = new HashSet<>();
+		Set<User> f3 = new HashSet<>();
+		Set<User> f4 = new HashSet<>();
+		Set<User> f5 = new HashSet<>();
+		
+		Set<User> following1 = new HashSet<>();
+		Set<User> following2 = new HashSet<>();
+
+		Set<User> following3 = new HashSet<>();
+
+		Set<User> following4 = new HashSet<>();
+
+		Set<User> following5 = new HashSet<>();
 
 		
-		User u1 = new User("robuser","password","robert@email.com","bio","pic", userfollowers ,userfollowing);
+
+		
+		
+		
+		User u1 = new User("robuser","password","robert@email.com","bio","pic", f1 ,following1);
 		
 		
 		
 		
-		User u2 = new User("thomasuser","password","tom@email.com","bio","pic", userfollowers ,userfollowing);
-		User u3 = new User("jruser","password","jr@email.com","bio","pic", userfollowers ,userfollowing);
-		User u4 = new User("ethanuser","password","ethan@email.com","bio","pic", userfollowers ,userfollowing);
-		User u5 = new User("mikeuser","password","mike@email.com","bio","pic", userfollowers ,userfollowing);
+		User u2 = new User("thomasuser","password","tom@email.com","bio","pic", f2 , following2);
+		User u3 = new User("jruser","password","jr@email.com","bio","pic", f3 , following3);
+		User u4 = new User("ethanuser","password","ethan@email.com","bio","pic", f4, following4 );
+		User u5 = new User("mikeuser","password","mike@email.com","bio","pic", f5, following5 );
 		
 		
 		
@@ -60,6 +78,17 @@ public class MainDriver {
 		urepo.insert(u4);
 		urepo.insert(u5);
 		
+		f1.add(u5);
+		f1.add(u3);
+
+		following1.add(u1);
+		u5.setFollowing(following1);
+		
+		
+	u1.setFollowers(f1); 
+				
+		urepo.update(u1);
+		urepo.update(u5);
 //		userfollowers.add(u1.getUserId());
 //		userfollowers.add(u2.getUserId());
 //		userfollowers.add(u3.getUserId());
