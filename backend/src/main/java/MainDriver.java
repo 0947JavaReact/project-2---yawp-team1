@@ -48,7 +48,6 @@ public class MainDriver {
 		
 		Set<User> following1 = new HashSet<>();
 		Set<User> following2 = new HashSet<>();
-
 		Set<User> following3 = new HashSet<>();
 
 		Set<User> following4 = new HashSet<>();
