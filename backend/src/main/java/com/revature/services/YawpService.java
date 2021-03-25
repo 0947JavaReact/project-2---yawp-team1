@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class YawpService {
 	@Autowired
 	public YawpService(YawpRepository urepo) {
 		super();
+		
 		this.yrepo = urepo;
 	}
 
@@ -28,7 +30,7 @@ public class YawpService {
 		return yrepo.selectAll();
 	}
 	
-	public void register(String message, User user) {
+	public void register(String message, User user) throws SQLException{
 		Yawp yawp =  new Yawp(message, user.getUserId());
 		this.yrepo.insert(yawp);
 	}

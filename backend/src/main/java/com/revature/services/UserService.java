@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.InvalidCredentialsException;
+import com.revature.exceptions.UserAlreadyExistsException;
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
 
@@ -33,7 +34,11 @@ public class UserService {
 	}
 	
 	public void register(String username, String password, String email, String bio) {
-		User u = new User(username, password, email, bio)
+		User u = new User(username, password, email, bio);
+		if (this.urepo.selectByName(username) !=null) {
+			throw new UserAlreadyExistsException();
+		}
+		
 		this.urepo.insert(u);
 	}
 	
