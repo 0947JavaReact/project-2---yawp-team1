@@ -1,15 +1,19 @@
-import {ADD_YAWP,FETCH_YAWPS} from '../actions/types'
+import { ADD_YAWP, FETCH_YAWPS } from '../actions/types'
 
-
+export interface Yawp {
+    id: number,
+    content: string,
+    likes: number
+}
 
 const initialState = {
-    items:[],
-    item:{}
+    items: [],
+    item: {}
 }
-export type Action={type:string; payload:string};
-export const yawpReducer=(state=initialState, action:Action) =>{
+export type Action = { type: string; payload: string };
+export const yawpReducer = (state = initialState, action: Action) => {
 
-    switch(action.type) {
+    switch (action.type) {
         case ADD_YAWP:
             return {
                 ...state,
