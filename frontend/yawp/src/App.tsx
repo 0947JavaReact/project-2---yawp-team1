@@ -6,6 +6,7 @@ import { store } from './store';
 import { fetchUser } from './actions/userActions';
 import { User } from './reducers/userReducer';
 import {LoginForm} from './components/LoginForm/LoginForm';
+import { RegisterForm } from './components/RegisterForm/RegisterForm';
 //import { TestButton } from './components/TestButton';
 
 function App() {
@@ -31,8 +32,7 @@ function App() {
       <h1 >{`Helloworld ${storedUser.user.user.username}`}</h1>
       <button onClick={handleOnClick}>Handle button</button>
       <button onClick={getUser}>Get Button</button>
-      <LoginForm />
-      <h1>{`${storedUser.user.user.loggedIn}, ${storedUser.user.user.id}`}</h1>
+      <RegisterForm />
     </div>
   );
 }
