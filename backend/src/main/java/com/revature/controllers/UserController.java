@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServer;
 import org.springframework.http.HttpStatus;
@@ -115,7 +117,7 @@ public class UserController {
 
 	}
 
-	@GetMapping("/{user_name}")
+	@GetMapping("/username/{user_name}")
 	public ResponseEntity<User> getUserByUsername(@PathVariable("user_name") String username) {
 		System.out.println("in get user");
 		User user = userServ.getUserByUsername(username);
@@ -126,7 +128,7 @@ public class UserController {
 	}
 
 	// insert ID {id}
-	@GetMapping("/{user_id}")
+	@GetMapping("/userid/{user_id}")
 	public ResponseEntity<User> getUserByID(@PathVariable("user_id") int id) {
 		User user = userServ.getUserById(id);
 		if (user == null) {
