@@ -1,54 +1,68 @@
 package com.revature.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.InvalidCredentialsException;
+import com.revature.exceptions.SearchReturnedZeroResultsException;
 import com.revature.exceptions.UserAlreadyExistsException;
+import com.revature.exceptions.UsernameDoesNotExistException;
 import com.revature.models.User;
-import com.revature.repositories.UserRepository;
+import com.revature.repositories.UserDao;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service("userServ")
 public class UserService {
-
-	private UserRepository urepo;
-
-	public UserService() {
-		super();
-	}
-
-	@Autowired
-	public UserService(UserRepository urepo) {
-		super();
-		this.urepo = urepo;
-	}
+	private UserDao userDao;
 
 	public List<User> getAllUsers() {
-		return urepo.selectAll();
+		return userDao.findAll();
 	}
 	
 	public void register(User u) {
-		this.urepo.insert(u);
-	}
-	
-	public void register(String username, String password, String email, String bio) {
-		User u = new User(username, password, email, bio);
-		if (this.urepo.selectByName(username) !=null) {
+		if (userDao.findByUsername(u.getUsername()) !=null) {
 			throw new UserAlreadyExistsException();
 		}
 		
-		this.urepo.insert(u);
+		this.userDao.save(u);
 	}
+
 	
 	public User getUserById(int id) {
-		return urepo.selectById(id);
+		return userDao.findByUserId(id);
 	}
+	
+	public User getUserByUsername(String username) {
+		if (userDao.findByUsername(username) ==null) {
+			throw new UsernameDoesNotExistException();
+		}
+		return userDao.findByUsername(username);
+	}
+	
+	public List<User> searchByUsername(String str) {
+		List<User> uList = new ArrayList<>();
+		uList = userDao.findByUsernameContaining(str);
+		if (uList.isEmpty()) {
+			throw new SearchReturnedZeroResultsException();
+		}
+		return uList;
+	}
+	
 	
 	public User login(String username, String password) {
 		User user = new User();
-		user = urepo.selectByName(username);
+		user = userDao.findByUsername(username);
+		
+		if (userDao.findByUsername(username) ==null) {
+			throw new UsernameDoesNotExistException();
+		}
 		
 		if(!user.getPassword().equals(password)) {
 			 throw new InvalidCredentialsException();
