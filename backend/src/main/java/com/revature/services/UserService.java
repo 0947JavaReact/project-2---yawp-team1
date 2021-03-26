@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,9 @@ import com.revature.exceptions.SearchReturnedZeroResultsException;
 import com.revature.exceptions.UpdateFailedException;
 import com.revature.exceptions.UserAlreadyExistsException;
 import com.revature.exceptions.UsernameDoesNotExistException;
+import com.revature.models.StoredPassword;
 import com.revature.models.User;
+import com.revature.repositories.PasswordDao;
 import com.revature.repositories.UserDao;
 
 import lombok.AllArgsConstructor;
@@ -24,38 +27,38 @@ import lombok.NoArgsConstructor;
 @Service("userServ")
 public class UserService {
 	private UserDao userDao;
+	private PasswordDao passDao;
 
 	public List<User> getAllUsers() {
 		return userDao.findAll();
 	}
 	
-//	 private String hashPassword(String password_plaintext) {
-//        String salt = BCrypt.gensalt(12);
-//        String hashed_password = BCrypt.hashpw(password_plaintext, salt);
-//
-//        return(hashed_password);
-//    }
-//    
-//    private boolean checkPassword(String password_plaintext, String stored_hash) {
-//        boolean password_verified = false;
-//
-//        if(null == stored_hash || !stored_hash.startsWith("$2a$"))
-//            throw new java.lang.IllegalArgumentException("Invalid hash provided for comparison");
-//
-//        password_verified = BCrypt.checkpw(password_plaintext, stored_hash);
-//
-//        return(password_verified);
-//    }
+	 public String hashPassword(String password_plaintext) {
+        String salt = BCrypt.gensalt(12);
+        String hashed_password = BCrypt.hashpw(password_plaintext, salt);
+
+        return(hashed_password);
+    }
+    
+    private boolean checkPassword(String password_plaintext, String stored_hash) {
+        boolean password_verified = false;
+
+        if(null == stored_hash || !stored_hash.startsWith("$2a$"))
+            throw new java.lang.IllegalArgumentException("Invalid hash provided for comparison");
+
+        password_verified = BCrypt.checkpw(password_plaintext, stored_hash);
+
+        return(password_verified);
+    }
 	 
 	
 	
 	public void register(User u) {
-		
-		//hashing
 		if (userDao.findByUsername(u.getUsername()) !=null) {
 			throw new UserAlreadyExistsException();
 		}
 		
+		passDao.save(u.getPasswordHolder());		
 		userDao.save(u);
 	}
 
@@ -129,7 +132,7 @@ public class UserService {
 		User f = getUserById(following);
 		u.getFollowing().remove(f);
 		userDao.save(u);
-		if(!userDao.findByUsername(u.getUsername()).equals(u)) {
+		if(!userDao.findByUsername(u.getUsername()).equals(u)) { 
 			throw new UpdateFailedException();
 		}
 		return true;
@@ -151,13 +154,11 @@ public class UserService {
 		User user = new User();
 		user = userDao.findByUsername(username);
 		
-		//compare hash
-		
 		if (userDao.findByUsername(username) ==null) {
 			throw new UsernameDoesNotExistException();
 		}
 		
-		if(!user.getPassword().equals(password)) {
+		if(!checkPassword(password, user.getPasswordHolder().getHashedPassword())) {
 			 throw new InvalidCredentialsException();
 		}
 		return user;

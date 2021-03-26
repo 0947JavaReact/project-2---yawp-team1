@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.embedded.undertow.UndertowServletWebServer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.exceptions.InvalidCredentialsException;
+import com.revature.exceptions.UserAlreadyExistsException;
+import com.revature.exceptions.UsernameDoesNotExistException;
+import com.revature.models.StoredPassword;
 import com.revature.models.User;
 import com.revature.services.UserService;
 
@@ -27,11 +32,33 @@ import lombok.NoArgsConstructor;
 public class UserController {
 	private UserService userServ;
 
-	@PostMapping()
+	@PostMapping("/create")
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap<String, String> uMap) {// take out bio
-		User user = new User(uMap.get("username"), uMap.get("password"), uMap.get("email"));
+		String hashed = userServ.hashPassword(uMap.get("password"));
+		
+		StoredPassword sp = new StoredPassword(uMap.get("password"),hashed);
+		User user = new User(uMap.get("username"), sp, uMap.get("email"));
+		
+		try {
 		userServ.register(user);
+		}catch(UserAlreadyExistsException e) {
+			return new ResponseEntity<>("User was not registered", HttpStatus.NOT_ACCEPTABLE);
+
+		}
 		return new ResponseEntity<>("User was registered", HttpStatus.CREATED);
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<User> loginUser(@RequestBody LinkedHashMap<String, String> uMap) {
+		User user;
+		try {
+			user = userServ.login(uMap.get("username"), uMap.get("password"));
+
+		} catch (UsernameDoesNotExistException | InvalidCredentialsException e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(user, HttpStatus.OK);
+
 	}
 
 	@PostMapping("/update")
@@ -45,6 +72,7 @@ public class UserController {
 		}
 		return new ResponseEntity<>("User was not updated", HttpStatus.NOT_MODIFIED);
 	}
+
 	/*
 	 * @PostMapping("/updatepassword") public ResponseEntity<String>
 	 * updateUser(@RequestBody LinkedHashMap<String, String> uMap) { User user =
@@ -69,7 +97,7 @@ public class UserController {
 		return new ResponseEntity<>("User is now following", HttpStatus.OK);
 
 	}
-	
+
 	@PostMapping("/stopfollowing")
 	public ResponseEntity<String> removeFollowing(@RequestBody LinkedHashMap<String, String> uMap) {
 		boolean stopfollowing = userServ.removeFollowing(Integer.parseInt(uMap.get("user_id")),

@@ -1,12 +1,17 @@
 package com.revature.models;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -39,24 +44,25 @@ public class Yawp implements Comparable<Yawp>{
 	@Column(name = "yawp_time")
 	private LocalDateTime yawpTime;
 	
-	@Column(name = "likes_count")
-	private int likesCount;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "likesTable")
+	private Set<User> likes;
 
 
-	public Yawp(String message, int authorId, LocalDateTime yawpTime, int likesCount) {
+	public Yawp(String message, int authorId, LocalDateTime yawpTime, Set<User> likes) {
 		super();
 		this.message = message;
 		this.authorId = authorId;
 		this.yawpTime = yawpTime;
-		this.likesCount = likesCount;
+		this.likes = likes;
 	}
 
-	public void addLike() {
-		likesCount ++;
+	public void addLike(User u) {
+		likes.add(u);
 	}
 	
-	public void removeLike() {
-		likesCount --;
+	public void removeLike(User u) {
+		likes.remove(u);
 	}
 	
 

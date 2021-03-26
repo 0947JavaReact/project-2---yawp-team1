@@ -9,8 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -37,13 +39,14 @@ public class User {
 	@Column(name = "user_name", unique = true, nullable = false)
 	private String username;
 
-	@Column(name = "password", nullable = false)
-	private String password;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "password_FK", nullable = false)
+	private StoredPassword passwordHolder;
 
 	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@Column(name = "bio", nullable = false)
+	@Column(name = "bio")
 	private String bio;
 
 	@Column(name = "pic_url")
@@ -61,10 +64,10 @@ public class User {
 
 	
 
-	public User(String username, String password, String email, String bio, String picUrl, Set<User> followers, Set<User> following) {
+	public User(String username, StoredPassword password, String email, String bio, String picUrl, Set<User> followers, Set<User> following) {
 		super();
 		this.username = username;
-		this.password = password;
+		this.passwordHolder = password;
 		this.email = email;
 		this.bio = bio;
 		this.picUrl = picUrl;
@@ -72,19 +75,19 @@ public class User {
 	}
 
 	
-	public User(String username, String password, String email, String bio) {
+	public User(String username, StoredPassword password, String email, String bio) {
 		super();
 		this.username = username;
-		this.password = password;
+		this.passwordHolder = password;
 		this.email = email;
 		this.bio = bio;
 	}
 
 
-	public User(String username, String password, String email) {
+	public User(String username, StoredPassword password, String email) {
 		super();
 		this.username = username;
-		this.password = password;
+		this.passwordHolder = password;
 		this.email = email;
 	}
 	
