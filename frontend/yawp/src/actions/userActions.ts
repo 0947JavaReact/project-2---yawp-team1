@@ -1,7 +1,7 @@
 import {ADD_USER,FETCH_USER,UPDATE_USER, LOGIN_USER} from '../actions/types'
 
 
-export function fetchUser() {
+export function fetchUser(username:string) {
     return function (dispatch:any) {
         const u = {
             username:'bob',
@@ -22,14 +22,14 @@ export function loginUser(){
     return function (dispatch:any){
         /* axios.get(...) */
         const u = {
-            username:'',
+            username:'bob',
             id:'1',
             bio:'',
             profile_pic:'',
             loggedIn: true
         }
         console.log("in login user");
-        localStorage.setItem('id', u.id);
+        localStorage.setItem('username', u.username);
         dispatch({
             type:LOGIN_USER,
             payload: u,

@@ -13,13 +13,13 @@ export const SearchBar: React.FC<any> = () => {
 
     return (
         <div className="search-bar-section">
-            <button className="search-bar-button" onClick={onSearch}><SearchIcon style={{fontSize: 25}} /></button>
             <input
                 className="search-bar"
                 value={keyword}
                 placeholder="Search user"
                 onChange={(e) => setKeyword(e.target.value)}
             />
+            <button className="search-bar-button" onClick={onSearch}><SearchIcon style={{fontSize: 25}} /></button>
         </div>
     )
 }

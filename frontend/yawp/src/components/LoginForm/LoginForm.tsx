@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from '../../actions/userActions';
+import {useHistory} from 'react-router-dom';
 
 export const LoginForm: React.FC<any> = () => {
 
@@ -18,10 +19,12 @@ export const LoginForm: React.FC<any> = () => {
 
     const dispatch =  useDispatch();
 
+    const history = useHistory()
     const login = ()=> {
-    dispatch( 
+    dispatch(   
       loginUser()
     )
+    history.push('/home')
   }
 
     return(

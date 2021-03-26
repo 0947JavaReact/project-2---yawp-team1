@@ -1,13 +1,20 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navbar } from '../components/Navbar/Navbar';
-import { fetchYawps } from '../actions/yawpActions';
+import { fetchUserYawps } from '../actions/yawpActions';
 import { fetchUser } from '../actions/userActions';
 import YawpPost from '../components/YawpPost/YawpPost';
 import CreateYawp from '../components/CreateYawp/CreateYawp';
+import {useHistory} from 'react-router-dom';
 
 function HomePage() {
+
+    const history = useHistory()
+
     React.useEffect(() => {
+        if(!localStorage.getItem('username')){
+            history.push('/')
+        }
         getUser()
         getYawps()
     }, [])
@@ -19,13 +26,13 @@ function HomePage() {
 
     const getUser = () => {
         dispatch(
-            fetchUser()
+            fetchUser(yawpState.user.user.username)
         )
     };
 
     const getYawps = () => {
         dispatch(
-            fetchYawps()
+            fetchUserYawps("bob")
         )
     }
 
