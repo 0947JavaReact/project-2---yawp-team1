@@ -22,7 +22,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name="Yawps")
-public class Yawp {
+public class Yawp implements Comparable<Yawp>{
 
 	@Id
 	@Column(name="yawp_id")
@@ -51,10 +51,21 @@ public class Yawp {
 		this.likesCount = likesCount;
 	}
 
-	public Yawp(String message, int authorId) {
-		super();
-		this.message = message;
-		this.authorId = authorId;
+	public void addLike() {
+		likesCount ++;
 	}
+	
+	public void removeLike() {
+		likesCount --;
+	}
+	
+
+	@Override
+	public int compareTo(Yawp o) {
+		
+		return getYawpTime().compareTo(o.getYawpTime());
+	}
+
+	
 
 }

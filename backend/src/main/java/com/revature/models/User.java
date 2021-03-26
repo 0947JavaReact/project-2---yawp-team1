@@ -79,4 +79,14 @@ public class User {
 		this.email = email;
 		this.bio = bio;
 	}
+
+
+	public User(String username, String password, String email) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.email = email;
+	}
+	
+	
 }
