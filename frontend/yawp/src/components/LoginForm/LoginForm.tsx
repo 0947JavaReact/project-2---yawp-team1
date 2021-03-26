@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from '../../actions/userActions';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 
 export const LoginForm: React.FC<any> = () => {
 
@@ -22,7 +22,8 @@ export const LoginForm: React.FC<any> = () => {
     const history = useHistory()
     const login = ()=> {
     dispatch(   
-      loginUser()
+        
+      loginUser({username,password})
     )
     history.push('/home')
   }
@@ -36,6 +37,7 @@ export const LoginForm: React.FC<any> = () => {
                 <input type="password" name="password" placeholder="Password" onChange={handleChange}/>
             </form>
             <button onClick={login}>Login</button>
+            <Link to="/register">Register</Link>
         </div>
     )
 }

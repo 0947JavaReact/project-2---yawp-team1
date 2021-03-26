@@ -13,6 +13,8 @@ import HomePage from './views/HomePage';
 import ProfilePage from './views/ProfilePage';
 import FollowerPage from './views/FollowerPage';
 import FollowingPage from './views/FollowingPage';
+import EditProfilePage from './views/EditProfilePage';
+import ResetPage from "./views/ResetPage"
 
 function App() {
 
@@ -21,12 +23,14 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/"><LoginPage /></Route>
-        <Route exact path="/forgotpass"></Route>
+        <Route exact path="/forgotpass"><ResetPage></ResetPage></Route>
         <Route exact path="/register"><RegisterPage /></Route>
         <Route exact path="/home"><HomePage /></Route>
         <Route exact path="/user/:username" component={ProfilePage}></Route>
         <Route exact path="/followers/:username" component={FollowerPage}></Route>
         <Route exact path="/following/:username" component={FollowingPage}></Route>
+        <Route exact path="/edit"><EditProfilePage/></Route>
+        
       </Switch>
       
     </Router>

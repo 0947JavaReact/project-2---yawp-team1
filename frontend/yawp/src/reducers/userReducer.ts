@@ -42,8 +42,6 @@ export const userReducer = (state: any = initialState, action: Action) => {
         user: action.payload
       }
     default:
-      console.log("reducer call" + action.type);
-      console.log(state);
       return state;
   }
 };
