@@ -1,3 +1,4 @@
+import { isTemplateSpan } from 'typescript';
 import { ADD_YAWP, FETCH_YAWPS } from '../actions/types'
 
 export interface Yawp {
@@ -24,7 +25,7 @@ export const yawpReducer = (state = initialState, action: Action) => {
         case ADD_YAWP:
             return {
                 ...state,
-                item: action.payload
+                items: [...state.items, action.payload]
             };
 
         case FETCH_YAWPS:

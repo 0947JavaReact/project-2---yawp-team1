@@ -1,5 +1,6 @@
 import { ADD_YAWP, FETCH_YAWPS } from '../actions/types';
 import img1 from '../img/profile-picture-default.jpeg';
+import { Yawp } from '../components/CreateYawp/CreateYawp';
 
 export function fetchYawps() {
     return function (dispatch: any) {
@@ -30,6 +31,17 @@ export function fetchYawps() {
         dispatch({
             type: FETCH_YAWPS,
             payload: [yawp1, yawp2, yawp3]
+        })
+    }
+}
+
+export function postYawp(yawp: Yawp) {
+    return function (dispatch: any) {
+        /* axios request */
+
+        dispatch({
+            type: ADD_YAWP,
+            payload: yawp,
         })
     }
 }

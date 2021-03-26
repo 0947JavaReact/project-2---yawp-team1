@@ -4,6 +4,7 @@ import { Navbar } from '../components/Navbar/Navbar';
 import { fetchYawps } from '../actions/yawpActions';
 import { fetchUser } from '../actions/userActions';
 import YawpPost from '../components/YawpPost/YawpPost';
+import CreateYawp from '../components/CreateYawp/CreateYawp';
 
 function HomePage() {
     React.useEffect(() => {
@@ -32,6 +33,8 @@ function HomePage() {
         <div className="home-page">
             <Navbar />
             <div className="container">
+                <CreateYawp />
+
                 {yawpState.yawp.items.map((item: any) => {
                     return (
                         <YawpPost id={item.id} username={item.username} content={item.content} profilePic={item.profilePic} likes={item.likes} key={item.id} />
