@@ -27,12 +27,11 @@ import com.revature.services.UserService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/users")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
-@CrossOrigin
 public class UserController {
 	private UserService userServ;
 
