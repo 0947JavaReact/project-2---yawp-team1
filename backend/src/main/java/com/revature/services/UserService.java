@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,10 +15,15 @@ import com.revature.exceptions.SearchReturnedZeroResultsException;
 import com.revature.exceptions.UpdateFailedException;
 import com.revature.exceptions.UserAlreadyExistsException;
 import com.revature.exceptions.UsernameDoesNotExistException;
+import com.revature.models.StoredFollowers;
+import com.revature.models.StoredFollowing;
 import com.revature.models.StoredPassword;
 import com.revature.models.User;
+import com.revature.repositories.FollowerHolderDao;
+import com.revature.repositories.FollowingHolderDao;
 import com.revature.repositories.PasswordDao;
 import com.revature.repositories.UserDao;
+import com.revature.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -27,7 +33,10 @@ import lombok.NoArgsConstructor;
 @Service("userServ")
 public class UserService {
 	private UserDao userDao;
+	private FollowerHolderDao followerHDao;
+	private FollowingHolderDao followingHDao;
 	private PasswordDao passDao;
+	//private UserRepository userRepo;
 
 	public List<User> getAllUsers() {
 		return userDao.findAll();
@@ -98,8 +107,16 @@ public class UserService {
 	public boolean addFollower(int user, int follower) {
 		User u = getUserById(user);
 		User f = getUserById(follower);
-		u.getFollowers().add(f);
-		userDao.save(u);
+//		u.getFollowersHolder().setUserId(user);
+//		u.getFollowersHolder().setFollowerId(follower);
+
+		StoredFollowers sf = new StoredFollowers();
+		sf.setUserId(user);
+		sf.setFollowerId(follower);
+		
+		followerHDao.save(sf);
+
+		//userDao.save(u);
 		if(!userDao.findByUsername(u.getUsername()).equals(u)) {
 			throw new UpdateFailedException();
 		}
@@ -109,8 +126,14 @@ public class UserService {
 	public boolean addFollowing(int user, int following) {
 		User u = getUserById(user);
 		User f = getUserById(following);
-		u.getFollowing().add(f);
-		userDao.save(u);
+//		u.getFollowingHolder().setUserId(user);
+//		u.getFollowingHolder().setFollowingId(following);
+		//userDao.save(u);
+		
+		StoredFollowing sf = new StoredFollowing();
+		sf.setUserId(user);
+		sf.setFollowingId(following);
+		followingHDao.save(sf);
 		if(!userDao.findByUsername(u.getUsername()).equals(u)) {
 			throw new UpdateFailedException();
 		}
@@ -120,8 +143,11 @@ public class UserService {
 	public boolean removeFollower(int user, int follower) {
 		User u = getUserById(user);
 		User f = getUserById(follower);
-		u.getFollowers().remove(f);
-		userDao.save(u);
+		
+		followerHDao.delete(u.getFollowersHolder());
+		
+		
+//		userDao.delete(u.getFollowersHolder());
 		if(!userDao.findByUsername(u.getUsername()).equals(u)) {
 			throw new UpdateFailedException();
 		}
@@ -130,23 +156,37 @@ public class UserService {
 	public boolean removeFollowing(int user, int following) {
 		User u = getUserById(user);
 		User f = getUserById(following);
-		u.getFollowing().remove(f);
-		userDao.save(u);
+		
+		followingHDao.delete(u.getFollowingHolder());
+
+		//u.getFollowingHolder().getFollowing().remove(f);
+		//userDao.save(u);
 		if(!userDao.findByUsername(u.getUsername()).equals(u)) { 
 			throw new UpdateFailedException();
 		}
 		return true;
 	}
 	
-	public Set<User> getUserFollowers(int id) {
-		User user = userDao.findById(id).get();
+	public List<User> getUserFollowers(int id) {
 		
-		return user.getFollowers();
+		List<StoredFollowers> sUsers =followerHDao.findAllByUserId(id);
+		System.out.println(sUsers);
+		List<User> userList = new ArrayList<>();
+		for(StoredFollowers i: sUsers) {
+			userList.add(getUserById(i.getFollowerId()));
+		}
+		
+		return userList;
 	}
 	
-	public Set<User> getUserFollowing(int id) {
-		User user = userDao.findById(id).get();
-		return user.getFollowing();
+	public List<User> getUserFollowing(int id) {
+		List<StoredFollowing> sUsers =followingHDao.findAllByUserId(id);
+		System.out.println(sUsers);
+		List<User> userList = new ArrayList<>();
+		for(StoredFollowing i: sUsers) {
+			userList.add(getUserById(i.getFollowingId()));
+		}
+		return userList;
 	}
 	
 	public User login(String username, String password) {

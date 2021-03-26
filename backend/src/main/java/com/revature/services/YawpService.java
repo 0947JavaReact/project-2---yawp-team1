@@ -9,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.UnlikeException;
+import com.revature.models.StoredFollowers;
+import com.revature.models.StoredFollowing;
 import com.revature.models.User;
 import com.revature.models.Yawp;
+import com.revature.repositories.FollowerHolderDao;
+import com.revature.repositories.FollowingHolderDao;
 import com.revature.repositories.UserDao;
 import com.revature.repositories.YawpDao;
 import lombok.AllArgsConstructor;
@@ -21,6 +25,8 @@ import lombok.NoArgsConstructor;
 @Service("yawpServ")
 public class YawpService {
 	private YawpDao ydao;
+	private FollowerHolderDao followerHDao;
+	private FollowingHolderDao followingHDao;
 	private UserDao udao;
 
 	public List<Yawp> getAllYawps() {
@@ -53,10 +59,10 @@ public class YawpService {
 
 	public List<Yawp> getYawpsByFollowers(int id) {
 		List<Yawp> yList = new ArrayList<>();
-		Set<User> followerList = udao.findById(id).get().getFollowers();
+		List<StoredFollowers> followerList = followerHDao.findAllByUserId(id);
 
-		for (User u : followerList) {
-			yList.addAll(getYawpsByUser(u.getUserId()));
+		for (StoredFollowers i : followerList) {
+			yList.addAll(getYawpsByUser(i.getFollowerId()));
 		}
 		Collections.sort(yList);
 
@@ -65,11 +71,11 @@ public class YawpService {
 	
 	public List<Yawp> getYawpsByFollowing(int id) {
 		List<Yawp> yList = new ArrayList<>();
-		Set<User> followingList = udao.findById(id).get().getFollowing();
+		List<StoredFollowing> followingList = followingHDao.findAllByUserId(id);
 
 		
-		for (User u:followingList) {
-			yList.addAll(getYawpsByUser(u.getUserId()));
+		for (StoredFollowing i:followingList) {
+			yList.addAll(getYawpsByUser(i.getFollowingId()));
 		}
 		Collections.sort(yList);
 

@@ -37,8 +37,9 @@ public class UserController {
 	private UserService userServ;
 
 	@PostMapping("/create")
-	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap<String, String> uMap) {// take out bio
+	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap<String, String> uMap) {// take out bio		
 		String hashed = userServ.hashPassword(uMap.get("password"));
+		
 		
 		StoredPassword sp = new StoredPassword(uMap.get("password"),hashed);
 		User user = new User(uMap.get("username"), sp, uMap.get("email"));
@@ -87,6 +88,7 @@ public class UserController {
 
 	@PostMapping("/startfollowing")
 	public ResponseEntity<String> addFollowing(@RequestBody LinkedHashMap<String, String> uMap) {
+		
 		boolean following = userServ.addFollowing(Integer.parseInt(uMap.get("user_id")),
 				Integer.parseInt(uMap.get("following_id")));
 		boolean followed = userServ.addFollower(Integer.parseInt(uMap.get("following_id")),
@@ -140,9 +142,9 @@ public class UserController {
 	}
 
 	@PostMapping("/followers")
-	public ResponseEntity<Set<User>> getUserFollowers(@RequestBody LinkedHashMap<String, String> uMap) {
+	public ResponseEntity<List<User>> getUserFollowers(@RequestBody LinkedHashMap<String, String> uMap) {
 		System.out.println("in followers");
-		Set<User> sUsers = userServ.getUserFollowers(Integer.parseInt(uMap.get("user_id")));
+		List<User> sUsers = userServ.getUserFollowers(Integer.parseInt(uMap.get("user_id")));
 		if (sUsers.isEmpty()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
@@ -150,9 +152,9 @@ public class UserController {
 	}
 
 	@PostMapping("/following")
-	public ResponseEntity<Set<User>> getUserFollowing(@RequestBody LinkedHashMap<String, String> uMap) {
+	public ResponseEntity<List<User>> getUserFollowing(@RequestBody LinkedHashMap<String, String> uMap) {
 
-		Set<User> sUsers = userServ.getUserFollowing(Integer.parseInt(uMap.get("user_id")));
+		List<User> sUsers = userServ.getUserFollowing(Integer.parseInt(uMap.get("user_id")));
 		System.out.println(sUsers);
 		if (sUsers.isEmpty()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
