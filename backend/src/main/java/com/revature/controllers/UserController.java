@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @RequestMapping(value = "/users")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class UserController {
 	private UserService userServ;
 
