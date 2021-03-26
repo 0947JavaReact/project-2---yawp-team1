@@ -8,36 +8,30 @@ import org.springframework.stereotype.Service;
 
 import com.revature.models.User;
 import com.revature.models.Yawp;
-import com.revature.repositories.UserRepository;
-import com.revature.repositories.YawpRepository;
+import com.revature.repositories.YawpDao;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service("yawpServ")
 public class YawpService {
-	private YawpRepository yrepo;
+	private YawpDao ydao;
 
-	public YawpService() {
-		super();
-	}
-
-	@Autowired
-	public YawpService(YawpRepository urepo) {
-		super();
-		
-		this.yrepo = urepo;
-	}
+	
 
 	public List<Yawp> getAllYawps() {
-		return yrepo.selectAll();
+		return ydao.findAll();
 	}
 	
 	public void register(String message, User user) throws SQLException{
 		Yawp yawp =  new Yawp(message, user.getUserId());
-		this.yrepo.insert(yawp);
+		ydao.save(yawp);
 	}
 	
 	public List<Yawp> getYawpsByUser(User u) {
 		
-		return this.yrepo.selectByName(u.getUserId());
+		return this.ydao.findByAuthorId(u.getUserId());
 	}
 	
 }

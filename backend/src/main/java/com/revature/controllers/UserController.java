@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,24 @@ public class UserController {
 		return new ResponseEntity<>("User was registered",HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/{username}")
-	public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username) {
+	@GetMapping("/{user_name}")
+	public ResponseEntity<User> getUserByUsername(@PathVariable("user_name") String username) {
+		System.out.println("in get user");
 		User user =  userServ.getUserByUsername(username);
 		if(user == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(user, HttpStatus.OK)
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	
+	@GetMapping("/search")
+	public ResponseEntity<List<User>> searchForUsername(@RequestBody LinkedHashMap<String, String> sMap) {
+		String search = new String(sMap.get("search"));
+		List<User> uList = userServ.searchByUsername(search);
+		
+		if(uList.isEmpty()) {
+			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(uList,HttpStatus.OK);
 	}
 }

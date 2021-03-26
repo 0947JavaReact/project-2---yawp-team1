@@ -2,13 +2,13 @@ package com.revature.repositories;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import com.revature.models.Yawp;
 
-public interface YawpDao {
+public interface YawpDao extends JpaRepository<Yawp, Integer>{
 
 	public List<Yawp> findAll();
-	public Yawp findByYawpId(int id);
 	public List<Yawp> findByAuthorId(int id);
-	public void insertYawp(Yawp yawp);
 	
 }

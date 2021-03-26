@@ -2,6 +2,7 @@ package com.revature.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,12 +32,15 @@ public class UserService {
 			throw new UserAlreadyExistsException();
 		}
 		
-		this.userDao.save(u);
+		userDao.save(u);
 	}
 
 	
 	public User getUserById(int id) {
-		return userDao.findByUserId(id);
+		Optional<User> oUser = userDao.findById(id);
+		
+		
+		return oUser.get();
 	}
 	
 	public User getUserByUsername(String username) {
