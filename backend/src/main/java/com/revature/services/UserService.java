@@ -141,7 +141,6 @@ public class UserService {
 	public Set<User> getUserFollowers(int id) {
 		User user = userDao.findById(id).get();
 		
-		System.out.println("Found user: " + user);
 		return user.getFollowers();
 	}
 	

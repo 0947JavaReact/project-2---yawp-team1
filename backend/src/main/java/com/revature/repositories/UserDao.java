@@ -19,9 +19,9 @@ public interface UserDao extends JpaRepository<User, Integer>{
 	
 /*
 	@Modifying
-	@Query("update users u set u.bio= :bio where u.user_name = :user_name")
-	public void setFixedBioFor(@Param("bio") String bio,@Param("user_name") String user_name);
-	
+	@Query("SELECT u2 FROM users u INNER JOIN followers_table ft ON u.:user_id = ft.user_user_id INNER JOIN users u2 ON ft.followers_user_id = u2.user_id ")
+	public void setFixedBioFor(@Param("user_id") int id);
+
 	@Modifying
 	@Query("update users u set u.password=?1 where u.user_name=?2")
 	public void setFixedPasswordFor(String password, String username);
