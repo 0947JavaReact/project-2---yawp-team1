@@ -63,17 +63,19 @@ public class User {
 //	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JoinColumn(name = "follower_FK,")
 //	private StoredFF ffHolder;
-	@JsonBackReference
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name="followersTable")
-	@Setter(AccessLevel.NONE)
-	private Set<User> followers;
 	
-	@JsonBackReference
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name="followingTable")
-	@Setter(AccessLevel.NONE)
-	private Set<User> following;
+	
+	//@JsonManagedReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="followers_FK")
+	//@Setter(AccessLevel.NONE)
+	private StoredFollowers followersHolder;
+	
+	//@JsonManagedReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="following_FK")
+	//@Setter(AccessLevel.NONE)
+	private StoredFollowing followingHolder;
 
 	//private Follower followingHolder;	
 	public User(String username, StoredPassword password, String email, String bio) {
@@ -94,30 +96,15 @@ public class User {
 
 
 	public User(String username, StoredPassword passwordHolder, String email, String bio, String picUrl,
-			Set<User> followers, Set<User> following) {
+			StoredFollowers followersHolder, StoredFollowing followingHolder) {
 		super();
 		this.username = username;
 		this.passwordHolder = passwordHolder;
 		this.email = email;
 		this.bio = bio;
 		this.picUrl = picUrl;
-		this.followers = followers;
-		this.following = following;
+		this.followersHolder = followersHolder;
+		this.followingHolder = followingHolder;
 	}
 
-
-	
-	@PostConstruct
-	public void setFollowers(Set<User> followers) {
-		this.followers = followers;
-	}
-
-
-	@PostConstruct
-	public void setFollowing(Set<User> following) {
-		this.following = following;
-	}
-
-	
-	
 }

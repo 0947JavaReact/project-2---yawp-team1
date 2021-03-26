@@ -25,34 +25,36 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@ToString
-//@Entity
-//@Table(name = "FFHolder")
-public class StoredFF {
-//
-//	@Id
-//	@Column(name = "ff_id")
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@Setter(AccessLevel.NONE)
-//	private int ffId;
-//
-//	@JsonBackReference
-//	@OneToMany(mappedBy = "ffHolder", fetch = FetchType.EAGER)
-//	private Set<User> followers;
-//
-//	@JsonBackReference
-//	@OneToMany(mappedBy = "ffHolder", fetch = FetchType.EAGER)
-//	private Set<User> following;
-//
-//	public StoredFF(Set<User> followers, Set<User> following) {
-//		super();
-//		this.following = following;
-//		this.followers = followers;
-//	}
-//	
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "FollowingHolder")
+public class StoredFollowing {
 
+	@Id
+	@Column(name = "following_PK")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Setter(AccessLevel.NONE)
+	private int primaryKey;
+
+	@Column(name = "user_id")
+	private int userId;
+	
+	@Column(name = "following_id")
+	private int followingId;
+
+	public StoredFollowing(int userId, int followingId) {
+		super();
+		this.userId = userId;
+		this.followingId = followingId;
+	}
+	
+//	@JsonBackReference
+//	@OneToMany(mappedBy = "followingHolder", fetch = FetchType.LAZY)
+//	private Set<User> following;
+
+	
 }
