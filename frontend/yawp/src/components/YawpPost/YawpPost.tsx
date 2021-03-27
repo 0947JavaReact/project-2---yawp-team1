@@ -12,10 +12,10 @@ export interface Yawp {
 
 export const YawpPost: React.FC<Yawp> = (props) => {
     return (
-        <div>
+        <div className="yawp-container">
             <div className="yawp-profile">
                 <img className="yawp-image" src={props.profilePic} />
-                <h5 className="yawp-username">{props.username}</h5>
+                <h3 className="yawp-username">{props.username}</h3>
             </div>
 
             <div className="yawp-content">
@@ -23,8 +23,8 @@ export const YawpPost: React.FC<Yawp> = (props) => {
             </div>
 
             <div className="yawp-likes">
-                <button className="yawp-like-button"><ThumbUpIcon /></button>
-                <h6>{props.likes}</h6>
+                <button className="yawp-like-button"><ThumbUpIcon style={{fontSize:30}}/></button>
+                <p className="likes">{props.likes}</p>
             </div>
         </div>
     )
