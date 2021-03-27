@@ -20,6 +20,7 @@ function App() {
 
   console.log({localStorage})
   return (
+    <div className="app">
     <Router>
       <Switch>
         <Route exact path="/"><LoginPage /></Route>
@@ -34,6 +35,7 @@ function App() {
       </Switch>
       
     </Router>
+    </div>
   );
 }
 
