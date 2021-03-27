@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.exceptions.EmailDoesNotExistException;
 import com.revature.exceptions.InvalidCredentialsException;
 import com.revature.exceptions.UserAlreadyExistsException;
 import com.revature.exceptions.UsernameDoesNotExistException;
 import com.revature.models.StoredPassword;
 import com.revature.models.User;
+import com.revature.services.EmailNotSentException;
 import com.revature.services.UserService;
 
 import lombok.AllArgsConstructor;
@@ -74,13 +76,9 @@ public class UserController {
 		return new ResponseEntity<>("User was not updated", HttpStatus.NOT_MODIFIED);
 	}
 
-	/*
-	 * @PostMapping("/updatepassword") public ResponseEntity<String>
-	 * updateUser(@RequestBody LinkedHashMap<String, String> uMap) { User user =
-	 * userServ.getUserById(uMap.get("user_id")); java mail
-	 * 
-	 * }
-	 */
+	
+	
+	 
 
 	@PostMapping("/startfollowing")
 	public ResponseEntity<String> addFollowing(@RequestBody LinkedHashMap<String, String> uMap) {
@@ -172,4 +170,24 @@ public class UserController {
 		}
 		return new ResponseEntity<>(uList, HttpStatus.OK);
 	}
+	
+	@PostMapping("/sendreset")
+	public ResponseEntity<String> sendResetEmail(@RequestBody LinkedHashMap<String, String> sMap) {
+		String email = new String(sMap.get("email"));
+		
+		try {
+			userServ.sendResetEmail(email);
+		} catch (EmailDoesNotExistException|EmailNotSentException e) {
+			return new ResponseEntity<>("Reset email was not sent", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>("Reset email was sent", HttpStatus.OK);
+	}
+	
+	 @PostMapping("/resetpass") 
+	 public ResponseEntity<String> resetPassword(@RequestBody LinkedHashMap<String, String> uMap) { 
+		 
+		 userServ.resetPassword(uMap.get("email"), uMap.get("password"));
+		 return new ResponseEntity<>("Password reset success",HttpStatus.OK);
+		 
+	 }
 }
