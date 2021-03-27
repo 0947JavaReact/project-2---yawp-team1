@@ -1,3 +1,4 @@
+import { useRadioGroup } from '@material-ui/core'
 import axios from 'axios'
 import {ADD_USER,FETCH_USER,UPDATE_USER, LOGIN_USER} from '../actions/types'
 
@@ -20,54 +21,20 @@ export function fetchUser(username:string) {
 }
 
 export const loginUser = (obj:any) => async (dispatch:any) => {
-
-    console.log("In login user action")
-
-    try{
-    const res = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/user/login", obj)
-    console.log(res.data)
+    console.log("above the await");
+    const res = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/login", obj);
+    const user = {
+        username: res.data.username,
+        id: res.data.userId,
+        bio: res.data.bio,
+        profilePic: res.data.picUrl,
+        loggedIn: true
     }
-    catch(e)
-    {
-        console.log(e)
-    }
-
-
-    // if(res.status !== 200)
-    // {
-    //     const u = {
-    //              username: null,
-    //              id: null,
-    //              bio: null,
-    //              profile_pic: null,
-    //              loggedIn: false
-    //          }
-
-    //          dispatch({
-    //              type:LOGIN_USER,
-    //              payload: u
-    //          })
-    // }
-}
-
-// export function loginUser(obj:any){
-//     return function (dispatch:any){
-        
-//         const res = await axios.post("", obj)
-//         axios.
-
-//         // const u = {
-//         //     username:'bob',
-//         //     id:'1',
-//         //     bio:'',
-//         //     profile_pic:'',
-//         //     loggedIn: true
-//         // }
-//         console.log("in login user");
-//         localStorage.setItem('username', u.username);
-//         dispatch({
-//             type:LOGIN_USER,
-//             payload: u,
-//         })
-//     }
-// }
+    console.log(`Got the data: ${user}`);
+    localStorage.setItem('username', res.data.username);
+    console.log("After the request")
+    return dispatch({
+        type: LOGIN_USER,
+        payload: user
+    });
+} 

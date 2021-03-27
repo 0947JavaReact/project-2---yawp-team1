@@ -26,7 +26,6 @@ export const userReducer = (state: any = initialState, action: Action) => {
         user: action.payload,
       };
     case FETCH_USER:
-      console.log("in fetch" + JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,

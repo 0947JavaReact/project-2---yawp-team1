@@ -2,6 +2,7 @@ import * as React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from '../../actions/userActions';
 import {useHistory, Link} from 'react-router-dom';
+import axios from 'axios';
 
 export const LoginForm: React.FC<any> = () => {
 
@@ -20,11 +21,13 @@ export const LoginForm: React.FC<any> = () => {
     const dispatch =  useDispatch();
 
     const history = useHistory()
-    const login = ()=> {
-    dispatch(   
-        
-      loginUser({username,password})
+
+    const login = async ()=> {
+        console.log("before dispatch");
+        await dispatch(
+        loginUser({username,password})
     )
+    console.log("After dispatch");
     history.push('/home')
   }
 
