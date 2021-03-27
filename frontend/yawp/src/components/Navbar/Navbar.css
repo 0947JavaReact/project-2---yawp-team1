@@ -16,6 +16,9 @@
     position: sticky;
     top: 0;
     z-index: 10;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 .navbar-logo {
@@ -75,12 +78,14 @@
     display: inline-block;
     font-size: 1.2rem;
     cursor: pointer;
+    outline: none;
 }
 
 .logout {
     display: flex;
     align-items: center;
     height: 80px;
+    outline: none;
 }
 
 .logout-button:hover {
@@ -88,6 +93,10 @@
     color: var(--white);
     transition: 250ms;
     border: 1px solid var(--orange);
+}
+
+.logout-button:focus {
+    outline: none;
 }
 
 .profile-pic-icon {

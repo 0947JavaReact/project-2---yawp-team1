@@ -20,7 +20,7 @@ export const CreateYawp: React.FC<any> = () => {
             console.log(cyTextarea.current.style.height);
 
             // if (cyTextarea.current.value.length % 50 == 0) {
-            cyTextarea.current.style.height = "5px";
+            cyTextarea.current.style.height = "25px";
             cyTextarea.current.style.height = cyTextarea.current.scrollHeight + "px";
             // }
         }
@@ -47,9 +47,13 @@ export const CreateYawp: React.FC<any> = () => {
 
     return (
         <div>
-            <img src={img} />
-            <textarea className="create-yawp-textarea" ref={cyTextarea} onChange={autogrow} cols={50} maxLength={250}></textarea>
+        <div className="create-container">
+            <div className="content-container">
+                <img className="profile-pic" src={img} />
+                <textarea className="create-yawp-textarea" ref={cyTextarea} onChange={autogrow} cols={50} maxLength={250} placeholder="Create your YAWP"></textarea>
+            </div>
             <button className="create-yawp-button" onClick={sendYawp}>Send Yawp</button>
+        </div>
         </div>
     )
 }
