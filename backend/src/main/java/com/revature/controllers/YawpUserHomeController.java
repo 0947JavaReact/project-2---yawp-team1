@@ -7,10 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,15 +26,15 @@ import com.revature.services.YawpService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+@CrossOrigin
 @RestController
-@RequestMapping(value = "/homeyawps")
+@RequestMapping(value = "/yawps")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
-@CrossOrigin(origins = "*")
 public class YawpUserHomeController {
 	private YawpService yawpServ;
 	
-	@PostMapping()
+	@PostMapping("/create")
 	public ResponseEntity<String> insertYawp(@RequestBody LinkedHashMap<String, String> uMap) {
 		Set<User> sLikes = new HashSet<>();
 		Yawp yawp = new Yawp(uMap.get("message"), Integer.parseInt(uMap.get("author_id")), LocalDateTime.now(), sLikes);
@@ -44,10 +47,10 @@ public class YawpUserHomeController {
 	}
 	
 	
-	@PostMapping("/useryawps")
-	public ResponseEntity<List<Yawp>> getUserYawps(@RequestBody LinkedHashMap<String, String> yMap) {
+	@GetMapping(value="/{user_id}", params="user_id")
+	public ResponseEntity<List<Yawp>> getUserYawps(@PathParam("user_id") int user_id) {
 		List<Yawp> lYawps =  new ArrayList<>();
-		lYawps = yawpServ.getYawpsByUser(Integer.parseInt(yMap.get("user_id")));
+		lYawps = yawpServ.getYawpsByUser(user_id);
 		
 		if(lYawps.size()<=0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

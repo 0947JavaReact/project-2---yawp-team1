@@ -2,12 +2,10 @@ package com.revature.controllers;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.embedded.undertow.UndertowServletWebServer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,6 +25,7 @@ import com.revature.services.UserService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/users")
@@ -36,16 +35,14 @@ public class UserController {
 	private UserService userServ;
 
 	@PostMapping("/create")
-	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap<String, String> uMap) {// take out bio		
+	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap<String, String> uMap) {// take out bio
 		String hashed = userServ.hashPassword(uMap.get("password"));
-		
-		
-		StoredPassword sp = new StoredPassword(uMap.get("password"),hashed);
+		StoredPassword sp = new StoredPassword(hashed);
 		User user = new User(uMap.get("username"), sp, uMap.get("email"));
-		
+
 		try {
-		userServ.register(user);
-		}catch(UserAlreadyExistsException e) {
+			userServ.register(user);
+		} catch (UserAlreadyExistsException e) {
 			return new ResponseEntity<>("User was not registered", HttpStatus.NOT_ACCEPTABLE);
 
 		}
@@ -87,7 +84,7 @@ public class UserController {
 
 	@PostMapping("/startfollowing")
 	public ResponseEntity<String> addFollowing(@RequestBody LinkedHashMap<String, String> uMap) {
-		
+
 		boolean following = userServ.addFollowing(Integer.parseInt(uMap.get("user_id")),
 				Integer.parseInt(uMap.get("following_id")));
 		boolean followed = userServ.addFollower(Integer.parseInt(uMap.get("following_id")),
@@ -117,14 +114,15 @@ public class UserController {
 			return new ResponseEntity<>("Unable to set unfollowed by user", HttpStatus.NOT_MODIFIED);
 		}
 		return new ResponseEntity<>("User is now unfollowed", HttpStatus.OK);
-
 	}
 
-	@GetMapping("/username/{user_name}")
-	public ResponseEntity<User> getUserByUsername(@PathVariable("user_name") String username) {
-		System.out.println("in get user");
-		User user = userServ.getUserByUsername(username);
-		if (user == null) {
+	@GetMapping("/username/{username}")
+	public ResponseEntity<User> getUser(@PathVariable("username") String username) {
+		User user;
+		try {
+			user = userServ.getUserByUsername(username);
+
+		} catch (UsernameDoesNotExistException e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);
@@ -132,9 +130,12 @@ public class UserController {
 
 	// insert ID {id}
 	@GetMapping("/userid/{user_id}")
-	public ResponseEntity<User> getUserByID(@PathVariable("user_id") int id) {
-		User user = userServ.getUserById(id);
-		if (user == null) {
+	public ResponseEntity<User> getUser(@PathVariable("user_id") int user_id) {
+
+		User user;
+		try {
+			user = userServ.getUserById(user_id);
+		} catch (UsernameDoesNotExistException e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);

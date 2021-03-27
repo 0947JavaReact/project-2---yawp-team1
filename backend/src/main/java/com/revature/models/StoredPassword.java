@@ -30,17 +30,11 @@ public class StoredPassword {
 	@Setter(AccessLevel.NONE)
 	private int passwordId;
 	
-	//@OneToOne(mappedBy = "passwordHolder", fetch = FetchType.EAGER)
-	
-	@Column(name = "plain_text")
-	private String plainTextPassword;
-	
 	@Column(name = "hashed")
 	private String hashedPassword;
 
-	public StoredPassword(String plainTextPassword, String hashedPassword) {
+	public StoredPassword(String hashedPassword) {
 		super();
-		this.plainTextPassword = plainTextPassword;
 		this.hashedPassword = hashedPassword;
 	}
 	
