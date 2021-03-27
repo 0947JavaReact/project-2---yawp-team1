@@ -19,7 +19,7 @@ export const SearchBar: React.FC<any> = () => {
                 placeholder="Search user"
                 onChange={(e) => setKeyword(e.target.value)}
             />
-            <button className="search-bar-button" onClick={onSearch}><SearchIcon style={{fontSize: 25}} /></button>
+            <button className="search-bar-button" onClick={onSearch}><SearchIcon style={{fontSize: 25, color:"#ebebeb", margin:0, padding:0}} /></button>
         </div>
     )
 }
