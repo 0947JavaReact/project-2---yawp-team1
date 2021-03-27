@@ -9,7 +9,5 @@ import com.revature.models.StoredPassword;
 public interface PasswordDao extends JpaRepository<StoredPassword, Integer>{
 
 	public List<StoredPassword> findAll();
-	public StoredPassword findByPlainTextPassword(String password);
 	public StoredPassword findByHashedPassword(String hashed);
-	
 }

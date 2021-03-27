@@ -3,15 +3,11 @@ package com.revature.services;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.exceptions.UnlikeException;
 import com.revature.models.StoredFollowers;
 import com.revature.models.StoredFollowing;
-import com.revature.models.User;
 import com.revature.models.Yawp;
 import com.revature.repositories.FollowerHolderDao;
 import com.revature.repositories.FollowingHolderDao;
@@ -37,16 +33,15 @@ public class YawpService {
 		return ydao.save(yawp);
 	}
 	
-	public void like(int id) {
-		Yawp yawp = ydao.findById(id).get();
-		yawp.addLike(udao.findById(id).get());
+	public void like(int yawpId, int userId) {
+		Yawp yawp = ydao.findById(yawpId).get();
+		yawp.addLike(udao.findById(userId).get());
 		ydao.save(yawp);	
 	}
 	
-	public void unlike(int id) {
-		Yawp yawp = ydao.findById(id).get();
-		
-		yawp.removeLike(udao.findById(id).get());
+	public void unlike(int yawpId, int userId) {
+		Yawp yawp = ydao.findById(yawpId).get();
+		yawp.removeLike(udao.findById(userId).get());
 		ydao.save(yawp);	
 	}
 
