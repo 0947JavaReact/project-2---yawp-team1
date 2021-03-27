@@ -1,13 +1,15 @@
 import * as React from 'react';
 import {RegisterForm} from '../components/RegisterForm/RegisterForm';
-import {Link} from 'react-router-dom';
+import './RegisterPage.css';
 
 function RegisterPage() {
     return (
-        <div className="container">
-            <h1>Welcome noob, plz register</h1>
+        <div className="register-container">
+            <div className="text-container">
+                <h1 className="register-h1">Welcome to YAWP!</h1>
+                <h2>Create an account below to start YAWPING!</h2>
+            </div>
             <RegisterForm />
-            <Link to="/">Already Have an Account?</Link>
         </div>
     )
 }
