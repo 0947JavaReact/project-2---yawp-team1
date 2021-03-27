@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navbar } from '../components/Navbar/Navbar';
 import img1 from '../img/profile-picture-default.jpeg';
-import UserCard from '../components/UserCard/UserCard'
+import UserCard from '../components/UserCard/UserCard';
+import './FollowingPage.css';
 
 function FollowingPage(props:any) {
 
@@ -43,13 +44,17 @@ function FollowingPage(props:any) {
     }
 
     return (
-        <div className="home-page">
+        <div>
             <Navbar />
-            <h1>{`Who ${username} is following`}</h1>
+        <div className="following-page">
+            <div className="following-container">
+            <h1 className="following-h1">{`Who ${username} is following`}</h1>
             {following.map((user:any) => {
                 
                 return <UserCard username={user.username} bio={user.bio} profilePic={user.profilePic}></UserCard>
             })}
+            </div>
+        </div>
         </div>
     )
 }

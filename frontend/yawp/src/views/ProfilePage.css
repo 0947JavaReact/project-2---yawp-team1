@@ -1,0 +1,22 @@
+:root {
+    --independence: #383e56;
+    --purple: #111344;
+    --orange: #fb743e;
+    --light-blue: #9fb8ad;
+    --white: #ebebeb;
+}
+
+.profile-page {
+    margin-top: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-container {
+    max-width: 1500px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

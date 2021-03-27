@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navbar } from '../components/Navbar/Navbar';
 import img1 from '../img/profile-picture-default.jpeg';
-import UserCard from '../components/UserCard/UserCard'
+import UserCard from '../components/UserCard/UserCard';
+import './FollowerPage.css';
 
 function FollowerPage(props:any) {
 
@@ -43,13 +44,16 @@ function FollowerPage(props:any) {
     }
 
     return (
-        <div className="home-page">
+        <div>
             <Navbar />
-            <h1>{`${username}'s followers`}</h1>
-            {followers.map((user:any) => {
-                
-                return <UserCard username={user.username} bio={user.bio} profilePic={user.profilePic}></UserCard>
-            })}
+            <div className="follower-page">
+                <div className="follower-container">
+                    <h1 className="follower-h1">{`${username}'s followers`}</h1>
+                    {followers.map((user:any) => {
+                        return <UserCard username={user.username} bio={user.bio} profilePic={user.profilePic}></UserCard>
+                    })}
+                </div>
+            </div>
         </div>
     )
 }

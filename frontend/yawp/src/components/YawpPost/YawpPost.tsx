@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 import './YawpPost.css';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
@@ -14,7 +15,7 @@ export const YawpPost: React.FC<Yawp> = (props) => {
     return (
         <div className="yawp-container">
             <div className="yawp-profile">
-                <img className="yawp-image" src={props.profilePic} />
+                <Link to={`/user/${props.username}`}><img className="yawp-image" src={props.profilePic} /></Link>
                 <h3 className="yawp-username">{props.username}</h3>
             </div>
 

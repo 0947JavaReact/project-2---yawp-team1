@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../actions/userActions';
 import { fetchUserYawps } from '../actions/yawpActions';
 import YawpPost from '../components/YawpPost/YawpPost';
-
+import './ProfilePage.css';
+import Navbar from '../components/Navbar/Navbar';
 
 function ProfilePage(props:any) {
 
@@ -35,15 +36,18 @@ function ProfilePage(props:any) {
     }
 
     return(
-        
         <div>
-            <ProfileHeader username={username}></ProfileHeader>
-            <h1>{props.match.params.username}</h1>
-            {state.yawp.items.map((item: any) => {
-                    return (
-                        <YawpPost id={item.id} username={item.username} content={item.content} profilePic={item.profilePic} likes={item.likes} key={item.id} />
-                    )
-                })}
+            <Navbar />
+            <div className="profile-page">
+                <div className="profile-container">
+                    <ProfileHeader username={username}></ProfileHeader>
+                    {state.yawp.items.map((item: any) => {
+                            return (
+                                <YawpPost id={item.id} username={item.username} content={item.content} profilePic={item.profilePic} likes={item.likes} key={item.id} />
+                            )
+                        })}
+                </div>
+            </div>
         </div>
 
     )
