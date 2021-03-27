@@ -68,7 +68,7 @@ public class YawpsUserAndFollowersController {
 		return new ResponseEntity<>(lYawps, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/allYawps", params = "user_id")
+	@GetMapping(value = "/allyawps")
 	public ResponseEntity<List<Yawp>> getAllYawps() {
 		List<Yawp> lYawps = new ArrayList<>();
 		lYawps = yawpServ.getAllYawps();
@@ -80,13 +80,13 @@ public class YawpsUserAndFollowersController {
 		return new ResponseEntity<>(lYawps, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/likepost/{user_id}/{yawp_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/likeyawp/{user_id}/{yawp_id}", method = RequestMethod.GET)
 	public ResponseEntity<String> likePost(@PathVariable("user_id")int user_id, @PathVariable("yawp_id") int yawp_id) {
 		yawpServ.like(yawp_id, user_id);
 		return new ResponseEntity<>("User has liked yawp", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/unlikepost/{user_id}/{yawp_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/unlikeyawp/{user_id}/{yawp_id}", method = RequestMethod.GET)
 	public ResponseEntity<String> unlikePost(@PathVariable("user_id")int user_id, @PathVariable("yawp_id") int yawp_id) {
 		yawpServ.unlike(yawp_id, user_id);
 		return new ResponseEntity<>("User has unliked yawp", HttpStatus.OK);
