@@ -6,8 +6,11 @@ import axios from 'axios';
 
 export const LoginForm: React.FC<any> = () => {
 
+    const state = useSelector<any, any>((state) => state);
+
     let [username, setUsername] = React.useState("");
     let [password, setPassword] = React.useState("");
+    let [loggedIn, setLoggedIn] = React.useState(state.user.user.loggedIn);
 
     const handleChange = (e:any) => {
         if(e.target.name === "username"){
@@ -18,18 +21,26 @@ export const LoginForm: React.FC<any> = () => {
         }
     }
 
+    React.useEffect(()=>{
+        console.log(JSON.stringify(state));
+        if(state.user.user.id > 0){
+            history.push('/home');
+        }
+        if(state.user.user.loginAttempt === 'invalid'){
+            alert("username or password incorrect");
+        }
+    },[state.user.user.loginAttempt]);
+
+
     const dispatch =  useDispatch();
 
     const history = useHistory()
 
     const login = async ()=> {
-        console.log("before dispatch");
         await dispatch(
         loginUser({username,password})
-    )
-    console.log("After dispatch");
-    history.push('/home')
-  }
+        )
+    }
 
     return(
         <div className="login">

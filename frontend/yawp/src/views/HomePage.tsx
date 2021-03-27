@@ -15,12 +15,13 @@ function HomePage() {
         if(!localStorage.getItem('username')){
             history.push('/')
         }
+        console.log(JSON.stringify(yawpState));
         getUser()
         getYawps()
     }, [])
 
     const yawpState = useSelector<any, any>((state) => state);
-    console.log(yawpState.yawp.items);
+    //console.log(yawpState.yawp.items);
 
     const dispatch = useDispatch();
 
