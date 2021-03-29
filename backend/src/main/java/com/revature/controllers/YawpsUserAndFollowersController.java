@@ -2,6 +2,7 @@ package com.revature.controllers;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
@@ -31,32 +32,32 @@ public class YawpsUserAndFollowersController {
 
 	private YawpService yawpServ;
 
-	@GetMapping(value = "/followers/{user_id}", params = "user_id")
-	public ResponseEntity<List<Yawp>> getUserAndFollowerYawps(@PathParam("user_id") int id) {
+	@GetMapping(value = "/followers/{user_id}")
+	public ResponseEntity<List<Yawp>> getUserAndFollowerYawps(@PathVariable("user_id") int id) {
 		List<Yawp> lYawps = new ArrayList<>();
 		lYawps = yawpServ.getYawpsByUser(id);
 		lYawps.addAll(yawpServ.getYawpsByFollowers(id));
 		if (lYawps.size() <= 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		Collections.sort(lYawps);
+		Collections.sort(lYawps,Comparator.reverseOrder());
 		return new ResponseEntity<>(lYawps, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/following/{user_id}", params = "user_id")
-	public ResponseEntity<List<Yawp>> getUserAndFollowingYawps(@PathParam("user_id") int id) {
+	@GetMapping(value = "/following/{user_id}")
+	public ResponseEntity<List<Yawp>> getUserAndFollowingYawps(@PathVariable("user_id") int id) {
 		List<Yawp> lYawps = new ArrayList<>();
 		lYawps = yawpServ.getYawpsByUser(id);
 		lYawps.addAll(yawpServ.getYawpsByFollowing(id));
 		if (lYawps.size() <= 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		Collections.sort(lYawps);
+		Collections.sort(lYawps,Comparator.reverseOrder());
 		return new ResponseEntity<>(lYawps, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/allff/{user_id}", params = "user_id")
-	public ResponseEntity<List<Yawp>> getUserBothFFYawps(@PathParam("user_id") int id) {
+	@GetMapping(value = "/allff/{user_id}")
+	public ResponseEntity<List<Yawp>> getUserBothFFYawps(@PathVariable("user_id") int id) {
 		List<Yawp> lYawps = new ArrayList<>();
 		lYawps = yawpServ.getYawpsByUser(id);
 		lYawps.addAll(yawpServ.getYawpsByFollowers(id));
@@ -64,7 +65,7 @@ public class YawpsUserAndFollowersController {
 		if (lYawps.size() <= 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		Collections.sort(lYawps);
+		Collections.sort(lYawps,Comparator.reverseOrder());
 		return new ResponseEntity<>(lYawps, HttpStatus.OK);
 	}
 
@@ -76,8 +77,19 @@ public class YawpsUserAndFollowersController {
 		if (lYawps.size() <= 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		Collections.sort(lYawps);
+		Collections.sort(lYawps, Comparator.reverseOrder());
 		return new ResponseEntity<>(lYawps, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "syawp/{yawp_id}")
+	public ResponseEntity<Yawp> getYawp(@PathVariable("yawp_id") int yawp_id) {
+		Yawp yawp =  yawpServ.getYawp(yawp_id);
+		
+		if(yawp==null) {
+			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND); 
+		}
+		
+		return new ResponseEntity<>(yawp, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/likeyawp/{user_id}/{yawp_id}", method = RequestMethod.GET)

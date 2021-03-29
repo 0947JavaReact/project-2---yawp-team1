@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +48,8 @@ public class YawpUserHomeController {
 	}
 	
 	
-	@GetMapping(value="/{user_id}", params="user_id")
-	public ResponseEntity<List<Yawp>> getUserYawps(@PathParam("user_id") int user_id) {
+	@GetMapping(value="uyawps/{user_id}")
+	public ResponseEntity<List<Yawp>> getUserYawps(@PathVariable("user_id") int user_id) {
 		List<Yawp> lYawps =  new ArrayList<>();
 		lYawps = yawpServ.getYawpsByUser(user_id);
 		
@@ -57,6 +58,18 @@ public class YawpUserHomeController {
 		}
 		return new ResponseEntity<>(lYawps, HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "syawp/{yawp_id}")
+	public ResponseEntity<Yawp> getYawp(@PathVariable("yawp_id") int yawp_id) {
+		Yawp yawp =  yawpServ.getYawp(yawp_id);
+		
+		if(yawp==null) {
+			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND); 
+		}
+		
+		return new ResponseEntity<>(yawp, HttpStatus.OK);
+	}
+	
 	
 
 }

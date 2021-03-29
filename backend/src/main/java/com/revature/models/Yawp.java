@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -44,8 +46,7 @@ public class Yawp implements Comparable<Yawp>{
 	@Column(name = "yawp_time")
 	private LocalDateTime yawpTime;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "likesTable")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<User> likes;
 
 
@@ -68,7 +69,6 @@ public class Yawp implements Comparable<Yawp>{
 
 	@Override
 	public int compareTo(Yawp o) {
-		
 		return getYawpTime().compareTo(o.getYawpTime());
 	}
 

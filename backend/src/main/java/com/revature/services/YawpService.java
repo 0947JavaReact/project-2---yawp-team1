@@ -2,6 +2,7 @@ package com.revature.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,10 @@ public class YawpService {
 	public List<Yawp> getAllYawps() {
 		return ydao.findAll();
 	}
+	
+	public Yawp getYawp(int id) {
+		return ydao.findById(id).get();
+	}
 
 	public Yawp register(Yawp yawp){
 		return ydao.save(yawp);
@@ -48,7 +53,7 @@ public class YawpService {
 	public List<Yawp> getYawpsByUser(int id) {
 		List<Yawp> yList = new ArrayList<>();
 		yList = ydao.findByAuthorId(id);
-		Collections.sort(yList);
+		Collections.sort(yList, Comparator.reverseOrder());;
 		return yList;
 	}
 
@@ -59,7 +64,7 @@ public class YawpService {
 		for (StoredFollowers i : followerList) {
 			yList.addAll(getYawpsByUser(i.getFollowerId()));
 		}
-		Collections.sort(yList);
+		Collections.sort(yList, Comparator.reverseOrder());
 
 		return yList;
 	}
@@ -72,7 +77,7 @@ public class YawpService {
 		for (StoredFollowing i:followingList) {
 			yList.addAll(getYawpsByUser(i.getFollowingId()));
 		}
-		Collections.sort(yList);
+		Collections.sort(yList,Comparator.reverseOrder());
 
 		return yList;
 	}
