@@ -1,5 +1,5 @@
 import { bindActionCreators } from "redux";
-import { ADD_USER, FETCH_USER, UPDATE_USER, LOGIN_USER, LOGOUT_USER } from "../actions/types";
+import { ADD_USER, SET_USER, UPDATE_USER, LOGIN_USER, LOGOUT_USER } from "../actions/types";
 
 export interface User {
   username: string;
@@ -26,7 +26,7 @@ export const userReducer = (state: any = initialState, action: Action) => {
         ...state,
         user: action.payload,
       };
-    case FETCH_USER:
+    case SET_USER:
       return {
         ...state,
         user: action.payload,

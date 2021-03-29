@@ -1,10 +1,19 @@
 import * as React from 'react';
 import {LoginForm} from '../components/LoginForm/LoginForm';
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import './LoginPage.css';
 
 
 function LoginPage() {
+
+    const history = useHistory();
+
+    React.useEffect(() => {
+        if(localStorage.getItem('username')){
+            history.push('/home');
+        }
+    },[])
+
     return (
         <div className="login-container">
             <div className="text-container">

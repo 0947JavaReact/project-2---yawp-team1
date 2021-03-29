@@ -1,21 +1,14 @@
 import { useRadioGroup } from '@material-ui/core'
 import axios from 'axios'
-import {ADD_USER,FETCH_USER,UPDATE_USER, LOGIN_USER, LOGOUT_USER} from '../actions/types'
+import { bindActionCreators } from 'redux'
+import {ADD_USER,SET_USER,UPDATE_USER, LOGIN_USER, LOGOUT_USER} from '../actions/types'
 
 
-export function fetchUser(username:string) {
+export function setUser(user:any) {
     return function (dispatch:any) {
-        const u = {
-            username:'bob',
-            id:'1',
-            password:'pass',
-            bio:'im bob',
-            profile_pic:'pic',
-            email:'email@email.com'
-        }
         dispatch({
-            type:FETCH_USER,
-            payload:u,
+            type:SET_USER,
+            payload:user,
         })
     }
 }
