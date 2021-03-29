@@ -32,16 +32,15 @@ export const CreateYawp: React.FC<any> = () => {
     const sendYawp = () => {
         if (cyTextarea && cyTextarea.current) {
             const yawp = {
-                id: -1,
-                username: state.user.user.username,
-                content: cyTextarea.current.value,
-                likes: 0,
-                profilePic: state.user.user.profilePic
+                message: cyTextarea.current.value,
+                author_id: state.user.user.id
             };
 
             dispatch(
                 postYawp(yawp)
             )
+
+            cyTextarea.current.value = '';
         }
     };
 

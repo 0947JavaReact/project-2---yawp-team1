@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navbar } from '../components/Navbar/Navbar';
-import { fetchUserYawps } from '../actions/yawpActions';
+import { fetchFollowingPosts } from '../actions/yawpActions';
 import { setUser } from '../actions/userActions';
 import YawpPost from '../components/YawpPost/YawpPost';
 import CreateYawp from '../components/CreateYawp/CreateYawp';
@@ -30,7 +30,10 @@ function HomePage() {
             }
         }
         console.log(JSON.stringify(state));
-        getYawps()
+        if(state.user.user.id > 0){
+            getYawps();
+            console.log(state.yawp);
+        }
     }, [state.user.user.username]);
 
     //console.log(yawpState.yawp.items);
@@ -45,7 +48,7 @@ function HomePage() {
 
     const getYawps = () => {
         dispatch(
-            fetchUserYawps("bob")
+            fetchFollowingPosts(state.user.user.id)
         )
     }
 
@@ -55,10 +58,10 @@ function HomePage() {
             <div className="home-page">
                 <div className="home-container">
                     <CreateYawp />
-
                     {state.yawp.items.map((item: any) => {
+                        console.log(item);
                         return (
-                            <YawpPost id={item.id} username={item.username} content={item.content} profilePic={item.profilePic} likes={item.likes} key={item.id} />
+                            <YawpPost id={item.yawpId} username={"Dont have yet"} content={item.message} profilePic={item.profilePic} likes={item.likes.length} key={item.yawpId} />
                         )
                     })}
                 </div>
