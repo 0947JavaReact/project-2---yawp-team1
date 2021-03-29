@@ -33,7 +33,9 @@ export const CreateYawp: React.FC<any> = () => {
         if (cyTextarea && cyTextarea.current) {
             const yawp = {
                 message: cyTextarea.current.value,
-                author_id: state.user.user.id
+                authorId: state.user.user.id,
+                authorUsername: state.user.user.username,
+                authorPic: state.user.user.profilePic
             };
 
             dispatch(

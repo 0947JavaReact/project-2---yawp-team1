@@ -1,3 +1,4 @@
+import { CallToActionSharp } from '@material-ui/icons';
 import { isTemplateSpan } from 'typescript';
 import { ADD_YAWP, FETCH_USER_YAWPS, FETCH_FOLLOWING_YAWPS } from '../actions/types'
 
@@ -10,14 +11,7 @@ export interface Yawp {
 }
 
 const initialState = {
-    items: [],
-    item: {
-        id: -1,
-        username: "",
-        content: "",
-        likes: 0,
-        profilePic: ""
-    }
+    items: []
 }
 export type Action = { type: string; payload: string };
 export const yawpReducer = (state = initialState, action: Action) => {
@@ -25,7 +19,7 @@ export const yawpReducer = (state = initialState, action: Action) => {
         case ADD_YAWP:
             return {
                 ...state,
-                items: [...state.items, action.payload]
+                items: [action.payload, ...state.items]
             };
 
         case FETCH_FOLLOWING_YAWPS:
@@ -33,6 +27,11 @@ export const yawpReducer = (state = initialState, action: Action) => {
                 ...state,
                 items: action.payload
             };
+        case FETCH_USER_YAWPS:
+            return{
+                ...state,
+                items: action.payload
+            }
 
         default:
             return state;

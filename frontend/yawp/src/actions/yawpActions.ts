@@ -2,44 +2,38 @@ import { ADD_YAWP, FETCH_USER_YAWPS, FETCH_FOLLOWING_YAWPS } from '../actions/ty
 import img1 from '../img/profile-picture-default.jpeg';
 import { Yawp } from '../components/CreateYawp/CreateYawp';
 import axios from 'axios';
+import userEvent from '@testing-library/user-event';
 
-export function fetchUserYawps(username:string) {
-    return function (dispatch: any) {
-        const yawp1 = {
-            id: 1,
-            username: "Bob_User",
-            content: "I am a YAWP.",
-            likes: 2,
-            profilePic: img1
-        };
+export const fetchUserYawps = (userId:number) => async (dispatch:any) => {
 
-        const yawp2 = {
-            id: 2,
-            username: "Balut1",
-            content: "Why am I a YAWP?",
-            likes: 22,
-            profilePic: img1
-        };
-
-        const yawp3 = {
-            id: 3,
-            username: "BuilderOfBobs2",
-            content: "Rawr. I am not a YAWP. But I am.",
-            likes: 222,
-            profilePic: img1
-        };
-
+    try{
+        console.log(userId);
+        let res = await axios.get(`http://localhost:9025/yawps/uyawps/${userId}`);
+        console.log(res.data);
+        
         dispatch({
             type: FETCH_USER_YAWPS,
-            payload: [yawp1, yawp2, yawp3]
-        })
+            payload: res.data
+        });
+        
+    }catch(e){
+        console.log("something went wrong");
     }
+    
 }
 
 export const postYawp = (obj:any) => async (dispatch:any) => {
         try{
-            let res = await axios.post("http://localhost:9025/yawps/create", obj);
+            let yawp = {
+                message: obj.message,
+                author_id: obj.authorId
+            }
+            let res = await axios.post("http://localhost:9025/yawps/create", yawp);
             console.log(res.data);
+            dispatch({
+                type: ADD_YAWP,
+                payload: obj
+            })
         }
         catch(e){
             console.log("something bad happened");

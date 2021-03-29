@@ -34,7 +34,7 @@ function HomePage() {
             getYawps();
             console.log(state.yawp);
         }
-    }, [state.user.user.username]);
+    }, [state.user.user.username, state.yawp.items.length]);
 
     //console.log(yawpState.yawp.items);
 
@@ -61,7 +61,7 @@ function HomePage() {
                     {state.yawp.items.map((item: any) => {
                         console.log(item);
                         return (
-                            <YawpPost id={item.yawpId} username={"Dont have yet"} content={item.message} profilePic={item.profilePic} likes={item.likes.length} key={item.yawpId} />
+                            <YawpPost id={item.yawpId} username={item.authorUsername} content={item.message} profilePic={item.authorPic} likes={item.likes.length} key={item.yawpId} />
                         )
                     })}
                 </div>

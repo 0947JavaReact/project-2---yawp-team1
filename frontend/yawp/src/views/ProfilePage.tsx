@@ -7,17 +7,28 @@ import { fetchUserYawps } from '../actions/yawpActions';
 import YawpPost from '../components/YawpPost/YawpPost';
 import './ProfilePage.css';
 import Navbar from '../components/Navbar/Navbar';
+import axios from 'axios';
 
 function ProfilePage(props:any) {
 
-    React.useEffect(() => {
-        //getUser()
-        getYawps()
-    }, [])
+    let [user, setUser] = React.useState<any>({});
 
     const username = props.match.params.username 
 
-    console.log(props.match)
+    React.useEffect(() => {
+        getUser();
+        if(user){
+            getYawps();
+        }
+    }, [user.userId])
+
+    const getUser = async () => {
+        console.log("above the get data");
+        let res = await axios.get(`http://localhost:9025/users/username/${username}`);
+        console.log(res.data);
+        setUser(res.data);
+        console.log(user);
+    }
 
     const state = useSelector<any, any>((state) => state);
 
@@ -31,8 +42,9 @@ function ProfilePage(props:any) {
     };
     */
     const getYawps = () => {
+        console.log(user);
         dispatch(
-            fetchUserYawps(username)
+            fetchUserYawps(user.userId)
         )
     }
 
@@ -41,10 +53,10 @@ function ProfilePage(props:any) {
             <Navbar />
             <div className="profile-page">
                 <div className="profile-container">
-                    <ProfileHeader username={username}></ProfileHeader>
+                    <ProfileHeader username={username} bio={user.bio}></ProfileHeader>
                     {state.yawp.items.map((item: any) => {
                             return (
-                                <YawpPost id={item.id} username={item.username} content={item.content} profilePic={item.profilePic} likes={item.likes} key={item.id} />
+                                <YawpPost id={item.yawpId} username={"Dont have yet"} content={item.message} profilePic={item.profilePic} likes={item.likes.length} key={item.yawpId} />
                             )
                         })}
                 </div>

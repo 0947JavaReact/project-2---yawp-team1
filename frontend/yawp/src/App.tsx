@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
@@ -15,10 +15,41 @@ import FollowerPage from './views/FollowerPage';
 import FollowingPage from './views/FollowingPage';
 import EditProfilePage from './views/EditProfilePage';
 import ResetPage from "./views/ResetPage"
+import { setUser } from './actions/userActions';
 
 function App() {
 
-  console.log({localStorage})
+  const state = useSelector<any, any>((state) => state);
+
+  React.useEffect(() => {
+    console.log("In the use effect of App");
+        if(state.user.user.id < 0){
+          console.log("State needs updated");
+            if(!localStorage.getItem('username')){
+                return;
+            }
+            else{
+                const user = {
+                    username: localStorage.getItem("username"),
+                    id: localStorage.getItem("id"),
+                    bio: '',
+                    profilePic: localStorage.getItem("profilePic"),
+                    loggedIn: true,
+                    loginAttempt: 'success'
+                }
+                getUser(user);
+                console.log(state.user);
+            }
+        }
+    }, [state.user.user.username]);
+
+  const dispatch = useDispatch();
+
+    const getUser = (user:any) => {
+        dispatch(
+            setUser(user)
+        )
+    };
   return (
     <div className="app">
     <Router>

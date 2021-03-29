@@ -13,7 +13,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
             <div className="header-container">
                 <div className="header-info">
                     <img className="header-pic" src={img}></img>
-                     <h4 className="header-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et vehicula tortor, volutpat tristique orci. Quisque auctor porta tristique. Aliquam purus nibh, dictum ac malesuada faucibus, convallis interdum leo. Sed porttitor laoreet viverra. Integer eu tincidunt mi. Morbi in urna enim. Cras sit amet mattis justo, ac vestibulum ipsum.</h4>
+                     <h4 className="header-bio">{props.bio}</h4>
                 </div>
                 <div className="header-name-button">
                     <h1>{props.username}</h1>
