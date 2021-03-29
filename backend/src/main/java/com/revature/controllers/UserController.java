@@ -49,7 +49,7 @@ public class UserController {
 			return new ResponseEntity<>("User was not registered, username already exists", HttpStatus.NOT_ACCEPTABLE);
 
 		} catch (EmailAlreadyExistsException e) {
-			return new ResponseEntity<>("User was not registered, email already exists", HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<>("User was not registered, email already exists", HttpStatus.NOT_MODIFIED);
 		}
 		return new ResponseEntity<>("User was registered", HttpStatus.CREATED);
 	}

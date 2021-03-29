@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.websocket.server.PathParam;
 
-import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,9 +76,6 @@ public class YawpUserHomeController {
 		if(yawp==null) {
 			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND); 
 		}
-		//User user =  userServ.getUserById(yawp.getAuthorId());
-
-		//Pair<Yawp, User> uyPair = new Pair<Yawp, User>(yawp, user);
 		
 		return new ResponseEntity<>(yawp, HttpStatus.OK);
 	}
