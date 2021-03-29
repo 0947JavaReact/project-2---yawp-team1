@@ -43,20 +43,34 @@ public class Yawp implements Comparable<Yawp>{
 	@Column(name = "author_id", nullable = false)
 	private int authorId;
 	
+	@Column(name = "author_uname")
+	private String authorUsername;
+	
+	@Column(name = "author_pic")
+	private String authorPic;
+	
 	@Column(name = "yawp_time")
 	private LocalDateTime yawpTime;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<User> likes;
 
+	@Override
+	public int compareTo(Yawp o) {
+		return getYawpTime().compareTo(o.getYawpTime());
+	}
 
-	public Yawp(String message, int authorId, LocalDateTime yawpTime, Set<User> likes) {
+	public Yawp(String message, int authorId, String authorUsername, String authorPic, LocalDateTime yawpTime,
+			Set<User> likes) {
 		super();
 		this.message = message;
 		this.authorId = authorId;
+		this.authorUsername = authorUsername;
+		this.authorPic = authorPic;
 		this.yawpTime = yawpTime;
 		this.likes = likes;
 	}
+	
 
 	public void addLike(User u) {
 		likes.add(u);
@@ -65,13 +79,4 @@ public class Yawp implements Comparable<Yawp>{
 	public void removeLike(User u) {
 		likes.remove(u);
 	}
-	
-
-	@Override
-	public int compareTo(Yawp o) {
-		return getYawpTime().compareTo(o.getYawpTime());
-	}
-
-	
-
 }

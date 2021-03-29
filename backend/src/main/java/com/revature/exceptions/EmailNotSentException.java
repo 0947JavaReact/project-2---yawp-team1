@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.exceptions;
 
 public class EmailNotSentException extends RuntimeException {
 

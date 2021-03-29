@@ -39,7 +39,7 @@ public class User {
 	@JoinColumn(name = "password_FK", nullable = false)
 	private StoredPassword passwordHolder;
 
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	
 	@Column(name = "bio")

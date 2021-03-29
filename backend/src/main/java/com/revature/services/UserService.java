@@ -16,7 +16,9 @@ import org.passay.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.exceptions.EmailAlreadyExistsException;
 import com.revature.exceptions.EmailDoesNotExistException;
+import com.revature.exceptions.EmailNotSentException;
 import com.revature.exceptions.InvalidCredentialsException;
 import com.revature.exceptions.PasswordUpdateFailedException;
 import com.revature.exceptions.SearchReturnedZeroResultsException;
@@ -103,14 +105,22 @@ public class UserService {
 		if (userDao.findByUsername(u.getUsername()) != null) {
 			throw new UserAlreadyExistsException();
 		}
+		if (userDao.findByEmail(u.getEmail()) != null) {
+			throw new EmailAlreadyExistsException();
+		}
 
 		passDao.save(u.getPasswordHolder());
 		userDao.save(u);
 	}
 
 	public User getUserById(int id) {
+		
 		Optional<User> oUser = userDao.findById(id);
 
+		if (oUser.get() == null) {
+			throw new UsernameDoesNotExistException(); 
+		}
+		
 		return oUser.get();
 	}
 

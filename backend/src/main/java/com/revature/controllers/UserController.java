@@ -16,13 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.exceptions.EmailAlreadyExistsException;
 import com.revature.exceptions.EmailDoesNotExistException;
+import com.revature.exceptions.EmailNotSentException;
 import com.revature.exceptions.InvalidCredentialsException;
 import com.revature.exceptions.UserAlreadyExistsException;
 import com.revature.exceptions.UsernameDoesNotExistException;
 import com.revature.models.StoredPassword;
 import com.revature.models.User;
-import com.revature.services.EmailNotSentException;
 import com.revature.services.UserService;
 
 import lombok.AllArgsConstructor;
@@ -45,8 +46,10 @@ public class UserController {
 		try {
 			userServ.register(user);
 		} catch (UserAlreadyExistsException e) {
-			return new ResponseEntity<>("User was not registered", HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<>("User was not registered, username already exists", HttpStatus.NOT_ACCEPTABLE);
 
+		} catch (EmailAlreadyExistsException e) {
+			return new ResponseEntity<>("User was not registered, email already exists", HttpStatus.NOT_ACCEPTABLE);
 		}
 		return new ResponseEntity<>("User was registered", HttpStatus.CREATED);
 	}
