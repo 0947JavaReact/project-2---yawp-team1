@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 import './RegisterForm.css';
+import {useHistory} from 'react-router-dom';
 
 export const RegisterForm: React.FC<any> = () => {
 
@@ -15,16 +17,44 @@ export const RegisterForm: React.FC<any> = () => {
         setRegister({...register, [e.target.name]:e.target.value})
     }
 
-    const registerUser = (e:any) => {
+    const history = useHistory();
+
+    const registerUser = async (e:any) => {
         console.log(register);
         if(register.password !== register.password2){
             alert("passwords must match");
             return;
         }
-        /* Axios Request */
-        Array.from(document.querySelectorAll("input")).forEach(
-        input => (input.value = "")
-        );
+
+        if(!validateEmail(register.email)) return;
+        
+        let obj = {
+            username: register.username,
+            email: register.email,
+            password: register.password
+        }
+
+        try{
+            let res = await axios.post('http://localhost:9025/users/create', obj);
+            Array.from(document.querySelectorAll("input")).forEach(
+                input => (input.value = "")
+            );
+            history.push('/');
+        } catch(e){
+            if(e.response.status === 406){
+                alert("Username is already taken ya bozo");
+            }
+        }
+    }
+
+    function validateEmail(mail:string) {
+
+	if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)) {
+		return (true)
+	}
+	alert("You have entered an invalid email address!")
+	return (false)
+
     }
 
     return(
