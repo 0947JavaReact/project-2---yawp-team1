@@ -1,32 +1,68 @@
 import * as React from 'react';
-//import * as S3FileUpload from 'react-s3'
+import { useSelector } from 'react-redux';
+import AWS from 'aws-sdk';
 
 export const EditProfileForm: React.FC<any> = () => {
+    let [img, setImg] = React.useState<any>()
+    const state = useSelector<any, any>((state) => state);
 
-    let [img,setImg] = React.useState<any>()
+    // const config = {
+    //     bucketName: "robertsrevbucket",
+    //     dirName: "/pics",
+    //     region: "us-west-1",
+    //     accessKeyId: "AKIAUQCHGIORLTJBOA7I",
+    //     secretAccessKey: "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",
+    // }
 
-    const config = {
+    AWS.config.update({
+        accessKeyId: "AKIAUQCHGIORLTJBOA7I",
+        secretAccessKey: "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",
+        region: "us-west-1"
+    });
 
-        bucketName:"robertsrevbucket",
-        dirName:"/pics",
-        region:"us-west-1",
-        accessKeyId:"AKIAUQCHGIORLTJBOA7I",
-        secretAccessKey:"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",
+    const s3 = new AWS.S3();
 
+    function getImage(e: any) {
+        // setImg(URL.createObjectURL(e.target.files[0]))
+        setImg(e.target.files[0]);
     }
 
-    function getImage(e:any){
+    const upload = (e: any) => {
+        try {
+            const extension = img.type.split("/")[1];
+            const params = {
+                Bucket: "robertsrevbucket",
+                Key: `${state.user.user.username}-profile-picture.${extension}`,
+                ContentType: img.type,
+                Body: img
+            };
 
-        setImg(URL.createObjectURL(e.target.files[0]))
+            console.log(img);
+            console.log(img.type);
 
-    } 
+            const res = s3.putObject(params).promise()
+            .then(() => {
+                const url = s3.getSignedUrl("getObject", {
+                    Bucket: "robertsrevbucket",
+                    Key: `${state.user.user.username}-profile-picture.${extension}`,
+                    Expires: 60
+                });
 
-    return(
+                console.log(url);
+            });
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+    };
+
+    return (
         <div className="edit">
             <input type="file" accept="image/*" onChange={getImage}></input>
+            {/* <img src={URL.createObjectURL(img)} alt="I am an image." /> */}
             <h5>Edit Bio</h5>
             <input type="text"></input>
-            <button></button>
+            <button onClick={upload}>Upload</button>
         </div>
-    )
+    );
 }

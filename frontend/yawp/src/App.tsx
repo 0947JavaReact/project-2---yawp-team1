@@ -17,47 +17,45 @@ function App() {
   const state = useSelector<any, any>((state) => state);
 
   React.useEffect(() => {
-        if(state.user.user.id < 0){
-            if(!localStorage.getItem('username')){
-                return;
-            }
-            else{
-                const user = {
-                    username: localStorage.getItem("username"),
-                    id: localStorage.getItem("id"),
-                    bio: '',
-                    profilePic: localStorage.getItem("profilePic"),
-                    loggedIn: true,
-                    loginAttempt: 'success'
-                }
-                getUser(user);
-            }
+    if (state.user.user.id < 0) {
+      if (!localStorage.getItem('username')) {
+        return;
+      }
+      else {
+        const user = {
+          username: localStorage.getItem("username"),
+          id: localStorage.getItem("id"),
+          bio: '',
+          profilePic: localStorage.getItem("profilePic"),
+          loggedIn: true,
+          loginAttempt: 'success'
         }
-    }, [state.user.user.username]);
+        getUser(user);
+      }
+    }
+  }, [state.user.user.username]);
 
   const dispatch = useDispatch();
 
-    const getUser = (user:any) => {
-        dispatch(
-            setUser(user)
-        )
-    };
+  const getUser = (user: any) => {
+    dispatch(
+      setUser(user)
+    )
+  };
   return (
     <div className="app">
-    <Router>
-      <Switch>
-        <Route exact path="/"><LoginPage /></Route>
-        <Route exact path="/forgotpass"><ResetPage></ResetPage></Route>
-        <Route exact path="/register"><RegisterPage /></Route>
-        <Route exact path="/home"><HomePage /></Route>
-        <Route exact path="/user/:username" component={ProfilePage}></Route>
-        <Route exact path="/followers/:username" component={FollowerPage}></Route>
-        <Route exact path="/following/:username" component={FollowingPage}></Route>
-        <Route exact path="/edit"><EditProfilePage/></Route>
-        
-      </Switch>
-      
-    </Router>
+      <Router>
+        <Switch>
+          <Route exact path="/"><LoginPage /></Route>
+          <Route exact path="/forgotpass"><ResetPage></ResetPage></Route>
+          <Route exact path="/register"><RegisterPage /></Route>
+          <Route exact path="/home"><HomePage /></Route>
+          <Route exact path="/user/:username" component={ProfilePage}></Route>
+          <Route exact path="/followers/:username" component={FollowerPage}></Route>
+          <Route exact path="/following/:username" component={FollowingPage}></Route>
+          <Route exact path="/edit"><EditProfilePage /></Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
