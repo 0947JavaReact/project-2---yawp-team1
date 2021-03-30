@@ -101,7 +101,7 @@ public class UserService {
 		return (password_verified);
 	}
 
-	public void register(User u) {
+	public User register(User u) {
 		if (userDao.findByUsername(u.getUsername()) != null) {
 			throw new UserAlreadyExistsException();
 		}
@@ -111,6 +111,7 @@ public class UserService {
 
 		passDao.save(u.getPasswordHolder());
 		userDao.save(u);
+		return u;
 	}
 
 	public User getUserById(int id) {
@@ -144,12 +145,12 @@ public class UserService {
 	}
 
 	public boolean updateUser(User user) {
+		User original = userDao.findByUsername(user.getUsername());
 		userDao.save(user);
-		if (!userDao.findByUsername(user.getUsername()).equals(user)) {
+		if (original.equals(user)) {
 			throw new UpdateFailedException();
 		}
 		return true;
-
 	}
 
 	public boolean addFollower(int user, int follower) {

@@ -109,7 +109,7 @@ public class UserServiceImpl extends UserService {
 	}
 
 	@Override
-	public void register(User u) {
+	public User register(User u) {
 		if (userDao.findByUsername(u.getUsername()) != null) {
 			throw new UserAlreadyExistsException();
 		}
@@ -119,6 +119,7 @@ public class UserServiceImpl extends UserService {
 
 		passDao.save(u.getPasswordHolder());
 		userDao.save(u);
+		return u;
 	}
 
 	@Override
@@ -156,12 +157,12 @@ public class UserServiceImpl extends UserService {
 	
 	@Override
 	public boolean updateUser(User user) {
+		User original = userDao.findByUsername(user.getUsername());
 		userDao.save(user);
-		if (!userDao.findByUsername(user.getUsername()).equals(user)) {
+		if (original.equals(user)) {
 			throw new UpdateFailedException();
 		}
 		return true;
-
 	}
 
 	@Override
@@ -169,6 +170,7 @@ public class UserServiceImpl extends UserService {
 		StoredFollowers sf = new StoredFollowers();
 		sf.setUserId(user);
 		sf.setFollowerId(follower);
+		System.out.println(sf);
 		followerHDao.save(sf);
 		return true;
 	}
@@ -178,6 +180,7 @@ public class UserServiceImpl extends UserService {
 		StoredFollowing sf = new StoredFollowing();
 		sf.setUserId(user);
 		sf.setFollowingId(following);
+		System.out.println(sf);
 		followingHDao.save(sf);
 		return true;
 	}
@@ -213,6 +216,7 @@ public class UserServiceImpl extends UserService {
 	public List<User> getUserFollowers(int id) {
 
 		List<StoredFollowers> sUsers = followerHDao.findAllByUserId(id);
+		System.out.println(id);
 		System.out.println(sUsers);
 		List<User> userList = new ArrayList<>();
 		for (StoredFollowers i : sUsers) {
