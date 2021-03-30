@@ -7,9 +7,9 @@ export const EditProfileForm: React.FC<any> = () => {
 
     const config = {
 
-        bucketName:"",
-        dirName:"",
-        region:"",
+        bucketName:"robertsrevbucket",
+        dirName:"/pics",
+        region:"us-west-1",
         accessKeyId:"AKIAUQCHGIORLTJBOA7I",
         secretAccessKey:"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",
 
@@ -27,7 +27,6 @@ export const EditProfileForm: React.FC<any> = () => {
             <h5>Edit Bio</h5>
             <input type="text"></input>
             <button></button>
-            <img src={img}></img>
         </div>
     )
 }

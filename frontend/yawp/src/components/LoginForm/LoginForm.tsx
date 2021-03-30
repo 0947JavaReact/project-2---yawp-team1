@@ -10,7 +10,6 @@ export const LoginForm: React.FC<any> = () => {
 
     let [username, setUsername] = React.useState("");
     let [password, setPassword] = React.useState("");
-    let [loggedIn, setLoggedIn] = React.useState(state.user.user.loggedIn);
 
     const handleChange = (e:any) => {
         if(e.target.name === "username"){
@@ -22,7 +21,6 @@ export const LoginForm: React.FC<any> = () => {
     }
 
     React.useEffect(()=>{
-        console.log(JSON.stringify(state));
         if(state.user.user.id > 0){
             history.push('/home');
         }

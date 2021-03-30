@@ -20,7 +20,6 @@ export const RegisterForm: React.FC<any> = () => {
     const history = useHistory();
 
     const registerUser = async (e:any) => {
-        console.log(register);
         if(register.password !== register.password2){
             alert("passwords must match");
             return;
@@ -35,7 +34,7 @@ export const RegisterForm: React.FC<any> = () => {
         }
 
         try{
-            let res = await axios.post('http://localhost:9025/users/create', obj);
+            await axios.post('http://localhost:9025/users/create', obj);
             Array.from(document.querySelectorAll("input")).forEach(
                 input => (input.value = "")
             );

@@ -17,17 +17,12 @@ function ProfilePage(props:any) {
 
     React.useEffect(() => {
         getUser();
-        if(user){
-            getYawps();
-        }
     }, [user.userId])
 
     const getUser = async () => {
-        console.log("above the get data");
         let res = await axios.get(`http://localhost:9025/users/username/${username}`);
-        console.log(res.data);
         setUser(res.data);
-        console.log(user);
+        getYawps(res.data.userId);
     }
 
     const state = useSelector<any, any>((state) => state);
@@ -41,10 +36,9 @@ function ProfilePage(props:any) {
         )
     };
     */
-    const getYawps = () => {
-        console.log(user);
+    const getYawps = (userId:number) => {
         dispatch(
-            fetchUserYawps(user.userId)
+            fetchUserYawps(userId)
         )
     }
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import img from '../../img/profile-picture-default.jpeg';
 import {Link} from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 import './ProfileHeader.css';
 
 export const ProfileHeader: React.FC<any> = (props) => {
@@ -12,7 +12,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
         <div className="header">
             <div className="header-container">
                 <div className="header-info">
-                    <img className="header-pic" src={img}></img>
+                    <img className="header-pic" src={img} alt="profile-pic"></img>
                      <h4 className="header-bio">{props.bio}</h4>
                 </div>
                 <div className="header-name-button">

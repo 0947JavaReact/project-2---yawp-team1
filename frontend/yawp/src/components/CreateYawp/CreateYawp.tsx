@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef } from 'react';
+import React, {useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './CreateYawp.css';
 import img from '../../img/profile-picture-default.jpeg';
@@ -17,8 +17,6 @@ export const CreateYawp: React.FC<any> = () => {
 
     const autogrow = () => {
         if (cyTextarea && cyTextarea.current) {
-            console.log(cyTextarea.current.style.height);
-
             // if (cyTextarea.current.value.length % 50 == 0) {
             cyTextarea.current.style.height = "25px";
             cyTextarea.current.style.height = cyTextarea.current.scrollHeight + "px";
@@ -35,7 +33,8 @@ export const CreateYawp: React.FC<any> = () => {
                 message: cyTextarea.current.value,
                 authorId: state.user.user.id,
                 authorUsername: state.user.user.username,
-                authorPic: state.user.user.profilePic
+                authorPic: state.user.user.profilePic,
+                likes: []
             };
 
             dispatch(
@@ -50,7 +49,7 @@ export const CreateYawp: React.FC<any> = () => {
         <div>
         <div className="create-container">
             <div className="content-container">
-                <img className="profile-pic" src={img} />
+                <img className="profile-pic" src={img} alt="profile-pic"/>
                 <textarea className="create-yawp-textarea" ref={cyTextarea} onChange={autogrow} cols={50} maxLength={250} placeholder="Create your YAWP"></textarea>
             </div>
             <button className="create-yawp-button" onClick={sendYawp}>Send Yawp</button>

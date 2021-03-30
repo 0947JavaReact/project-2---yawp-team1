@@ -29,14 +29,10 @@ function HomePage() {
                 getUser(user);
             }
         }
-        console.log(JSON.stringify(state));
         if(state.user.user.id > 0){
             getYawps();
-            console.log(state.yawp);
         }
     }, [state.user.user.username, state.yawp.items.length]);
-
-    //console.log(yawpState.yawp.items);
 
     const dispatch = useDispatch();
 
@@ -59,7 +55,6 @@ function HomePage() {
                 <div className="home-container">
                     <CreateYawp />
                     {state.yawp.items.map((item: any) => {
-                        console.log(item);
                         return (
                             <YawpPost id={item.yawpId} username={item.authorUsername} content={item.message} profilePic={item.authorPic} likes={item.likes.length} key={item.yawpId} />
                         )

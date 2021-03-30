@@ -17,9 +17,7 @@ function App() {
   const state = useSelector<any, any>((state) => state);
 
   React.useEffect(() => {
-    console.log("In the use effect of App");
         if(state.user.user.id < 0){
-          console.log("State needs updated");
             if(!localStorage.getItem('username')){
                 return;
             }
@@ -33,7 +31,6 @@ function App() {
                     loginAttempt: 'success'
                 }
                 getUser(user);
-                console.log(state.user);
             }
         }
     }, [state.user.user.username]);

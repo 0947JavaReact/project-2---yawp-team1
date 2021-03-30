@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {ADD_USER,SET_USER,UPDATE_USER, LOGIN_USER, LOGOUT_USER} from '../actions/types'
+import {SET_USER, UPDATE_USER, LOGIN_USER, LOGOUT_USER} from '../actions/types'
 
 
 export function setUser(user:any) {
@@ -12,7 +12,6 @@ export function setUser(user:any) {
 }
 
 export const loginUser = (obj:any) => async (dispatch:any) => {
-    console.log("above the await");
     let user;
     try{
         const res = await axios.post("http://localhost:9025/users/login", obj);
