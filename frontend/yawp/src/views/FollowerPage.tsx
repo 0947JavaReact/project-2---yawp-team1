@@ -3,44 +3,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navbar } from '../components/Navbar/Navbar';
 import img1 from '../img/profile-picture-default.jpeg';
 import UserCard from '../components/UserCard/UserCard';
+import axios from 'axios';
 import './FollowerPage.css';
 
 function FollowerPage(props:any) {
 
     let [followers, setFollowers] = React.useState<any>([]) 
-
+    let [user, setUser] = React.useState<any>({});
 
     const username = props.match.params.username 
 
     React.useEffect(() => {
+        getUser();
         
-        setFollowers(getFollowers(username))
-    }, [])
+    }, [user.userId]);
 
-    const dispatch = useDispatch();
+    const getUser = async () => {
+        let res = await axios.get(`http://localhost:9025/users/username/${username}`);
+        setUser(res.data);
+        getFollowers(user.userId);
+    }
 
-    const getFollowers = (username:string) => {
+    const getFollowers = async (userId:number) => {
 
-        //axios request
-        const user1 = {
-            username: "Bob_User",
-            bio: "I am Bob",
-            profilePic: img1
-        };
+        let res = await axios.post('http://localhost:9025/users/followers', {user_id: user.userId});
+        setFollowers(res.data);
 
-        const user2 = {
-            username: "Balut1",
-            bio: "I am crunchy",
-            profilePic: img1
-        };
-
-        const user3 = {
-            username: "BuilderOfBobs2",
-            bio: "I build",
-            profilePic: img1
-        };
-
-        return [user1, user2, user3]
     }
 
     return (
