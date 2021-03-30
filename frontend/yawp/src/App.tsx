@@ -26,6 +26,7 @@ function App() {
           username: localStorage.getItem("username"),
           id: localStorage.getItem("id"),
           bio: '',
+          email: localStorage.getItem("email"),
           profilePic: localStorage.getItem("profilePic"),
           loggedIn: true,
           loginAttempt: 'success'

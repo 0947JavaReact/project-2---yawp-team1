@@ -13,6 +13,7 @@ const initialState = {
     username: "",
     id: -1,
     bio: "",
+    email: "",
     profile_pic: "",
     loggedIn: false,
     loginAttempt: "none"
