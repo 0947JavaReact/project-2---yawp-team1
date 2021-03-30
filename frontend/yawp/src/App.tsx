@@ -1,21 +1,16 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import logo from './logo.svg';
-import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { store } from './store';
+import { setUser } from './actions/userActions';
 import LoginPage from './views/LoginPage';
 import RegisterPage from './views/RegisterPage';
-import Navbar from './components/Navbar/Navbar';
-import YawpPost, { Yawp } from './components/YawpPost/YawpPost';
-import img from './img/profile-picture-default.jpeg';
 import HomePage from './views/HomePage';
 import ProfilePage from './views/ProfilePage';
 import FollowerPage from './views/FollowerPage';
 import FollowingPage from './views/FollowingPage';
 import EditProfilePage from './views/EditProfilePage';
 import ResetPage from "./views/ResetPage"
-import { setUser } from './actions/userActions';
+import './App.css';
 
 function App() {
 
