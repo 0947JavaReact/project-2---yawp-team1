@@ -10,14 +10,12 @@ import Navbar from '../components/Navbar/Navbar';
 import axios from 'axios';
 
 function ProfilePage(props:any) {
-
     let [user, setUser] = React.useState<any>({});
-
     const username = props.match.params.username 
 
     React.useEffect(() => {
         getUser();
-    }, [user.userId])
+    }, [user.userId, username])
 
     const getUser = async () => {
         let res = await axios.get(`http://localhost:9025/users/username/${username}`);
@@ -26,16 +24,8 @@ function ProfilePage(props:any) {
     }
 
     const state = useSelector<any, any>((state) => state);
-
     const dispatch = useDispatch();
 
-    /*
-    const getUser = () => {
-        dispatch(
-            fetchUser(username)
-        )
-    };
-    */
     const getYawps = (userId:number) => {
         dispatch(
             fetchUserYawps(userId)
@@ -47,7 +37,7 @@ function ProfilePage(props:any) {
             <Navbar />
             <div className="profile-page">
                 <div className="profile-container">
-                    <ProfileHeader username={username} bio={user.bio}></ProfileHeader>
+                    <ProfileHeader userId={user.userId} username={username} bio={user.bio} profilePic={user.picUrl} />
                     {state.yawp.items.map((item: any) => {
                             return (
                                 <YawpPost id={item.yawpId} username={item.authorUsername} content={item.message} profilePic={item.authorPic} likes={item.likes.length} key={item.yawpId} />

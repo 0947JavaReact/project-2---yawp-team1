@@ -1,27 +1,40 @@
 import React, { useState } from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import './UserCard.css';
 
 export interface User {
-    
+    id: number,
     username: string,
     profilePic: string,
-    bio: string
+    bio: string,
+    showFollowButton: boolean
 };
 
 export const UserCard: React.FC<User> = (props) => {
-    
+    let [buttonRemoval, setButtonRemoval] = useState(props.showFollowButton);
+    const state = useSelector<any, any>((state) => state);
+    const followUser = async () => {
+        let res = await axios.post(`http://localhost:9025/users/startfollowing`, {
+            user_id: state.user.user.id,
+            following_id: props.id
+        });
+
+        setButtonRemoval(true);
+    };
 
     return (
         <div className="user-card">
             <div className="user-card-container">
                 <div className="user-card-info">
                     <Link to={`/user/${props.username}`}><img className="user-card-image" src={props.profilePic} /></Link>
-                     <h4 className="user-card-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et vehicula tortor, volutpat tristique orci. Quisque auctor porta tristique. Aliquam purus nibh, dictum ac malesuada faucibus, convallis interdum leo. Sed porttitor laoreet viverra. Integer eu tincidunt mi. Morbi in urna enim. Cras sit amet mattis justo, ac vestibulum ipsum.</h4>
+                    <h4 className="user-card-bio">{props.bio}</h4>
                 </div>
                 <div className="card-name-button">
                     <h3>{props.username}</h3>
-                    {props.username === localStorage.getItem("username") ? <></> : <button className="user-card-button">Follow</button>}
+                    {console.log(props.showFollowButton + " | " + buttonRemoval)}
+                    {props.username === state.user.user.username || (props.showFollowButton || buttonRemoval) ? <></> : <button className="user-card-button" onClick={followUser}>Follow</button>}
                 </div>
             </div>
         </div>

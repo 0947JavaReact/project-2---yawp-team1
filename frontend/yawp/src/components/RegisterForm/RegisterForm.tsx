@@ -41,7 +41,7 @@ export const RegisterForm: React.FC<any> = () => {
             history.push('/');
         } catch(e){
             if(e.response.status === 406){
-                alert("Username is already taken ya bozo");
+                alert("Username is already taken. Please enter another one.");
             }
         }
     }
