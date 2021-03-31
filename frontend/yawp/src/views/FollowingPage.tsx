@@ -6,7 +6,7 @@ import axios from 'axios';
 import './FollowingPage.css';
 
 function FollowingPage(props:any) {
-    let [following, setFollowing] = React.useState<any>([]) 
+    let [following, setFollowing] = React.useState<any>([]);
     let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
     let [user, setUser] = React.useState<any>({});
     const state = useSelector<any, any>((state) => state);
@@ -15,9 +15,7 @@ function FollowingPage(props:any) {
     React.useEffect(() => {
         getUser();
         getLoggedInFollowers();
-        console.log(loggedInFollowers);
-        console.log(following);
-    }, [user.userId, loggedInFollowers.length]);
+    }, [user.userId, loggedInFollowers.length, following.length]);
 
     const getUser = async () => {
         let res = await axios.get(`http://localhost:9025/users/username/${username}`);
@@ -31,7 +29,6 @@ function FollowingPage(props:any) {
         });
 
         setFollowing(res.data);
-
     }
 
     const getLoggedInFollowers = async () => {
@@ -39,7 +36,12 @@ function FollowingPage(props:any) {
             user_id: state.user.user.id
         });
 
-        setLoggedInFollowers(res.data);
+        let loggedInFollowerIds = [];
+        for (let i = 0; i < res.data.length; i++) {
+            loggedInFollowerIds.push(res.data[i].userId);
+        }
+
+        setLoggedInFollowers(loggedInFollowerIds);
     }
 
     return (
@@ -49,8 +51,7 @@ function FollowingPage(props:any) {
             <div className="following-container">
             <h1 className="following-h1">{`Who ${username} is following`}</h1>
             {following.map((user:any) => {
-                console.log(loggedInFollowers.includes(user));
-                return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user)} />
+                return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} />
             })}
             </div>
         </div>

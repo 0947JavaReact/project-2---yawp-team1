@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import AWS from 'aws-sdk';
 import { setUser } from '../../actions/userActions';
+import { useHistory } from 'react-router-dom';
 
 export const EditProfileForm: React.FC<any> = () => {
     let [img, setImg] = React.useState<any>();
     let [bio, setBio] = React.useState<string>("");
+    const history = useHistory();
     const state = useSelector<any, any>((state) => state);
     const dispatch = useDispatch();
     const getUser = (user: any) => {
@@ -33,7 +35,7 @@ export const EditProfileForm: React.FC<any> = () => {
         setImg(e.target.files[0]);
     }
 
-    const upload = (e: any) => {
+    const update = (e: any) => {
         if (img !== undefined) {
             try {
                 const extension = img.type.split("/")[1]; // images/extension
@@ -89,6 +91,8 @@ export const EditProfileForm: React.FC<any> = () => {
 
             getUser(user);
         }
+
+        history.push(`/user/${state.user.user.username}`);
     };
 
     return (
@@ -99,7 +103,7 @@ export const EditProfileForm: React.FC<any> = () => {
             <input type="text" onChange={changeBio} />
 
             <br />
-            <button onClick={upload}>Upload</button>
+            <button onClick={update}>Update</button>
         </div>
     );
 }

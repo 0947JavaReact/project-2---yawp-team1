@@ -14,27 +14,35 @@ function SearchPage(props: any) {
     React.useEffect(() => {
         getUsers();
         getLoggedInFollowers();
-    }, [keyword, loggedInFollowers.length]);
+    }, [keyword, users.length, loggedInFollowers.length]);
 
     const getUsers = async () => {
         let res = await axios.post(`http://localhost:9025/users/search`, {
             search: keyword
         });
+
         setUsers(res.data);
     }
 
     const getLoggedInFollowers = async () => {
-        let res = await axios.post('http://localhost:9025/users/followers', {
+        let res = await axios.post('http://localhost:9025/users/following', {
             user_id: state.user.user.id
         });
 
-        setLoggedInFollowers(res.data);
+        let loggedInFollowerIds = [];
+        for (let i = 0; i < res.data.length; i++) {
+            loggedInFollowerIds.push(res.data[i].userId);
+        }
+
+        setLoggedInFollowers(loggedInFollowerIds);
     }
+    
     return (
         <div>
+            {console.log(loggedInFollowers)}
             <Navbar />
             {users.map((user: any) => {
-                return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user)} />
+                return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} />
             })}
         </div>
     );
