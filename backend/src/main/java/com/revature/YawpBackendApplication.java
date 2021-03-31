@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class YawpBackendApplication {
 
 	public static void main(String[] args) {
+		// run the application with Spring Boot
 		SpringApplication.run(YawpBackendApplication.class, args);
 	}
 
