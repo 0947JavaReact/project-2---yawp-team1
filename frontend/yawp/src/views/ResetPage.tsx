@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
 
 function ResetPage() {
 
@@ -16,20 +18,30 @@ function ResetPage() {
         setEmail(e.target.value)
     }
 
-    function submitEmail() {
-        //make axios request
+    async function submitEmail() {
+        
+        try{
+        let res = await axios.post("http://localhost:9025/users/sendreset", {
+
+            email: email
+        })
+        
+        Array.from(document.querySelectorAll("input")).forEach(
+            input => (input.value = ""));
+
+
         setStep(2)
+        }
+        catch(e)
+        {
+            setStep(3)
+            return
+        }
     }
 
     function tempPasswordChange (e:any) {
 
         setTempPass(e.target.value)
-    }
-
-    function submitTempPassword () {
-
-        //make axios request
-        setStep(3)
     }
 
     function passwordChange(e:any) {
@@ -41,11 +53,24 @@ function ResetPage() {
         setConfirmPassword(e.target.value)
     }
 
-    function submitPasswords() {
+    async function submitPasswords() {
 
         if(password === confirmPassword)
         {
-            //axios request
+            try{
+                    let res = await axios.post("http://localhost:9025/users/resetpass", {
+
+                        email: email,
+                        temp_password: tempPass,
+                        new_password: password
+                    })
+            }
+            catch(e)
+            {
+                setStep(3)
+                return
+            }
+
             history.push("/")
         }
         else
@@ -78,24 +103,26 @@ function ResetPage() {
             return (
             
                 <div>
-                    <h1>Please enter temporary password</h1>
-                    <input type="text" onChange={tempPasswordChange}></input>
-                    <button onClick={submitTempPassword}>Submit Temporary Password</button>
-                </div>
-            )
-
-        //reset password
-        case 3:
-            return (
-            
-                <div>
+                    <h1>Please enter emailed code</h1>
+                    <input name = "temp" type="text" placeholder="Email Code"onChange={tempPasswordChange}></input>
                     <h1>Please reset password</h1>
                     <input type="password" placeholder="Enter Password" onChange={passwordChange}></input>
                     <input type="password" placeholder="Confirm Password" onChange={confirmPasswordChange}></input>
                     <button onClick={submitPasswords}>Submit Password</button>
                 </div>
+            )
 
-            )    
+        case 3:
+            
+        return(
+
+                <div>
+                    <h1>Sorry, that code was incorrect</h1>
+                    <h3>Please contact our support team at yawpteam@gmail.com</h3>
+
+                </div>
+        )
+
     }
     return(
         <div>
