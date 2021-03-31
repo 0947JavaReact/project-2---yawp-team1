@@ -213,9 +213,14 @@ public class UserController {
 	
 	 @PostMapping("/resetpass") 
 	 public ResponseEntity<String> resetPassword(@RequestBody LinkedHashMap<String, String> uMap) { 
+		 try {
+		 userServ.resetPassword(uMap.get("email"), uMap.get("temp_password"),uMap.get("new_password"));
+		 } catch (InvalidCredentialsException e) {
+			 return new ResponseEntity<>("Password reset unsuccessfull, temp password wrong",HttpStatus.UNAUTHORIZED);
+		 }
 		 
-		 userServ.resetPassword(uMap.get("email"), uMap.get("password"));
 		 return new ResponseEntity<>("Password reset success",HttpStatus.OK);
+
 		 
 	 }
 }
