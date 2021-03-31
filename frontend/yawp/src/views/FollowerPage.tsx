@@ -1,22 +1,21 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Navbar } from '../components/Navbar/Navbar';
-import img1 from '../img/profile-picture-default.jpeg';
 import UserCard from '../components/UserCard/UserCard';
 import axios from 'axios';
 import './FollowerPage.css';
 
-function FollowerPage(props:any) {
-
-    let [followers, setFollowers] = React.useState<any>([]) 
+function FollowerPage(props: any) {
+    let [followers, setFollowers] = React.useState<any>([])
+    let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
     let [user, setUser] = React.useState<any>({});
-
-    const username = props.match.params.username 
+    const state = useSelector<any, any>((state) => state);
+    const username = props.match.params.username;
 
     React.useEffect(() => {
         getUser();
-        
-    }, [user.userId]);
+        getLoggedInFollowers();
+    }, [user.userId, loggedInFollowers.length]);
 
     const getUser = async () => {
         let res = await axios.get(`http://localhost:9025/users/username/${username}`);
@@ -24,11 +23,20 @@ function FollowerPage(props:any) {
         getFollowers(user.userId);
     }
 
-    const getFollowers = async (userId:number) => {
+    const getFollowers = async (userId: number) => {
+        let res = await axios.post('http://localhost:9025/users/followers', {
+            user_id: user.userId
+        });
 
-        let res = await axios.post('http://localhost:9025/users/followers', {user_id: user.userId});
         setFollowers(res.data);
+    }
 
+    const getLoggedInFollowers = async () => {
+        let res = await axios.post('http://localhost:9025/users/following', {
+            user_id: state.user.user.id
+        });
+
+        setLoggedInFollowers(res.data);
     }
 
     return (
@@ -37,8 +45,8 @@ function FollowerPage(props:any) {
             <div className="follower-page">
                 <div className="follower-container">
                     <h1 className="follower-h1">{`${username}'s followers`}</h1>
-                    {followers.map((user:any) => {
-                        return <UserCard username={user.username} bio={user.bio} profilePic={user.profilePic}></UserCard>
+                    {followers.map((user: any) => {
+                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.profilePic} showFollowButton={loggedInFollowers.includes(user)}></UserCard>
                     })}
                 </div>
             </div>

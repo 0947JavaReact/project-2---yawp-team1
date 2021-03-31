@@ -11,6 +11,7 @@ import FollowingPage from './views/FollowingPage';
 import EditProfilePage from './views/EditProfilePage';
 import ResetPage from "./views/ResetPage"
 import './App.css';
+import SearchPage from './views/SearchPage';
 
 function App() {
 
@@ -55,6 +56,7 @@ function App() {
           <Route exact path="/followers/:username" component={FollowerPage}></Route>
           <Route exact path="/following/:username" component={FollowingPage}></Route>
           <Route exact path="/edit"><EditProfilePage /></Route>
+          <Route exact path="/search/:keyword" component={SearchPage}></Route>
         </Switch>
       </Router>
     </div>
