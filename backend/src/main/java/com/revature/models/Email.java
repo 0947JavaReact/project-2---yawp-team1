@@ -4,8 +4,6 @@ import java.util.Properties;
 
 import javax.mail.Session;
 
-import org.apache.tomcat.util.bcel.classfile.Constant;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +16,15 @@ import lombok.ToString;
 @ToString
 public class Email {
 	
+	// email attributes
 	private String sendTo;
 	private String sendFrom = "yawpteam@gmail.com";
 	private String password = "yawps4Eva!";
 	private String host = "smtp.gmail.com";
 	private Properties properties;
 	private Session session;
+	
+	// email constructors
 	public Email(String sendTo, String host, Properties properties, Session session) {
 		super();
 		this.sendTo = sendTo;
@@ -36,12 +37,13 @@ public class Email {
 		this.sendTo = sendTo;
 		this.properties = System.getProperties();
 		this.properties.put("mail.smtp.auth", true);
-		this.properties.put("mail.smtp.starttls.enable","true");
-		this.properties.put("mail.smtp.host",host);
-		this.properties.put("mail.smtp.user",sendFrom);
-		this.properties.put("mail.smtp.password",password);
-		this.properties.put("mail.smtp.port","587");
+		this.properties.put("mail.smtp.starttls.enable", "true");
+		this.properties.put("mail.smtp.host", host);
+		this.properties.put("mail.smtp.user", sendFrom);
+		this.properties.put("mail.smtp.password", password);
+		this.properties.put("mail.smtp.port", "587");
 
 		this.session = Session.getDefaultInstance(properties);
 	}
+	
 }

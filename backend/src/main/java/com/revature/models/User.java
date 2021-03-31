@@ -26,6 +26,7 @@ import lombok.ToString;
 @Table(name = "Users")
 public class User {
 
+	// Columns in the Users Table
 	@Id
 	@Column(name = "user_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,8 +49,7 @@ public class User {
 	@Column(name = "pic_url")
 	private String picUrl;
 
-
-	
+	// User constructors
 	public User(String username, StoredPassword password, String email, String bio) {
 		super();
 		this.username = username;
@@ -58,8 +58,6 @@ public class User {
 		this.bio = bio;
 		this.picUrl = "https://robertsrevbucket.s3-us-west-1.amazonaws.com/default-profile-picture.jpeg";
 	}
-
-
 	public User(String username, StoredPassword password, String email) {
 		super();
 		this.username = username;
@@ -67,8 +65,6 @@ public class User {
 		this.email = email;
 		this.picUrl = "https://robertsrevbucket.s3-us-west-1.amazonaws.com/default-profile-picture.jpeg";
 	}
-
-
 	public User(String username, StoredPassword passwordHolder, String email, String bio, String picUrl) {
 		super();
 		this.username = username;

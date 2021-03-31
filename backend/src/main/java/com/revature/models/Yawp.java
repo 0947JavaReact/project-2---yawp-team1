@@ -10,10 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -31,6 +28,7 @@ import lombok.ToString;
 @Table(name="Yawps")
 public class Yawp implements Comparable<Yawp>{
 
+	// Columns in the Yawp Table
 	@Id
 	@Column(name="yawp_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,14 +50,17 @@ public class Yawp implements Comparable<Yawp>{
 	@Column(name = "yawp_time")
 	private LocalDateTime yawpTime;
 	
+	// junction of users liking yawps
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<User> likes;
 
+	// changing the compareTo method to sort by the yawp creation time
 	@Override
 	public int compareTo(Yawp o) {
 		return getYawpTime().compareTo(o.getYawpTime());
 	}
 
+	// Yawp constructor
 	public Yawp(String message, int authorId, String authorUsername, String authorPic, LocalDateTime yawpTime,
 			Set<User> likes) {
 		super();
@@ -70,13 +71,13 @@ public class Yawp implements Comparable<Yawp>{
 		this.yawpTime = yawpTime;
 		this.likes = likes;
 	}
-	
 
+	// Yawp methods
 	public void addLike(User u) {
 		likes.add(u);
 	}
-	
 	public void removeLike(User u) {
 		likes.remove(u);
 	}
+	
 }
