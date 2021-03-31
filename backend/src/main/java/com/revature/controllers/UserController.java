@@ -3,8 +3,6 @@ package com.revature.controllers;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -181,46 +179,55 @@ public class UserController {
 	public ResponseEntity<List<User>> getUserFollowing(@RequestBody LinkedHashMap<String, String> uMap) {
 		// grab id value from JSON, convert to int, get that user's following list
 		List<User> sUsers = userServ.getUserFollowing(Integer.parseInt(uMap.get("user_id")));
-		System.out.println(sUsers);
 		if (sUsers.isEmpty()) {
+			// return null if list of following is empty
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
+		// successfully grabbed list of following
 		return new ResponseEntity<>(sUsers, HttpStatus.OK);
 	}
 
+	// POST Http Method, need a JSON from request to search for a user by username
 	@PostMapping("/search")
 	public ResponseEntity<List<User>> searchForUsername(@RequestBody LinkedHashMap<String, String> sMap) {
+		// grab search string from JSON
 		String search = new String(sMap.get("search"));
+		// find all users that contain the string in their username
 		List<User> uList = userServ.searchByUsername(search);
-
 		if (uList.isEmpty()) {
+			// return null if list of search results is empty
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
+		// successfully found list of users that matched the search
 		return new ResponseEntity<>(uList, HttpStatus.OK);
 	}
 	
+	// POST Http Method, need a JSON from request to send a password reset email
 	@PostMapping("/sendreset")
 	public ResponseEntity<String> sendResetEmail(@RequestBody LinkedHashMap<String, String> sMap) {
+		// grab email string from JSON
 		String email = new String(sMap.get("email"));
-		
 		try {
+			// attempt to send the password reset email
 			userServ.sendResetEmail(email);
-		} catch (EmailDoesNotExistException|EmailNotSentException e) {
+		} catch (EmailDoesNotExistException | EmailNotSentException e) {	// throw exception if address was invalid or failed to send
 			return new ResponseEntity<>("Reset email was not sent", HttpStatus.NOT_FOUND);
 		}
+		// successfully sent password recovery email
 		return new ResponseEntity<>("Reset email was sent", HttpStatus.OK);
 	}
 	
-	 @PostMapping("/resetpass") 
-	 public ResponseEntity<String> resetPassword(@RequestBody LinkedHashMap<String, String> uMap) { 
-		 try {
-		 userServ.resetPassword(uMap.get("email"), uMap.get("temp_password"),uMap.get("new_password"));
-		 } catch (InvalidCredentialsException e) {
-			 return new ResponseEntity<>("Password reset unsuccessfull, temp password wrong",HttpStatus.UNAUTHORIZED);
-		 }
-		 
-		 return new ResponseEntity<>("Password reset success",HttpStatus.OK);
-
-		 
-	 }
+	// POST Http Method, need a JSON from request to reset a user's password
+	@PostMapping("/resetpass") 
+	public ResponseEntity<String> resetPassword(@RequestBody LinkedHashMap<String, String> uMap) { 
+		try {
+			// grab email, temp password and new password from JSON to reset password
+			userServ.resetPassword(uMap.get("email"), uMap.get("temp_password"), uMap.get("new_password"));
+		} catch (InvalidCredentialsException e) {	// throw exception if password validation didn't pass
+			return new ResponseEntity<>("Password reset unsuccessfull, temp password wrong", HttpStatus.UNAUTHORIZED);
+		}
+		// successfully reset a user's password
+		return new ResponseEntity<>("Password reset success", HttpStatus.OK);
+	}
+	
 }

@@ -23,6 +23,7 @@ import lombok.ToString;
 @Table(name = "FollowingHolder")
 public class StoredFollowing {
 
+	// Columns in the Following Table
 	@Id
 	@Column(name = "following_PK")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,19 +33,15 @@ public class StoredFollowing {
 	@Column(name = "user_id")
 	private int userId;
 	
-	//User is following this person
+	// User is following this person
 	@Column(name = "following_id")
 	private int followingId;
 
+	// StoredFollowing constructor
 	public StoredFollowing(int userId, int followingId) {
 		super();
 		this.userId = userId;
 		this.followingId = followingId;
 	}
-	
-//	@JsonBackReference
-//	@OneToMany(mappedBy = "followingHolder", fetch = FetchType.LAZY)
-//	private Set<User> following;
-
 	
 }
