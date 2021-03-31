@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mockitoSession;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.revature.exceptions.InvalidCredentialsException;
 import com.revature.exceptions.UsernameDoesNotExistException;
 import com.revature.impl.UserServiceImpl;
 import com.revature.impl.YawpServiceImpl;
@@ -350,11 +352,11 @@ public class UsersServiceImplIntegrationTest {
 	}
 
 	@Test
-	public void whenResetingPass_thenReturnVoid() {
+	public void whenSendingEmail_thenReturnVoid() {
 		userServ.sendResetEmail(user1.getEmail());
-		userServ.resetPassword(user1.getEmail(), "newpassword!!!");
-		// String changed = sp1.getHashedPassword();
-
-		assertTrue(userServ.checkPassword("newpassword!!!", user1.getPasswordHolder().getHashedPassword()));
+		
+		Exception e = assertThrows(InvalidCredentialsException.class, ()->userServ.resetPassword(user1.getEmail(), "newpassword!!!", "newpass"));
+		
+		System.out.println(e.getMessage());
 	}
 }

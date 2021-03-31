@@ -255,9 +255,16 @@ public class UserServiceImpl extends UserService {
 	}
 
 	@Override
-	public void resetPassword(String email, String password) {
+	public void resetPassword(String email, String tempPassword, String newPassword) {
 		User user =  userDao.findByEmail(email);
-		String hashed = hashPassword(password);
+		System.out.println("Email: " + email);
+		System.out.println("temp: " + tempPassword);
+		System.out.println("new: " + newPassword);
+		if(!checkPassword(tempPassword, user.getPasswordHolder().getHashedPassword())) {
+			System.out.println("throwing e");
+			throw new InvalidCredentialsException();
+		}
+		String hashed = hashPassword(newPassword);
 		StoredPassword sp = user.getPasswordHolder();
 		
 		sp.setHashedPassword(hashed);
