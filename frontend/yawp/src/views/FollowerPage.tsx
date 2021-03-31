@@ -14,21 +14,35 @@ function FollowerPage(props: any) {
 
     React.useEffect(() => {
         getUser();
-        getLoggedInFollowers();
+
+        if(user.userId)
+        {
+            getFollowers(user.userId);
+        }
     }, [user.userId, loggedInFollowers.length, followers.length]);
 
     const getUser = async () => {
         let res = await axios.get(`http://localhost:9025/users/username/${username}`);
         setUser(res.data);
-        getFollowers(user.userId);
+        getLoggedInFollowers();
     }
 
     const getFollowers = async (userId: number) => {
-        let res = await axios.post('http://localhost:9025/users/followers', {
+       
+       
+        try{
+            let res = await axios.post('http://localhost:9025/users/followers', {
             user_id: user.userId
+
         });
 
         setFollowers(res.data);
+        }
+        catch(e)
+        {
+            setFollowers([])
+        }
+
     }
 
     const getLoggedInFollowers = async () => {
@@ -51,7 +65,7 @@ function FollowerPage(props: any) {
                 <div className="follower-container">
                     <h1 className="follower-h1">{`${username}'s followers`}</h1>
                     {followers.map((user: any) => {
-                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.profilePic} showFollowButton={loggedInFollowers.includes(user.userId)}></UserCard>
+                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)}></UserCard>
                     })}
                 </div>
             </div>

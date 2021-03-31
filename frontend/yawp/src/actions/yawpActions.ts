@@ -1,4 +1,4 @@
-import { ADD_YAWP, FETCH_USER_YAWPS, FETCH_FOLLOWING_YAWPS, CLEAR_YAWPS } from '../actions/types';
+import { ADD_YAWP, FETCH_USER_YAWPS, FETCH_FOLLOWING_YAWPS, CLEAR_YAWPS, LIKE_YAWP } from '../actions/types';
 import axios from 'axios';
 
 export const clearYawps = () => async (dispatch: any) => {
@@ -55,3 +55,26 @@ export const fetchFollowingPosts = (userId: number) => async (dispatch: any) => 
     }
 
 }
+
+export const likeYawp = (obj : any) => async (dispatch: any) => {
+
+    try{
+
+        let res = await axios.get(`http://localhost:9025/ufyawps/likeyawp/${obj.userId}/${obj.yawp.yawpId}`)
+
+        let res1 = await axios.get(`http://localhost:9025/users/userid/${obj.userId}`)
+
+        obj.yawp.likes.push(res1.data)
+
+
+    return dispatch({
+
+        type: LIKE_YAWP,
+        payload: obj
+    })
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+

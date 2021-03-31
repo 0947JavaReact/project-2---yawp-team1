@@ -56,7 +56,7 @@ function HomePage() {
                     <CreateYawp />
                     {state.yawp.items.map((item: any) => {
                         return (
-                            <YawpPost id={item.yawpId} username={item.authorUsername} content={item.message} profilePic={item.authorPic} likes={item.likes.length} key={item.yawpId} />
+                            <YawpPost yawp={item} key={item.yawpId} />
                         )
                     })}
                 </div>

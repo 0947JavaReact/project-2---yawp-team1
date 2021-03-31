@@ -11,6 +11,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
     const history = useHistory();
 
     React.useEffect(() => {
+       
         getLoggedInFollowers();
         console.log(loggedInFollowers);
     }, [loggedInFollowers.length]);

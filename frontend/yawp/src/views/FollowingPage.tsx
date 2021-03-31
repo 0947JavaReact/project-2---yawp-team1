@@ -14,13 +14,18 @@ function FollowingPage(props:any) {
 
     React.useEffect(() => {
         getUser();
-        getLoggedInFollowers();
+
+        if(user.userId)
+        {
+            getFollowing(user.userId);
+        }
+        
     }, [user.userId, loggedInFollowers.length, following.length]);
 
     const getUser = async () => {
         let res = await axios.get(`http://localhost:9025/users/username/${username}`);
         setUser(res.data);
-        getFollowing(user.userId);
+        getLoggedInFollowers();
     }
 
     const getFollowing = async (userId:number) => {

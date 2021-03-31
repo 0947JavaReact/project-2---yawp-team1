@@ -35,7 +35,7 @@ export const EditProfileForm: React.FC<any> = () => {
         setImg(e.target.files[0]);
     }
 
-    const update = (e: any) => {
+    const update = async (e: any) => {
         if (img !== undefined) {
             try {
                 const extension = img.type.split("/")[1]; // images/extension
@@ -50,6 +50,7 @@ export const EditProfileForm: React.FC<any> = () => {
 
                 const res = s3.putObject(params).promise().then(() => {
                     console.log(state.user.user.id);
+                    console.log(state.user.user)
                     axios.post(`http://localhost:9025/users/update`, {
                         user_id: state.user.user.id,
                         bio: state.user.user.bio,
@@ -69,12 +70,12 @@ export const EditProfileForm: React.FC<any> = () => {
                 });
             } catch (error) {
                 console.log(error);
-                return;
+            
             }
         }
 
         if (bio !== "") {
-            axios.post(`http://localhost:9025/users/update`, {
+            await axios.post(`http://localhost:9025/users/update`, {
                 user_id: state.user.user.id,
                 bio: bio,
                 email: state.user.user.email,

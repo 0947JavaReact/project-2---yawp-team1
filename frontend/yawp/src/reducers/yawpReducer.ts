@@ -1,6 +1,7 @@
 import { CallToActionSharp } from '@material-ui/icons';
 import { isTemplateSpan } from 'typescript';
-import { ADD_YAWP, CLEAR_YAWPS, FETCH_USER_YAWPS, FETCH_FOLLOWING_YAWPS } from '../actions/types'
+import { ADD_YAWP, CLEAR_YAWPS, FETCH_USER_YAWPS, FETCH_FOLLOWING_YAWPS, LIKE_YAWP } from '../actions/types'
+import update from 'react-addons-update';
 
 export interface Yawp {
     id: number,
@@ -13,7 +14,7 @@ export interface Yawp {
 const initialState = {
     items: []
 }
-export type Action = { type: string; payload: string };
+export type Action = { type: string; payload: any };
 export const yawpReducer = (state = initialState, action: Action) => {
     switch (action.type) {
         case ADD_YAWP:
@@ -37,6 +38,18 @@ export const yawpReducer = (state = initialState, action: Action) => {
             return {
                 ...state,
                 items: action.payload
+            }
+        case LIKE_YAWP:
+
+
+            let likes = action.payload.yawp.likes
+
+            return {
+                ...state,
+                items: state.items.map(
+                    (yawp:any, i) => yawp.yawpId === action.payload.yawp.yawpId ? {...yawp, likes: likes}
+                                                                                                : yawp
+                )
             }
 
         default:
