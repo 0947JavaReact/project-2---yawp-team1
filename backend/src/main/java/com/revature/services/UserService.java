@@ -30,10 +30,13 @@ import com.revature.models.StoredFollowers;
 import com.revature.models.StoredFollowing;
 import com.revature.models.StoredPassword;
 import com.revature.models.User;
+import com.revature.models.Yawp;
 import com.revature.repositories.FollowerHolderDao;
 import com.revature.repositories.FollowingHolderDao;
 import com.revature.repositories.PasswordDao;
 import com.revature.repositories.UserDao;
+import com.revature.repositories.YawpDao;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -45,6 +48,7 @@ public class UserService {
 	private FollowerHolderDao followerHDao;
 	private FollowingHolderDao followingHDao;
 	private PasswordDao passDao;
+	private YawpDao yawpDap;
 
 	// private UserRepository userRepo;
 
@@ -146,9 +150,16 @@ public class UserService {
 
 	public boolean updateUser(User user) {
 		User original = userDao.findByUsername(user.getUsername());
+		List<Yawp> yList =  yawpDap.findByAuthorId(user.getUserId());
+		
 		userDao.save(user);
 		if (original.equals(user)) {
 			throw new UpdateFailedException();
+		}
+		
+		for (Yawp y: yList) {
+			y.setAuthorPic(user.getPicUrl());
+			yawpDap.save(y);
 		}
 		return true;
 	}
