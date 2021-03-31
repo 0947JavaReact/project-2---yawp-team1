@@ -47,8 +47,8 @@ git clone https://github.com/0947JavaReact/project-2---yawp-team1.git
 2. View the application on a web browser at http://localhost:8088
 
 ## Contributors
-- Ethan McGill
-- Michael Roszel
-- Rogelio Victorio Jr.
-- Thomas JaeLew
-- Robert Castro
+- [Ethan McGill](https://github.com/elmcgill)
+- [Michael Roszel](https://github.com/mroszel)
+- [Rogelio Victorio Jr.](https://github.com/FilipinoEggs)
+- [Thomas JaeLew](https://github.com/ThomasJae)
+- [Robert Castro](https://github.com/robert-c9588)
