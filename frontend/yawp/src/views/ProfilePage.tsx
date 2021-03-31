@@ -10,7 +10,6 @@ import Navbar from '../components/Navbar/Navbar';
 import axios from 'axios';
 
 function ProfilePage(props:any) {
-
     let [user, setUser] = React.useState<any>({});
 
     const username = props.match.params.username 

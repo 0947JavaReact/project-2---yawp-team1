@@ -27,7 +27,7 @@ export const loginUser = (obj: any) => async (dispatch: any) => {
         localStorage.setItem("username", res.data.username);
         localStorage.setItem("id", res.data.userId);
         localStorage.setItem("email", res.data.email);
-        localStorage.setItem("profilPic", res.data.picUrl);
+        localStorage.setItem("profilePic", res.data.picUrl);
         return dispatch({
             type: LOGIN_USER,
             payload: user

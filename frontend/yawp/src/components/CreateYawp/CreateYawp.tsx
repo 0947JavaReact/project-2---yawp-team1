@@ -45,11 +45,13 @@ export const CreateYawp: React.FC<any> = () => {
         }
     };
 
+    console.log(state);
+
     return (
         <div>
         <div className="create-container">
             <div className="content-container">
-                <img className="profile-pic" src={img} alt="profile-pic"/>
+                <img className="profile-pic" src={state.user.user.profilePic} alt="profile-pic"/>
                 <textarea className="create-yawp-textarea" ref={cyTextarea} onChange={autogrow} cols={50} maxLength={250} placeholder="Create your YAWP"></textarea>
             </div>
             <button className="create-yawp-button" onClick={sendYawp}>Send Yawp</button>

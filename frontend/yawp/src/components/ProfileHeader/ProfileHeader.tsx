@@ -11,12 +11,14 @@ export const ProfileHeader: React.FC<any> = (props) => {
     const goToEditProfilePage = () => {
         history.push("/edit");
     };
+    
+    console.log(state);
 
     return (
         <div className="header">
             <div className="header-container">
                 <div className="header-info">
-                    <img className="header-pic" src={img} alt="profile-pic"></img>
+                    <img className="header-pic" src={state.user.user.profilePic} alt="profile-pic"></img>
                     <h4 className="header-bio">{props.bio}</h4>
                 </div>
                 <div className="header-name-button">
