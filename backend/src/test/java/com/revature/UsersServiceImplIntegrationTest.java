@@ -1,6 +1,8 @@
 package com.revature;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.mockitoSession;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.revature.exceptions.UsernameDoesNotExistException;
 import com.revature.impl.UserServiceImpl;
 import com.revature.impl.YawpServiceImpl;
 import com.revature.models.StoredFollowers;
@@ -75,6 +79,9 @@ public class UsersServiceImplIntegrationTest {
 	private StoredPassword sp1;
 	private User user;
 	
+	private User emailUser;
+	private StoredPassword spEmailtest;
+	
 	@Before
 	public void setUp() {
 		List<User> uList = new ArrayList<>();
@@ -115,6 +122,18 @@ public class UsersServiceImplIntegrationTest {
         uList2.add(uList.get(1));
         uList2.add(uList.get(2));
         Mockito.when(userDao.findByUsernameContaining("user")).thenReturn(uList2);
+        
+        
+        spEmailtest = new StoredPassword("password");
+        emailUser = new User("Robbie123",spEmailtest,"robert.c9588@gmail.com","bio for robbie");
+        
+        Mockito.when(userDao.findByEmail(emailUser.getEmail())).thenReturn(emailUser);
+        
+        
+        
+        
+        
+        
         
         ///
         StoredFollowers sFollowers = new StoredFollowers(1,2);
@@ -212,23 +231,16 @@ public class UsersServiceImplIntegrationTest {
 		assertThat(tempPass).isNotEqualTo("");
 	}
 	
-	@Test
-	public void whenPwordHashed_thenPwordHashIsSame() {
-		String tempPass = "password";
-		String hashPass = userServ.hashPassword(tempPass);
-		
-		assertThat(userServ.checkPassword(tempPass, hashPass)).isEqualTo(true);
-	} 
 	
-	/*
-	@Test
-	public void whenUserRegistered_thenUserExists() {
-		String hashed = userServ.hashPassword(user.getPasswordHolder().getHashedPassword());
-		user.getPasswordHolder().setHashedPassword(hashed);
-		userServ.register(user);
-		
-		
-	} */
+//	@Test
+//	public void whenUserRegistered_thenUserExists() {
+//		String hashed = userServ.hashPassword(user.getPasswordHolder().getHashedPassword());
+//		user.getPasswordHolder().setHashedPassword(hashed);
+//		User u1 = new User("robbie",sp,)
+//		 = userServ.register(user);
+//		
+//		assertThat(found).isEqualTo(user);
+//	}
 	
 	@Test
 	public void whenFindingUserById_thenReturnUser() {
@@ -293,14 +305,18 @@ public class UsersServiceImplIntegrationTest {
 		assertThat(followingList.get(0).getUsername()).isEqualTo(actualFollowing.get(0).getUsername());
 		assertThat(userServ.removeFollowing(2, 1)).isEqualTo(true);
 	}
-	/*
+	
 	@Test
 	public void whenLoggingIn_thenReturnUser() {
-		StoredPassword sp1 = new StoredPassword("password");
-		String hashed = userServ.hashPassword(sp1.getHashedPassword());
-		sp1.setHashedPassword(hashed);
-        User user1 = new User(1, "robert1", sp1, "rob1@email.com", "bio1", "pic1");
+		String tempPass = "password";
+		String hashPass = userServ.hashPassword(tempPass);
+		user.getPasswordHolder().setHashedPassword(hashPass);
+        System.out.println(user);
+
+		assertThat(userServ.checkPassword(tempPass, hashPass)).isEqualTo(true);
+        User found = userServ.login(user.getUsername(), tempPass);
         
-        assertThat(user1.getUsername()).isEqualTo(userServ.login(user1.getUsername(), user1.getPasswordHolder().getHashedPassword()));
-	}*/
+        
+        assertThat(found.getUsername()).isEqualTo(user.getUsername());
+	}
 }

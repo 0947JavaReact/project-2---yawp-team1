@@ -239,6 +239,8 @@ public class UserServiceImpl extends UserService {
 
 	@Override
 	public User login(String username, String password) {
+        System.out.println(password);
+
 		User user = new User();
 		user = userDao.findByUsername(username);
 

@@ -41,7 +41,7 @@ public class UserController {
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap<String, String> uMap) {// take out bio
 		String hashed = userServ.hashPassword(uMap.get("password"));
 		StoredPassword sp = new StoredPassword(hashed);
-		User user = new User(uMap.get("username"), sp, uMap.get("email"));
+		User user = new User(uMap.get("username"), sp, uMap.get("email"),"","https://robertsrevbucket.s3-us-west-1.amazonaws.com/default-profile-picture.jpeg");
 
 		try {
 			userServ.register(user);
