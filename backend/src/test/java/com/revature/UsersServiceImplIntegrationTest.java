@@ -71,12 +71,16 @@ public class UsersServiceImplIntegrationTest {
 	@MockBean
 	private YawpDao ydao;
 	
+	private StoredPassword sp;
+	private StoredPassword sp1;
+	private User user;
+	
 	@Before
 	public void setUp() {
 		List<User> uList = new ArrayList<>();
-		StoredPassword sp = new StoredPassword();
+		sp = new StoredPassword();
 		sp.setHashedPassword("password");
-		User user =  new User("robert123",sp,"email");
+		user =  new User("robert123",sp,"email");
 		uList.add(user);
 		
 		Mockito.when(userDao.findByUsername(user.getUsername())).thenReturn(user);
@@ -90,7 +94,7 @@ public class UsersServiceImplIntegrationTest {
 		uList.add(user5);
 		Mockito.when(userDao.findAll()).thenReturn(uList);
 		
-		StoredPassword sp1 = new StoredPassword("password");
+		sp1 = new StoredPassword("password");
         StoredPassword sp2 = new StoredPassword("password2");
         User user1 = new User(1, "robert1", sp1, "rob1@email.com", "bio1", "pic1");
         User user2 = new User(2, "robert2", sp2, "rob2@email.com", "bio2", "pic2");
@@ -207,24 +211,23 @@ public class UsersServiceImplIntegrationTest {
 		
 		assertThat(tempPass).isNotEqualTo("");
 	}
-	/*
+	
 	@Test
 	public void whenPwordHashed_thenPwordHashIsSame() {
 		String tempPass = "password";
 		String hashPass = userServ.hashPassword(tempPass);
-		User user = userServ.getUserByUsername("robert123");
-		String userHashPass = userServ.hashPassword(user.getPasswordHolder().getHashedPassword());
 		
-		//assertThat(hashPass).isEqualTo(userHashPass);
-		//assertTrue(userServ.)
-	} */
+		assertThat(userServ.checkPassword(tempPass, hashPass)).isEqualTo(true);
+	} 
+	
 	/*
 	@Test
 	public void whenUserRegistered_thenUserExists() {
-		StoredPassword sp1 = new StoredPassword("password");
-        User user1 = new User(1, "robert1", sp1, "rob1@email.com", "bio1", "pic1");
-        User user2 = userServ.register(user1);
-        assertThat(user1).isEqualTo(user2);
+		String hashed = userServ.hashPassword(user.getPasswordHolder().getHashedPassword());
+		user.getPasswordHolder().setHashedPassword(hashed);
+		userServ.register(user);
+		
+		
 	} */
 	
 	@Test

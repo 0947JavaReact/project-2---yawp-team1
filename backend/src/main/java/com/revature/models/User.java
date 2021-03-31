@@ -56,6 +56,7 @@ public class User {
 		this.passwordHolder = password;
 		this.email = email;
 		this.bio = bio;
+		this.picUrl = "https://robertsrevbucket.s3-us-west-1.amazonaws.com/default-profile-picture.jpeg";
 	}
 
 
@@ -64,6 +65,7 @@ public class User {
 		this.username = username;
 		this.passwordHolder = password;
 		this.email = email;
+		this.picUrl = "https://robertsrevbucket.s3-us-west-1.amazonaws.com/default-profile-picture.jpeg";
 	}
 
 

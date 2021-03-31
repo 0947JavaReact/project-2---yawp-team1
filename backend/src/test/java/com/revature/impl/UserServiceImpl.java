@@ -97,7 +97,7 @@ public class UserServiceImpl extends UserService {
 	}
 
 	
-	private boolean checkPassword(String password_plaintext, String stored_hash) {
+	public boolean checkPassword(String password_plaintext, String stored_hash) {
 		boolean password_verified = false;
 
 		if (null == stored_hash || !stored_hash.startsWith("$2a$"))
