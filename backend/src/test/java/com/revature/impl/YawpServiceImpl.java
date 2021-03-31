@@ -66,6 +66,7 @@ public class YawpServiceImpl extends YawpService{
 	public List<Yawp> getYawpsByUser(int id) {
 		List<Yawp> yList = new ArrayList<>();
 		yList = ydao.findByAuthorId(id);
+		System.out.println(yList);
 		Collections.sort(yList, Comparator.reverseOrder());;
 		return yList;
 	}
@@ -74,9 +75,12 @@ public class YawpServiceImpl extends YawpService{
 	public List<Yawp> getYawpsByFollowers(int id) {
 		List<Yawp> yList = new ArrayList<>();
 		List<StoredFollowers> followerList = followerHDao.findAllByUserId(id);
+		
 
 		for (StoredFollowers i : followerList) {
 			yList.addAll(getYawpsByUser(i.getFollowerId()));
+			System.out.println("UserId: " + i.getFollowerId());
+			System.out.println(getYawpsByUser(i.getFollowerId()));
 		}
 		Collections.sort(yList, Comparator.reverseOrder());
 
@@ -87,10 +91,13 @@ public class YawpServiceImpl extends YawpService{
 	public List<Yawp> getYawpsByFollowing(int id) {
 		List<Yawp> yList = new ArrayList<>();
 		List<StoredFollowing> followingList = followingHDao.findAllByUserId(id);
+		System.out.println(followingList);
 
 		
 		for (StoredFollowing i:followingList) {
 			yList.addAll(getYawpsByUser(i.getFollowingId()));
+			System.out.println("UserId: " + i.getFollowingId());
+			System.out.println(getYawpsByUser(i.getFollowingId()));
 		}
 		Collections.sort(yList,Comparator.reverseOrder());
 

@@ -32,6 +32,7 @@ public class StoredFollowing {
 	@Column(name = "user_id")
 	private int userId;
 	
+	//User is following this person
 	@Column(name = "following_id")
 	private int followingId;
 

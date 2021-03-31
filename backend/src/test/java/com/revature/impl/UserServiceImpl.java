@@ -300,6 +300,10 @@ public class UserServiceImpl extends UserService {
 			message.setContent(messageBody, "text/html");
 
 			Transport transport = emailToSend.getSession().getTransport("smtp");
+			
+			System.out.println("Host: " + emailToSend.getHost());
+			System.out.println("From: " + emailToSend.getSendFrom());
+			System.out.println("Password: " + emailToSend.getPassword());
 			transport.connect(emailToSend.getHost(), emailToSend.getSendFrom(), emailToSend.getPassword());
 			transport.sendMessage(message, message.getAllRecipients());
 			transport.close();
