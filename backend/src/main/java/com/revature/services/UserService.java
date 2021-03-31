@@ -166,13 +166,14 @@ public class UserService {
 		// find the user by username in the database
 		User original = userDao.findByUsername(user.getUsername());
 		List<Yawp> yList =  yawpDap.findByAuthorId(user.getUserId());
-		
+		System.out.println("original: " + original);
+		System.out.println("user: " + user);
 		// update their values
 		userDao.save(user);
 		// throw an exception if the database still holds their old values
-		if (original.equals(user)) {
-			throw new UpdateFailedException();
-		}
+//		if (original.equals(user)) {
+//			throw new UpdateFailedException();
+//		}
 		
 		for (Yawp y: yList) {
 			y.setAuthorPic(user.getPicUrl());
