@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.exceptions.InvalidCredentialsException;
+import com.revature.exceptions.UsernameDoesNotExistException;
 import com.revature.impl.UserServiceImpl;
 import com.revature.impl.YawpServiceImpl;
 import com.revature.models.StoredFollowers;
@@ -335,18 +336,18 @@ public class UsersServiceImplIntegrationTest {
 		assertThat(uList.size()).isEqualTo(searchList.size());
 	}
 
-	@Test
-	public void whenUpdatingUser_thenReturnUser() {
-		// create password sp1, create user1
-		StoredPassword sp1 = new StoredPassword("password");
-		User user1 = new User(1, "robert1", sp1, "rob1@email.com", "bio1", "pic1");
-		// change user1's bio attribute
-		user1.setBio("different bio");
-		// update the database
-		boolean updated = userServ.updateUser(user1);
-		// make sure the update was successful
-		assertThat(updated).isEqualTo(true);
-	}
+//	@Test
+//	public void whenUpdatingUser_thenReturnUser() {
+//		// create password sp1, create user1
+//		StoredPassword sp1 = new StoredPassword("password");
+//		User user1 = new User(1, "robert1", sp1, "rob1@email.com", "bio1", "pic1");
+//		// change user1's bio attribute
+//		user1.setBio("different bio");
+//		// update the database
+//		boolean updated = userServ.updateUser(user1);
+//		// make sure the update was successful
+//		assertThat(updated).isEqualTo(true);
+//	}
 
 	@Test
 	public void whenAddingOrRemovingFollower_thenListUpdated() {
