@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,11 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.mindrot.jbcrypt.BCrypt;
-import org.passay.*;
+import org.passay.CharacterData;
+import org.passay.CharacterRule;
+import org.passay.EnglishCharacterData;
+import org.passay.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.revature.exceptions.EmailAlreadyExistsException;
 import com.revature.exceptions.EmailDoesNotExistException;
@@ -28,32 +30,31 @@ import com.revature.models.StoredFollowers;
 import com.revature.models.StoredFollowing;
 import com.revature.models.StoredPassword;
 import com.revature.models.User;
-import com.revature.models.Yawp;
 import com.revature.repositories.FollowerHolderDao;
 import com.revature.repositories.FollowingHolderDao;
 import com.revature.repositories.PasswordDao;
 import com.revature.repositories.UserDao;
-import com.revature.repositories.YawpDao;
+import com.revature.services.UserService;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+public class UserServiceImpl extends UserService {
 
-@NoArgsConstructor
-@AllArgsConstructor(onConstructor = @__(@Autowired))
-@Service("userServ")
-public class UserService {
-	
+	// the test file will use this implementation of UserService
+	@Autowired
 	private UserDao userDao;
+	@Autowired
 	private FollowerHolderDao followerHDao;
+	@Autowired
 	private FollowingHolderDao followingHDao;
+	@Autowired
 	private PasswordDao passDao;
-	private YawpDao yawpDap;
-
+	
+	@Override
 	// get a list of all users from the database
 	public List<User> getAllUsers() {
 		return userDao.findAll();
 	}
-
+	
+	@Override
 	// create a generated password
 	public String generatePassayPassword() {
 		PasswordGenerator gen = new PasswordGenerator();
@@ -85,10 +86,11 @@ public class UserService {
 		return password;
 	}
 
+	@Override
 	// encrypt a plain password string
 	public String hashPassword(String password_plaintext) {
 		String salt = BCrypt.gensalt(12);
-		// convert from normal password to hashed value
+		// convert from a normal password to hashed value
 		String hashed_password = BCrypt.hashpw(password_plaintext, salt);
 		// return encrypted password
 		return (hashed_password);
@@ -106,6 +108,7 @@ public class UserService {
 		return (password_verified);
 	}
 
+	@Override
 	// register a new user
 	public User register(User u) {
 		// throw an exception if attempting to create a user with a username that is already taken
@@ -124,6 +127,7 @@ public class UserService {
 		return u;
 	}
 
+	@Override
 	// get a user by their id
 	public User getUserById(int user_id) {
 		// find a user in the database with the provided id value
@@ -136,6 +140,7 @@ public class UserService {
 		return oUser.get();
 	}
 
+	@Override
 	// get a user by their username
 	public User getUserByUsername(String username) {
 		// find a user in the database with the provided username
@@ -148,6 +153,7 @@ public class UserService {
 		return user;
 	}
 
+	@Override
 	// search for all users with a username that contain a specific string
 	public List<User> searchByUsername(String str) {
 		List<User> uList = new ArrayList<>();
@@ -160,29 +166,23 @@ public class UserService {
 		// return a list of users that had a username like the search string
 		return uList;
 	}
-
+	
+	@Override
 	// update a user's attributes in the database
 	public boolean updateUser(User user) {
 		// find the user by username in the database
 		User original = userDao.findByUsername(user.getUsername());
-		List<Yawp> yList =  yawpDap.findByAuthorId(user.getUserId());
-		System.out.println("original: " + original);
-		System.out.println("user: " + user);
 		// update their values
 		userDao.save(user);
 		// throw an exception if the database still holds their old values
-//		if (original.equals(user)) {
-//			throw new UpdateFailedException();
-//		}
-		
-		for (Yawp y: yList) {
-			y.setAuthorPic(user.getPicUrl());
-			yawpDap.save(y);
+		if (original.equals(user)) {
+			throw new UpdateFailedException();
 		}
 		// user was successfully updated
 		return true;
 	}
 
+	@Override
 	// add a relationship to the Follower Table
 	public boolean addFollower(int user, int follower) {
 		StoredFollowers sf = new StoredFollowers();
@@ -195,6 +195,7 @@ public class UserService {
 		return true;
 	}
 
+	@Override
 	// add a relationship to the Following Table
 	public boolean addFollowing(int user, int following) {
 		StoredFollowing sf = new StoredFollowing();
@@ -207,6 +208,7 @@ public class UserService {
 		return true;
 	}
 
+	@Override
 	// remove a relationship from the Follower Table
 	public boolean removeFollower(int user_id, int follower_id) {
 		// get a list of follower relationships for a user
@@ -222,6 +224,7 @@ public class UserService {
 		return true;
 	}
 
+	@Override
 	// remove a relationship from the Following Table
 	public boolean removeFollowing(int user_id, int following_id) {
 		// get a list of following relationships for a user
@@ -237,6 +240,7 @@ public class UserService {
 		return true;
 	}
 
+	@Override
 	// get a list of followers for a user
 	public List<User> getUserFollowers(int user_id) {
 		// get a list of follower relationships for a user
@@ -250,6 +254,7 @@ public class UserService {
 		return userList;
 	}
 
+	@Override
 	// get a list of following for a user
 	public List<User> getUserFollowing(int user_id) {
 		// get a list of following relationships for a user
@@ -263,6 +268,7 @@ public class UserService {
 		return userList;
 	}
 
+	@Override
 	// get a user to login
 	public User login(String username, String password) {
 		User user = new User();
@@ -280,6 +286,7 @@ public class UserService {
 		return user;
 	}
 
+	@Override
 	// allow a user to reset their password credential
 	public void resetPassword(String email, String tempPassword, String newPassword) {
 		// find a user in the database by email
@@ -299,6 +306,7 @@ public class UserService {
 		userDao.save(user);
 	}
 
+	@Override
 	// send a user an email to reset their password
 	public void sendResetEmail(String email) {
 		User user = new User();
@@ -333,7 +341,7 @@ public class UserService {
 			transport.close();
 		} catch (MessagingException e) {
 			// throw an exception if an error occurred sending the mail
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			throw new EmailNotSentException();
 		}
 		// if this is successful we hash the temp password, set it to the user and wait for them to login

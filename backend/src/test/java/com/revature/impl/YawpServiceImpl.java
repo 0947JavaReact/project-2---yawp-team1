@@ -1,11 +1,11 @@
-package com.revature.services;
+package com.revature.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.revature.models.StoredFollowers;
 import com.revature.models.StoredFollowing;
@@ -14,34 +14,39 @@ import com.revature.repositories.FollowerHolderDao;
 import com.revature.repositories.FollowingHolderDao;
 import com.revature.repositories.UserDao;
 import com.revature.repositories.YawpDao;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.revature.services.YawpService;
 
-@NoArgsConstructor
-@AllArgsConstructor(onConstructor = @__(@Autowired))
-@Service("yawpServ")
-public class YawpService {
-	
+public class YawpServiceImpl extends YawpService{
+
+	// the test file will use this implementation of YawpService
+	@Autowired
 	private YawpDao ydao;
+	@Autowired
 	private FollowerHolderDao followerHDao;
+	@Autowired
 	private FollowingHolderDao followingHDao;
+	@Autowired
 	private UserDao udao;
-
+	
+	@Override
 	// get a list of all yawps from the database
 	public List<Yawp> getAllYawps() {
 		return ydao.findAll();
 	}
 	
+	@Override
 	// get a yawp from the database by its id
 	public Yawp getYawp(int yawp_id) {
 		return ydao.findById(yawp_id).get();
 	}
 
+	@Override
 	// add a new yawp to the database
 	public Yawp register(Yawp yawp){
 		return ydao.save(yawp);
 	}
 	
+	@Override
 	// add a like to a yawp
 	public void like(int yawpId, int userId) {
 		// find the yawp by its id
@@ -52,6 +57,7 @@ public class YawpService {
 		ydao.save(yawp);	
 	}
 	
+	@Override
 	// remove a like from a yawp
 	public void unlike(int yawpId, int userId) {
 		// find the yawp by its id
@@ -62,6 +68,7 @@ public class YawpService {
 		ydao.save(yawp);	
 	}
 
+	@Override
 	// get a list of yawps from a user
 	public List<Yawp> getYawpsByUser(int user_id) {
 		List<Yawp> yList = new ArrayList<>();
@@ -73,6 +80,7 @@ public class YawpService {
 		return yList;
 	}
 
+	@Override
 	// get a list of yawps from followers
 	public List<Yawp> getYawpsByFollowers(int user_id) {
 		List<Yawp> yList = new ArrayList<>();
@@ -88,6 +96,7 @@ public class YawpService {
 		return yList;
 	}
 	
+	@Override
 	// get a list of yawps from following
 	public List<Yawp> getYawpsByFollowing(int user_id) {
 		List<Yawp> yList = new ArrayList<>();
@@ -102,5 +111,5 @@ public class YawpService {
 		// successfully found following yawps
 		return yList;
 	}
-
+	
 }
