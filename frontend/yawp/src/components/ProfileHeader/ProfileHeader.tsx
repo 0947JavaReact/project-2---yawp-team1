@@ -45,6 +45,14 @@ export const ProfileHeader: React.FC<any> = (props) => {
         setButtonRemoval(true);
     } 
 
+    const pushToFollowers = () => {
+        history.push(`/followers/${props.username}`);
+    }
+
+    const pushToFollowing = () => {
+        history.push(`/following/${props.username}`);
+    }
+
     return (
         <div className="header">
             <div className="header-container">
@@ -58,8 +66,8 @@ export const ProfileHeader: React.FC<any> = (props) => {
                 {state.user.user.username === props.username ? <button className="header-button" onClick={goToEditProfilePage}>Edit Profile</button> : (!loggedInFollowers.includes(props.userId) ? <button onClick={followUser}className="header-button">Follow</button> : <></>)}
             </div>
             <div className="following-followers">
-                    <Link className="profile-link" to={`/followers/${props.username}`}>Followers</Link>
-                    <Link className="profile-link" to={`/following/${props.username}`}>Following</Link>
+                <button className="header-button" onClick={pushToFollowers}>Followers</button>
+                <button className="header-button" onClick={pushToFollowing}>Followers</button>
             </div>
         </div>
     )

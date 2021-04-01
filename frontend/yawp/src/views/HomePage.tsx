@@ -16,6 +16,7 @@ function HomePage() {
     let [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
+        setLoading(true);
         if(state.user.user.id < 0){
             if(!localStorage.getItem('id')){
                 history.push('/');
@@ -35,9 +36,6 @@ function HomePage() {
         if(state.user.user.id > 0){
             getYawps();
         }
-        if(state.yawp.fetched){
-            setLoading(false);
-        }
     }, [state.user.user.username, state.yawp.fetched]);
 
     const dispatch = useDispatch();
@@ -49,9 +47,10 @@ function HomePage() {
     };
 
     const getYawps = async () => {
-        dispatch(
+        await dispatch(
             fetchFollowingPosts(state.user.user.id)
         )
+        setLoading(false);
     }
 
     return (

@@ -4,11 +4,13 @@ import { Navbar } from '../components/Navbar/Navbar';
 import UserCard from '../components/UserCard/UserCard';
 import axios from 'axios';
 import './FollowingPage.css';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function FollowingPage(props:any) {
     let [following, setFollowing] = React.useState<any>([]);
     let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
     let [user, setUser] = React.useState<any>({});
+    let [loading, setLoading] = React.useState(true);
     const state = useSelector<any, any>((state) => state);
     const username = props.match.params.username 
 
@@ -29,11 +31,16 @@ function FollowingPage(props:any) {
     }
 
     const getFollowing = async (userId:number) => {
+        try{
         let res = await axios.post('http://localhost:9025/users/following', {
             user_id: user.userId
         });
-
         setFollowing(res.data);
+        }catch(e){
+            setFollowing([]);
+        }
+        
+        setLoading(false);
     }
 
     const getLoggedInFollowers = async () => {
@@ -50,6 +57,7 @@ function FollowingPage(props:any) {
     }
 
     return (
+        <div> {loading ? <div className="following-loading"><CircularProgress style={{width:80, height: 80, textAlign:'center', color: 'black'}}/></div> :(
         <div>
             <Navbar />
         <div className="following-page">
@@ -60,6 +68,7 @@ function FollowingPage(props:any) {
             })}
             </div>
         </div>
+        </div>)}
         </div>
     )
 }

@@ -8,13 +8,16 @@ import YawpPost from '../components/YawpPost/YawpPost';
 import './ProfilePage.css';
 import Navbar from '../components/Navbar/Navbar';
 import axios from 'axios';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function ProfilePage(props:any) {
     let [user, setUser] = React.useState<any>({});
     let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
+    let [loading, setLoading] = React.useState(true);
     const username = props.match.params.username 
 
     React.useEffect(() => {
+        setLoading(true);
         getUser();
         getLoggedInFollowers();
         console.log("In the profile page: " + JSON.stringify(state.user.user));
@@ -50,27 +53,30 @@ function ProfilePage(props:any) {
     const state = useSelector<any, any>((state) => state);
     const dispatch = useDispatch();
 
-    const getYawps = (userId:number) => {
-        dispatch(
+    const getYawps = async (userId:number) => {
+        await dispatch(
             fetchUserYawps(userId)
         )
+        setLoading(false);
     }
 
     return(
         <div>
-            <Navbar />
-            <div className="profile-page">
-                <div className="profile-container">
-                    <ProfileHeader userId={user.id} username={username} bio={user.bio} profilePic={user.profilePic} showFollowButton={loggedInFollowers.includes(user.userId)}/>
-                    {state.yawp.items.map((item: any) => {
-                            return (
-                                <YawpPost yawp={item} key={item.yawpId} />
-                            )
-                        })}
+            {loading ? <div className="profile-loading"><CircularProgress style={{width:80, height: 80, textAlign:'center', color: 'black'}}/></div> : 
+            (<div>
+                <Navbar />
+                <div className="profile-page">
+                    <div className="profile-container">
+                        <ProfileHeader userId={user.id} username={username} bio={user.bio} profilePic={user.profilePic} showFollowButton={loggedInFollowers.includes(user.userId)}/>
+                        {state.yawp.items.map((item: any) => {
+                                return (
+                                    <YawpPost yawp={item} key={item.yawpId} />
+                                )
+                            })}
+                    </div>
                 </div>
-            </div>
+            </div>)}
         </div>
-
     )
 }
 
