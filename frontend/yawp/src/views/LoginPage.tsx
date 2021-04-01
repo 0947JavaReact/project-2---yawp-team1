@@ -6,21 +6,26 @@ import './LoginPage.css';
 
 function LoginPage() {
 
+    let [showPage, setShowPage] = React.useState(false);
     const history = useHistory();
 
     React.useEffect(() => {
-        if(localStorage.getItem('username')){
+        if(localStorage.getItem('id')){
             history.push('/home');
+        }
+        else{
+            setShowPage(true);
         }
     },[])
 
     return (
-        <div className="login-container">
+        <div> {showPage ? (<div className="login-container">
             <div className="text-container">
                 <h1 className="login-h1">Welcome to YAWP!</h1>
                 <h2>Sign it to see what everyone's YAWPING about!</h2>
             </div>
             <LoginForm />
+        </div>) : <></>}
         </div>
     )
 }
