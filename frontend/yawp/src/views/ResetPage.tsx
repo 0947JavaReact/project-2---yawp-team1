@@ -1,8 +1,7 @@
 import * as React from 'react';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux';
-import { isConstructorDeclaration } from 'typescript';
+import './ResetPage.css';
 
 function ResetPage() {
 
@@ -90,10 +89,13 @@ function ResetPage() {
 
             return (
             
-            <div>
-                <h1>Please input email</h1>
-                <input type="text" onChange={emailChange}></input>
-                <button onClick={submitEmail}>Submit Email</button>
+            <div className="reset-container">
+                <div className="step-container">
+                    <h1 className="step-one-h1">Forgot your password?</h1>
+                    <h4 className="step-one-h4">Please enter your accounts email below</h4>
+                    <input className="reset-input" type="text" onChange={emailChange}></input>
+                    <button className="reset-button" onClick={submitEmail}>Submit Email</button>
+                </div>
             </div>
             
             )
@@ -102,14 +104,17 @@ function ResetPage() {
         case 2:
             
             return (
-            
-                <div>
-                    <h1>Please enter emailed code</h1>
-                    <input name = "temp" type="text" placeholder="Email Code"onChange={tempPasswordChange}></input>
-                    <h1>Please reset password</h1>
-                    <input type="password" placeholder="Enter Password" onChange={passwordChange}></input>
-                    <input type="password" placeholder="Confirm Password" onChange={confirmPasswordChange}></input>
-                    <button onClick={submitPasswords}>Submit Password</button>
+                <div className="reset-container">
+                <div className="step-container">
+                    <h1 className="step-one-h1">We emailed you a temporary code.</h1>
+                    <h4 className="step-one-h4">Please enter the temporary code below.</h4>
+                    <input className="reset-input" name = "temp" type="text" placeholder="Email Code"onChange={tempPasswordChange}></input>
+                    <h1 className="step-one-h1">Please enter your new password.</h1>
+                    <h4 className="step-one-h4">Enter and confirm the new password you would like to use.</h4>
+                    <input className="reset-input" type="password" placeholder="Enter Password" onChange={passwordChange}></input>
+                    <input className="reset-input" type="password" placeholder="Confirm Password" onChange={confirmPasswordChange}></input>
+                    <button className="reset-button" onClick={submitPasswords}>Submit Password</button>
+                </div>
                 </div>
             )
 
@@ -117,10 +122,12 @@ function ResetPage() {
             
         return(
 
-                <div>
-                    <h1>Sorry, that code was incorrect</h1>
-                    <h3>Please contact our support team at yawpteam@gmail.com</h3>
-
+                <div className="reset-container">
+                    <div className="step-container">
+                        <h1 className="step-one-h1">Sorry, an error occured!</h1>
+                        <h4 className="step-one-h4">Please contact our support team at yawpteam@gmail.com</h4>
+                        <Link to="/" className="link">Redirect to the login page.</Link>
+                    </div>
                 </div>
         )
 

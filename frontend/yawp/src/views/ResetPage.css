@@ -1,13 +1,17 @@
-:root {
-    --independence: #383e56;
-    --purple: #111344;
-    --orange: #fb743e;
-    --light-blue: #9fb8ad;
-    --white: #ebebeb;
+.reset-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 1500px !important;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 80px;
 }
 
-.login {
-    width: 33%;
+.step-container {
+    width: fit-content;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -17,12 +21,17 @@
     padding: 20px;
 }
 
-.login-h4 {
+.step-one-h1 {
     margin-bottom: 10px;
     text-align: center;
 }
 
-.login-input {
+.step-one-h4 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.reset-input {
     height: 40px;
     margin-bottom: 10px;
     background-color: var(--white);
@@ -32,11 +41,11 @@
     padding-left: 15px;
 }
 
-.login-input:focus {
+.reset-input:focus {
     outline-width: 0;
 }
 
-.login-button {
+.reset-button {
     background: var(--orange);
     width: 100%;
     height: 40px;
@@ -51,21 +60,9 @@
     padding: auto;
 }
 
-.login-button:hover {
-    cursor: pointer;
-}
-
-.login-link {
+.link {
     text-decoration: none;
     margin-bottom: 5px;
     color: black;
-}
-
-.login-link:hover {
-    color: var(--orange);
-}
-
-.input-div {
-    margin-top: 10px;
-    margin-top: 10px;
+    text-align: center;
 }
