@@ -333,7 +333,7 @@ public class UserService {
 			transport.close();
 		} catch (MessagingException e) {
 			// throw an exception if an error occurred sending the mail
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			throw new EmailNotSentException();
 		}
 		// if this is successful we hash the temp password, set it to the user and wait for them to login
