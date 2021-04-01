@@ -2,6 +2,7 @@ import * as React from 'react';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
+import { isConstructorDeclaration } from 'typescript';
 
 function ResetPage() {
 
@@ -19,10 +20,9 @@ function ResetPage() {
     }
 
     async function submitEmail() {
-        
+        console.log(email);
         try{
         let res = await axios.post("http://localhost:9025/users/sendreset", {
-
             email: email
         })
         
@@ -34,7 +34,8 @@ function ResetPage() {
         }
         catch(e)
         {
-            setStep(3)
+            console.log(e);
+            //setStep(3)
             return
         }
     }
