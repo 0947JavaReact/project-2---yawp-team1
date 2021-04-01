@@ -1,14 +1,11 @@
 import axios from 'axios'
 import { SET_USER, UPDATE_USER, LOGIN_USER, LOGOUT_USER } from '../actions/types'
 
-
-export function setUser(user: any) {
-    return function (dispatch: any) {
-        dispatch({
+export const setUser = (user:any) => async (dispatch:any) => {
+    return dispatch({
             type: SET_USER,
             payload: user,
         })
-    }
 }
 
 export const loginUser = (obj: any) => async (dispatch: any) => {
@@ -24,10 +21,7 @@ export const loginUser = (obj: any) => async (dispatch: any) => {
             loggedIn: true,
             loginAttempt: 'success'
         }
-        localStorage.setItem("username", res.data.username);
         localStorage.setItem("id", res.data.userId);
-        localStorage.setItem("email", res.data.email);
-        localStorage.setItem("profilePic", res.data.picUrl);
         return dispatch({
             type: LOGIN_USER,
             payload: user

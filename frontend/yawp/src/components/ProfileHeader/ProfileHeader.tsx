@@ -14,7 +14,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
        
         getLoggedInFollowers();
         console.log(loggedInFollowers);
-    }, [loggedInFollowers.length]);
+    }, [loggedInFollowers.length, state.user.user]);
 
 
     const goToEditProfilePage = () => {

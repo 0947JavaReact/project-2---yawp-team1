@@ -12,6 +12,7 @@ import EditProfilePage from './views/EditProfilePage';
 import ResetPage from "./views/ResetPage"
 import './App.css';
 import SearchPage from './views/SearchPage';
+import axios from 'axios';
 
 function App() {
 
@@ -19,27 +20,30 @@ function App() {
 
   React.useEffect(() => {
     if (state.user.user.id < 0) {
-      if (!localStorage.getItem('username')) {
+      if (!localStorage.getItem('id')) {
         return;
       }
       else {
-        const user = {
-          username: localStorage.getItem("username"),
-          id: localStorage.getItem("id"),
-          bio: '',
-          email: localStorage.getItem("email"),
-          profilePic: localStorage.getItem("profilePic"),
-          loggedIn: true,
-          loginAttempt: 'success'
-        }
-        getUser(user);
+          getUser(localStorage.getItem('id'));
       }
     }
   }, [state.user.user.username]);
 
   const dispatch = useDispatch();
 
-  const getUser = (user: any) => {
+  const getUser = async (id:any) => {
+
+    let res = await axios.get(`http://localhost:9025/users/userid/${id}`);
+
+    let user = {
+      username: res.data.username,
+      id: res.data.userId,
+      email: res.data.email,
+      bio: res.data.bio,
+      profilePic: res.data.picUrl,
+      loggedIn: true
+    }
+
     dispatch(
       setUser(user)
     )

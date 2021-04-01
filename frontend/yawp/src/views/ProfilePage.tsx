@@ -15,11 +15,20 @@ function ProfilePage(props:any) {
 
     React.useEffect(() => {
         getUser();
-    }, [user.userId, username])
+        console.log("In the profile page: " + JSON.stringify(state.user.user));
+    }, [user.userId, username, user.bio]);
 
     const getUser = async () => {
         let res = await axios.get(`http://localhost:9025/users/username/${username}`);
-        setUser(res.data);
+        user = {
+            username: res.data.username,
+            id: res.data.userId,
+            bio: res.data.bio,
+            email: res.data.email,
+            profilePic: res.data.picUrl
+        }
+        setUser(user);
+        console.log("in the profile page: " + JSON.stringify(user));
         getYawps(res.data.userId);
     }
 
@@ -37,7 +46,7 @@ function ProfilePage(props:any) {
             <Navbar />
             <div className="profile-page">
                 <div className="profile-container">
-                    <ProfileHeader userId={user.userId} username={username} bio={user.bio} profilePic={user.picUrl} />
+                    <ProfileHeader userId={user.userId} username={username} bio={user.bio} profilePic={user.profilePic} />
                     {state.yawp.items.map((item: any) => {
                             return (
                                 <YawpPost yawp={item} key={item.yawpId} />

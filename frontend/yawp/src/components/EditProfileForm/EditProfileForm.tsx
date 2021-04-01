@@ -11,7 +11,8 @@ export const EditProfileForm: React.FC<any> = () => {
     const history = useHistory();
     const state = useSelector<any, any>((state) => state);
     const dispatch = useDispatch();
-    const getUser = (user: any) => {
+
+    const getUser = async (user: any) => {
         dispatch(
             setUser(user)
         )
@@ -36,7 +37,37 @@ export const EditProfileForm: React.FC<any> = () => {
     }
 
     const update = async (e: any) => {
+        await updateBio(bio);
+        await updatePicture(img);
+        history.push(`/user/${state.user.user.username}`);
+    };
+
+    const updateBio = async (bio:string) => {
+        if (bio) {
+            console.log(bio);
+            let user = {
+                username: state.user.user.username,
+                id: state.user.user.id,
+                bio: bio,
+                email: state.user.user.email,
+                profilePic: state.user.user.profilePic
+            };
+            console.log("inside the update bio if");
+            await axios.post(`http://localhost:9025/users/update`, {
+                user_id: state.user.user.id,
+                bio : bio,
+                email: state.user.user.email,
+                pic_url: state.user.user.profilePic
+            });
+
+            await getUser(user);
+            console.log("in the update bio: " + state.user.user);
+        }
+    }
+
+    const updatePicture = async (pic:any) => {
         if (img !== undefined) {
+            console.log("image was not undefined");
             try {
                 const extension = img.type.split("/")[1]; // images/extension
                 const key = `${state.user.user.username}-profile-picture.${extension}`
@@ -48,17 +79,17 @@ export const EditProfileForm: React.FC<any> = () => {
                     ACL: 'public-read'
                 };
 
-                const res = s3.putObject(params).promise().then(() => {
-                    console.log(state.user.user.id);
-                    console.log(state.user.user)
-                    axios.post(`http://localhost:9025/users/update`, {
+                const pic = await s3.putObject(params).promise();
+                await axios.post(`http://localhost:9025/users/update`, {
                         user_id: state.user.user.id,
                         bio: state.user.user.bio,
                         email: state.user.user.email,
                         pic_url: `https://robertsrevbucket.s3-us-west-1.amazonaws.com/${key}`
-                    });
+                });
 
-                    let user = {
+                console.log(`https://robertsrevbucket.s3-us-west-1.amazonaws.com/${key}`);
+
+                let user = {
                         username: state.user.user.username,
                         id: state.user.user.id,
                         bio: state.user.user.bio,
@@ -66,35 +97,13 @@ export const EditProfileForm: React.FC<any> = () => {
                         profilePic: `https://robertsrevbucket.s3-us-west-1.amazonaws.com/${key}`
                     };
 
-                    getUser(user);
-                });
+                await getUser(user);
             } catch (error) {
                 console.log(error);
             
             }
         }
-
-        if (bio !== "") {
-            await axios.post(`http://localhost:9025/users/update`, {
-                user_id: state.user.user.id,
-                bio: bio,
-                email: state.user.user.email,
-                pic_url: state.user.user.profilePic
-            });
-
-            let user = {
-                username: state.user.user.username,
-                id: state.user.user.id,
-                bio: bio,
-                email: state.user.user.email,
-                profilePic: state.user.user.profilePic
-            };
-
-            getUser(user);
-        }
-
-        history.push(`/user/${state.user.user.username}`);
-    };
+    }
 
     return (
         <div className="edit">
