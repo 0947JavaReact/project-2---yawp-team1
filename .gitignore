@@ -45,7 +45,7 @@ hs_err_pid*
 .springBeans
 .vscode
 /code
-/log
+/target/logs
 MANIFEST.MF
 _site/
 activemq-data
