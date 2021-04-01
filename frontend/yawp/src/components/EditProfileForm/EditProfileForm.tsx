@@ -38,7 +38,7 @@ export const EditProfileForm: React.FC<any> = () => {
 
     const update = async (e: any) => {
         await updateBio(bio);
-        await updatePicture(img);
+        await updatePicture(img, bio);
         history.push(`/user/${state.user.user.username}`);
     };
 
@@ -65,9 +65,9 @@ export const EditProfileForm: React.FC<any> = () => {
         }
     }
 
-    const updatePicture = async (pic:any) => {
+    const updatePicture = async (pic:any, bio:any) => {
         if (img !== undefined) {
-            console.log("image was not undefined");
+            console.log("inside of the update picure: " + JSON.stringify(state.user.user));
             try {
                 const extension = img.type.split("/")[1]; // images/extension
                 const key = `${state.user.user.username}-profile-picture.${extension}`
@@ -80,9 +80,10 @@ export const EditProfileForm: React.FC<any> = () => {
                 };
 
                 const pic = await s3.putObject(params).promise();
+                let setBio = bio ? bio : state.user.user.bio;
                 await axios.post(`http://localhost:9025/users/update`, {
                         user_id: state.user.user.id,
-                        bio: state.user.user.bio,
+                        bio: setBio,
                         email: state.user.user.email,
                         pic_url: `https://robertsrevbucket.s3-us-west-1.amazonaws.com/${key}`
                 });
@@ -92,7 +93,7 @@ export const EditProfileForm: React.FC<any> = () => {
                 let user = {
                         username: state.user.user.username,
                         id: state.user.user.id,
-                        bio: state.user.user.bio,
+                        bio: setBio,
                         email: state.user.user.email,
                         profilePic: `https://robertsrevbucket.s3-us-west-1.amazonaws.com/${key}`
                     };

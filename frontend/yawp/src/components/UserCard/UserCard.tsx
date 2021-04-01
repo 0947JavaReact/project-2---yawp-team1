@@ -33,7 +33,6 @@ export const UserCard: React.FC<User> = (props) => {
                 </div>
                 <div className="card-name-button">
                     <h3>{props.username}</h3>
-                    {console.log(props.showFollowButton + " | " + buttonRemoval)}
                     {props.username === state.user.user.username || (props.showFollowButton || buttonRemoval) ? <></> : <button className="user-card-button" onClick={followUser}>Follow</button>}
                 </div>
             </div>

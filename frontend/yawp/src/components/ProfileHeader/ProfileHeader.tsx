@@ -6,6 +6,7 @@ import axios from 'axios';
 import './ProfileHeader.css';
 
 export const ProfileHeader: React.FC<any> = (props) => {
+    let [buttonRemoval, setButtonRemoval] = React.useState(props.showFollowButton);
     let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
     const state = useSelector<any, any>((state) => state);
     const history = useHistory();
@@ -34,21 +35,30 @@ export const ProfileHeader: React.FC<any> = (props) => {
         setLoggedInFollowers(loggedInFollowerIds);
     }
 
+    const followUser = async() => {
+        console.log(props.userId);
+        let res = await axios.post(`http://localhost:9025/users/startfollowing`, {
+            user_id: state.user.user.id,
+            following_id: props.userId
+        });
+        setButtonRemoval(true);
+    } 
+
     return (
         <div className="header">
             <div className="header-container">
                 <div className="header-info">
                     <img className="header-pic" src={props.profilePic} alt="profile-pic"></img>
-                    <h4 className="header-bio">{props.bio}</h4>
+                    <h1>{props.username}</h1>
                 </div>
                 <div className="header-name-button">
-                    <h1>{props.username}</h1>
-                    {state.user.user.username === props.username ? <button className="header-button" onClick={goToEditProfilePage}>Edit Profile</button> : (!loggedInFollowers.includes(props.userId) ? <button className="header-button">Follow</button> : <></>)}
+                    <h4 className="header-bio">{props.bio}</h4>
                 </div>
-                <div className="following-followers">
+                {state.user.user.username === props.username ? <button className="header-button" onClick={goToEditProfilePage}>Edit Profile</button> : (!loggedInFollowers.includes(props.userId) ? <button onClick={followUser}className="header-button">Follow</button> : <></>)}
+            </div>
+            <div className="following-followers">
                     <Link className="profile-link" to={`/followers/${props.username}`}>Followers</Link>
                     <Link className="profile-link" to={`/following/${props.username}`}>Following</Link>
-                </div>
             </div>
         </div>
     )
