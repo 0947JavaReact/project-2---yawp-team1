@@ -8,7 +8,7 @@ import YawpPost from '../components/YawpPost/YawpPost';
 import './ProfilePage.css';
 import Navbar from '../components/Navbar/Navbar';
 import axios from 'axios';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import logo from '../img/YAWP_logo.gif';
 
 function ProfilePage(props:any) {
     let [user, setUser] = React.useState<any>({});
@@ -24,7 +24,7 @@ function ProfilePage(props:any) {
     }, [user.userId, username, user.bio, user.profilePic]);
 
     const getUser = async () => {
-        let res = await axios.get(`http://localhost:9025/users/username/${username}`);
+        let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/username/${username}`);
         user = {
             username: res.data.username,
             id: res.data.userId,
@@ -38,7 +38,7 @@ function ProfilePage(props:any) {
     }
 
     const getLoggedInFollowers = async () => {
-        let res = await axios.post('http://localhost:9025/users/following', {
+        let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following', {
             user_id: state.user.user.id
         });
 
@@ -62,7 +62,7 @@ function ProfilePage(props:any) {
 
     return(
         <div>
-            {loading ? <div className="profile-loading"><CircularProgress style={{width:80, height: 80, textAlign:'center', color: 'black'}}/></div> : 
+            {loading ? <div className="profile-loading"><img src={logo} height={500} width={500}/></div> : 
             (<div>
                 <Navbar />
                 <div className="profile-page">

@@ -16,7 +16,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
        
         getLoggedInFollowers();
         console.log(loggedInFollowers);
-    }, [loggedInFollowers.length, state.user.user]);
+    }, [loggedInFollowers.length, state.user.user, state.user.user.profilePic, state.user.user.bio]);
 
 
     const goToEditProfilePage = () => {
@@ -24,7 +24,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
     };
     
     const getLoggedInFollowers = async () => {
-        let res = await axios.post('http://localhost:9025/users/following', {
+        let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following', {
             user_id: state.user.user.id
         });
 
@@ -38,7 +38,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
 
     const followUser = async() => {
         console.log(props.userId);
-        let res = await axios.post(`http://localhost:9025/users/startfollowing`, {
+        let res = await axios.post(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/startfollowing`, {
             user_id: state.user.user.id,
             following_id: props.userId
         });
@@ -67,7 +67,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
             </div>
             <div className="following-followers">
                 <button className="header-button" onClick={pushToFollowers}>Followers</button>
-                <button className="header-button" onClick={pushToFollowing}>Followers</button>
+                <button className="header-button" onClick={pushToFollowing}>Following</button>
             </div>
         </div>
     )

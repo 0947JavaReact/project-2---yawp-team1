@@ -11,7 +11,7 @@ export const setUser = (user:any) => async (dispatch:any) => {
 export const loginUser = (obj: any) => async (dispatch: any) => {
     let user;
     try {
-        const res = await axios.post("http://localhost:9025/users/login", obj);
+        const res = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/login", obj);
         user = {
             username: res.data.username,
             id: res.data.userId,

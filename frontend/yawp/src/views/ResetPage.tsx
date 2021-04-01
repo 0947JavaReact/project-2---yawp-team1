@@ -21,7 +21,7 @@ function ResetPage() {
     async function submitEmail() {
         console.log(email);
         try{
-        let res = await axios.post("http://localhost:9025/users/sendreset", {
+        let res = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/sendreset", {
             email: email
         })
         
@@ -58,7 +58,7 @@ function ResetPage() {
         if(password === confirmPassword)
         {
             try{
-                    let res = await axios.post("http://localhost:9025/users/resetpass", {
+                    let res = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/resetpass", {
 
                         email: email,
                         temp_password: tempPass,

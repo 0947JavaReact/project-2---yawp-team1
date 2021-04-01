@@ -8,6 +8,9 @@ export const SearchBar: React.FC<any> = () => {
     const history = useHistory();
 
     const onSearch = () => {
+        if(!keyword){
+            return;
+        }
         history.push(`/search/${keyword}`);
     };
 

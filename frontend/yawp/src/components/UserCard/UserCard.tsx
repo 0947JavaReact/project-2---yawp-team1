@@ -16,7 +16,7 @@ export const UserCard: React.FC<User> = (props) => {
     let [buttonRemoval, setButtonRemoval] = useState(props.showFollowButton);
     const state = useSelector<any, any>((state) => state);
     const followUser = async () => {
-        let res = await axios.post(`http://localhost:9025/users/startfollowing`, {
+        let res = await axios.post(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/startfollowing`, {
             user_id: state.user.user.id,
             following_id: props.id
         });

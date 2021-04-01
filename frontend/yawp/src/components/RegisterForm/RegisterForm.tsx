@@ -34,7 +34,7 @@ export const RegisterForm: React.FC<any> = () => {
         }
 
         try{
-            await axios.post('http://localhost:9025/users/create', obj);
+            await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/create', obj);
             Array.from(document.querySelectorAll("input")).forEach(
                 input => (input.value = "")
             );

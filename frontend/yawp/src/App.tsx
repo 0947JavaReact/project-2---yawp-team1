@@ -33,7 +33,7 @@ function App() {
 
   const getUser = async (id:any) => {
 
-    let res = await axios.get(`http://localhost:9025/users/userid/${id}`);
+    let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/userid/${id}`);
 
     let user = {
       username: res.data.username,

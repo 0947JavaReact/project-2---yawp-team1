@@ -7,7 +7,7 @@ import YawpPost from '../components/YawpPost/YawpPost';
 import CreateYawp from '../components/CreateYawp/CreateYawp';
 import {useHistory} from 'react-router-dom';
 import './HomePage.css';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import logo from '../img/YAWP_logo.gif';
 
 function HomePage() {
     const state = useSelector<any, any>((state) => state);
@@ -55,7 +55,7 @@ function HomePage() {
 
     return (
         <div>
-            {loading ? <div className="home-loading"><CircularProgress style={{width:80, height: 80, textAlign:'center', color: 'black'}}/></div> : (
+            {loading ? <div className="home-loading"><img src={logo} height={500} width={500}/></div> : (
                 <div>
                 <Navbar />
                 <div className="home-page">

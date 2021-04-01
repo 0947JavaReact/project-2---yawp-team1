@@ -18,7 +18,7 @@ function SearchPage(props: any) {
     }, [keyword, users.length, loggedInFollowers.length]);
 
     const getUsers = async () => {
-        let res = await axios.post(`http://localhost:9025/users/search`, {
+        let res = await axios.post(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/search`, {
             search: keyword
         });
 
@@ -26,7 +26,7 @@ function SearchPage(props: any) {
     }
 
     const getLoggedInFollowers = async () => {
-        let res = await axios.post('http://localhost:9025/users/following', {
+        let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following', {
             user_id: state.user.user.id
         });
 

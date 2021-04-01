@@ -55,7 +55,7 @@ export const EditProfileForm: React.FC<any> = (props) => {
                 profilePic: state.user.user.profilePic
             };
             console.log("inside the update bio if");
-            await axios.post(`http://localhost:9025/users/update`, {
+            await axios.post(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/update`, {
                 user_id: state.user.user.id,
                 bio : bio,
                 email: state.user.user.email,
@@ -83,7 +83,7 @@ export const EditProfileForm: React.FC<any> = (props) => {
 
                 const pic = await s3.putObject(params).promise();
                 let setBio = bio ? bio : state.user.user.bio;
-                await axios.post(`http://localhost:9025/users/update`, {
+                await axios.post(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/update`, {
                         user_id: state.user.user.id,
                         bio: setBio,
                         email: state.user.user.email,

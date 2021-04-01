@@ -71,6 +71,11 @@ input[type='file'] {
 
 .edit-submit:hover {
     cursor: pointer;
+    cursor: pointer;
+    background: var(--purple);
+    color: var(--orange);
+    transition: 250ms;
+    border: 1px solid var(--light-blue);
 }
 
 .edit-link {

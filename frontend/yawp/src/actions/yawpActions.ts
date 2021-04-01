@@ -11,7 +11,7 @@ export const clearYawps = () => async (dispatch: any) => {
 export const fetchUserYawps = (userId: number) => async (dispatch: any) => {
 
     try {
-        let res = await axios.get(`http://localhost:9025/yawps/uyawps/${userId}`);
+        let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/yawps/uyawps/${userId}`);
         return dispatch({
             type: FETCH_USER_YAWPS,
             payload: res.data
@@ -28,7 +28,7 @@ export const postYawp = (obj: any) => async (dispatch: any) => {
             message: obj.message,
             author_id: obj.authorId
         }
-        await axios.post("http://localhost:9025/yawps/create", yawp);
+        await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/yawps/create", yawp);
 
         return dispatch({
             type: ADD_YAWP,
@@ -43,7 +43,7 @@ export const postYawp = (obj: any) => async (dispatch: any) => {
 export const fetchFollowingPosts = (userId: number) => async (dispatch: any) => {
 
     try {
-        let res = await axios.get(`http://localhost:9025/ufyawps/following/${userId}`);
+        let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/ufyawps/following/${userId}`);
 
         return dispatch({
             type: FETCH_FOLLOWING_YAWPS,
@@ -63,9 +63,9 @@ export const likeYawp = (obj : any) => async (dispatch: any) => {
 
     try{
 
-        let res = await axios.get(`http://localhost:9025/ufyawps/likeyawp/${obj.userId}/${obj.yawp.yawpId}`)
+        let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/ufyawps/likeyawp/${obj.userId}/${obj.yawp.yawpId}`)
 
-        let res1 = await axios.get(`http://localhost:9025/users/userid/${obj.userId}`)
+        let res1 = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/userid/${obj.userId}`)
 
         obj.yawp.likes.push(res1.data)
 

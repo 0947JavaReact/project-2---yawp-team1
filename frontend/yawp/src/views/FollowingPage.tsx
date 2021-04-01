@@ -4,7 +4,7 @@ import { Navbar } from '../components/Navbar/Navbar';
 import UserCard from '../components/UserCard/UserCard';
 import axios from 'axios';
 import './FollowingPage.css';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import logo from '../img/YAWP_logo.gif';
 
 function FollowingPage(props:any) {
     let [following, setFollowing] = React.useState<any>([]);
@@ -25,14 +25,14 @@ function FollowingPage(props:any) {
     }, [user.userId, loggedInFollowers.length, following.length]);
 
     const getUser = async () => {
-        let res = await axios.get(`http://localhost:9025/users/username/${username}`);
+        let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/username/${username}`);
         setUser(res.data);
         getLoggedInFollowers();
     }
 
     const getFollowing = async (userId:number) => {
         try{
-        let res = await axios.post('http://localhost:9025/users/following', {
+        let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following', {
             user_id: user.userId
         });
         setFollowing(res.data);
@@ -44,7 +44,7 @@ function FollowingPage(props:any) {
     }
 
     const getLoggedInFollowers = async () => {
-        let res = await axios.post('http://localhost:9025/users/following', {
+        let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following', {
             user_id: state.user.user.id
         });
 
@@ -57,7 +57,7 @@ function FollowingPage(props:any) {
     }
 
     return (
-        <div> {loading ? <div className="following-loading"><CircularProgress style={{width:80, height: 80, textAlign:'center', color: 'black'}}/></div> :(
+        <div> {loading ? <div className="following-loading"><img src={logo} height={500} width={500}/></div> :(
         <div>
             <Navbar />
         <div className="following-page">
