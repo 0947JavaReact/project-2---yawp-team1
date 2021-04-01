@@ -10,9 +10,10 @@
     resize: none;
     overflow: hidden;
     font-size: 25px;
-    height: 25px;
+    height: 30px;
     border: none;
     margin: 35px;
+    background: var(--white);
 }
 
 .create-yawp-textarea:focus {
@@ -22,7 +23,7 @@
 .create-container {
     display: flex;
     flex-direction: column;
-    border: 2px solid #ececec;
+    border: 2px solid #dedede;
     padding: 25px;
     position: relative;
     width: 1000px;

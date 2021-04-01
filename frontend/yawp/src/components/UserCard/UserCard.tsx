@@ -29,12 +29,12 @@ export const UserCard: React.FC<User> = (props) => {
             <div className="user-card-container">
                 <div className="user-card-info">
                     <Link to={`/user/${props.username}`}><img className="user-card-image" src={props.profilePic} /></Link>
-                    <h4 className="user-card-bio">{props.bio}</h4>
+                    <h3>{props.username}</h3>
                 </div>
                 <div className="card-name-button">
-                    <h3>{props.username}</h3>
-                    {props.username === state.user.user.username || (props.showFollowButton || buttonRemoval) ? <></> : <button className="user-card-button" onClick={followUser}>Follow</button>}
+                    <h4 className="user-card-bio">{props.bio}</h4>
                 </div>
+                {props.username === state.user.user.username || (props.showFollowButton || buttonRemoval) ? <></> : <button className="user-card-button" onClick={followUser}>Follow</button>}
             </div>
         </div>
     )

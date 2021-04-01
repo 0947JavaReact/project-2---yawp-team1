@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Navbar from '../components/Navbar/Navbar';
 import axios from 'axios';
 import { UserCard } from '../components/UserCard/UserCard';
+import './SearchPage.css';
 
 function SearchPage(props: any) {
     let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
@@ -39,11 +40,12 @@ function SearchPage(props: any) {
     
     return (
         <div>
-            {console.log(loggedInFollowers)}
             <Navbar />
-            {users.map((user: any) => {
-                return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} />
-            })}
+            <div className="search-page">
+                {users.map((user: any) => {
+                    return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} />
+                })}
+            </div>
         </div>
     );
 };

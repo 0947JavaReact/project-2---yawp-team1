@@ -12,7 +12,8 @@ export interface Yawp {
 }
 
 const initialState = {
-    items: []
+    items: [],
+    fetched: false
 }
 export type Action = { type: string; payload: any };
 export const yawpReducer = (state = initialState, action: Action) => {
@@ -32,12 +33,14 @@ export const yawpReducer = (state = initialState, action: Action) => {
         case FETCH_FOLLOWING_YAWPS:
             return {
                 ...state,
-                items: action.payload
+                items: action.payload,
+                fetched: true
             };
         case FETCH_USER_YAWPS:
             return {
                 ...state,
-                items: action.payload
+                items: action.payload,
+                fetched: true
             }
         case LIKE_YAWP:
 
@@ -47,8 +50,7 @@ export const yawpReducer = (state = initialState, action: Action) => {
             return {
                 ...state,
                 items: state.items.map(
-                    (yawp:any, i) => yawp.yawpId === action.payload.yawp.yawpId ? {...yawp, likes: likes}
-                                                                                                : yawp
+                    (yawp:any, i) => yawp.yawpId === action.payload.yawp.yawpId ? {...yawp, likes: likes}: yawp
                 )
             }
 
