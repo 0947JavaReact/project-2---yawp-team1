@@ -1,3 +1,11 @@
+:root {
+    --independence: #383e56;
+    --purple: #111344;
+    --orange: #fb743e;
+    --light-blue: #9fb8ad;
+    --white: #ebebeb;
+}
+
 .header {
     width: 1000px;
     height: fit-content;
@@ -44,6 +52,14 @@
     justify-self: space-between !important;
     align-self: flex-end !important;
     margin: 5px;
+}
+
+.header-button:hover {
+    cursor: pointer;
+    background: var(--purple);
+    color: var(--orange);
+    transition: 250ms;
+    border: 1px solid var(--light-blue);
 }
 
 .header-name-button {

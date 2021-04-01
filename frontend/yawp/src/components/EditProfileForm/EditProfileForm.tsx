@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import AWS from 'aws-sdk';
 import { setUser } from '../../actions/userActions';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+import './EditProfile.css';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 
-export const EditProfileForm: React.FC<any> = () => {
+export const EditProfileForm: React.FC<any> = (props) => {
     let [img, setImg] = React.useState<any>();
     let [bio, setBio] = React.useState<string>("");
     const history = useHistory();
@@ -107,14 +109,20 @@ export const EditProfileForm: React.FC<any> = () => {
     }
 
     return (
-        <div className="edit">
-            <input type="file" accept="image/*" onChange={changeImage} />
-
-            <h5>Edit Bio</h5>
-            <input type="text" onChange={changeBio} />
-
+        <div className="edit-container">
+            <div className="img-div">
+                <label htmlFor="file-upload" className="pic-input-default">
+                    {img ? (<div><img className="pic-input-default" src={img ? URL.createObjectURL(img) : ''} /></div>) : <CameraAltIcon />}
+                </label>
+                <input id="file-upload" className="pic-input" type="file" accept="image/*" onChange={changeImage} />
+            </div>
+        <div className="edit-bio">
+            <h5 className='edit-h5'>Edit Bio</h5>
+            <textarea className="edit-bio-text"cols={50} maxLength={255} placeholder="Edit your bio" onChange={changeBio} />
+        </div>
             <br />
-            <button onClick={update}>Update</button>
+            <button className="edit-submit" onClick={update}>Update</button>
+            <Link className="edit-link" to={`/user/${props.username}`}>Return to profile page</Link>
         </div>
     );
 }

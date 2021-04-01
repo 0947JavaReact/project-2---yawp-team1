@@ -51,3 +51,11 @@
     padding-bottom: 30px;
     padding-left: 25px;
 }
+
+.user-card-button:hover {
+    cursor: pointer;
+    background: var(--purple);
+    color: var(--orange);
+    transition: 250ms;
+    border: 1px solid var(--light-blue);
+}

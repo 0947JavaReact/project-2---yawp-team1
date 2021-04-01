@@ -7,6 +7,7 @@ import './ProfileHeader.css';
 
 export const ProfileHeader: React.FC<any> = (props) => {
     let [buttonRemoval, setButtonRemoval] = React.useState(props.showFollowButton);
+    let [showEdit, setShowEdit] = React.useState(false);
     let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
     const state = useSelector<any, any>((state) => state);
     const history = useHistory();
@@ -19,7 +20,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
 
 
     const goToEditProfilePage = () => {
-        history.push("/edit");
+        history.push('/edit');
     };
     
     const getLoggedInFollowers = async () => {

@@ -42,9 +42,12 @@ function SearchPage(props: any) {
         <div>
             <Navbar />
             <div className="search-page">
-                {users.map((user: any) => {
-                    return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} />
-                })}
+                <h1 className="search-page-h1">Search Results for term {keyword}</h1>
+                <div className='search-page-users'>
+                    {users.map((user: any) => {
+                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} />
+                    })}
+                </div>
             </div>
         </div>
     );
