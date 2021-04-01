@@ -51,7 +51,10 @@ export const fetchFollowingPosts = (userId: number) => async (dispatch: any) => 
         });
 
     } catch (e) {
-        console.log("something went wrong");
+        return dispatch({
+            type: FETCH_FOLLOWING_YAWPS,
+            payload: []
+        });
     }
 
 }
