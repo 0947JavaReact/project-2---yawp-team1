@@ -42,6 +42,7 @@ public class Email {
 		this.properties.put("mail.smtp.user", sendFrom);
 		this.properties.put("mail.smtp.password", password);
 		this.properties.put("mail.smtp.port", "587");
+		this.properties.put("mail.smtp.ssl.trust", "*");
 
 		this.session = Session.getDefaultInstance(properties);
 	}
