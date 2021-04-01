@@ -43,6 +43,9 @@ export const RegisterForm: React.FC<any> = () => {
             if(e.response.status === 406){
                 alert("Username is already taken. Please enter another one.");
             }
+            else{
+                alert("Email is already registered to an account.");
+            }
         }
     }
 
