@@ -13,9 +13,10 @@ function SearchPage(props: any) {
     const keyword = props.match.params.keyword;
 
     React.useEffect(() => {
+        console.log(state.user.user.id);
         getUsers();
         getLoggedInFollowers();
-    }, [keyword, users.length, loggedInFollowers.length]);
+    }, [keyword, users.length, loggedInFollowers.length, state.user.user]);
 
     const getUsers = async () => {
         let res = await axios.post(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/search`, {
@@ -45,7 +46,9 @@ function SearchPage(props: any) {
                 <h1 className="search-page-h1">Search Results for term {keyword}</h1>
                 <div className='search-page-users'>
                     {users.map((user: any) => {
-                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} />
+                        console.log(user.userId);
+                        console.log(loggedInFollowers);
+                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} incLogginFollowers={()=>setLoggedInFollowers(loggedInFollowers.push(user.id))}/>
                     })}
                 </div>
             </div>

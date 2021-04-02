@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import './UserCard.css';
 
+/*
 export interface User {
     id: number,
     username: string,
     profilePic: string,
     bio: string,
-    showFollowButton: boolean
+    showFollowButton: boolean,
+    incLogginFollowers: any
 };
+*/
 
-export const UserCard: React.FC<User> = (props) => {
+export const UserCard: React.FC<any> = (props) => {
     let [buttonRemoval, setButtonRemoval] = useState(props.showFollowButton);
     const state = useSelector<any, any>((state) => state);
     const followUser = async () => {
@@ -21,8 +24,28 @@ export const UserCard: React.FC<User> = (props) => {
             following_id: props.id
         });
 
-        setButtonRemoval(true);
+        props.incLogginFollowers();
     };
+
+    useEffect(()=> {
+        getFollowButton();
+    }, [props.username]);
+
+    const getFollowButton = () => {
+        if(props.username === state.user.user.username){
+            return (
+                <></>
+            );
+        }
+        else if(props.showFollowButton){
+            return (
+                <></>
+            );
+        }
+        else{
+            return (<button className="user-card-button" onClick={followUser}>Follow</button>);
+        }
+    }
 
     return (
         <div className="user-card">
@@ -34,7 +57,8 @@ export const UserCard: React.FC<User> = (props) => {
                 <div className="card-name-button">
                     <h4 className="user-card-bio">{props.bio}</h4>
                 </div>
-                {props.username === state.user.user.username || (props.showFollowButton || buttonRemoval) ? <></> : <button className="user-card-button" onClick={followUser}>Follow</button>}
+                {props.showFollowButton}
+                {getFollowButton()}
             </div>
         </div>
     )
