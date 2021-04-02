@@ -17,7 +17,12 @@ export const fetchUserYawps = (userId: number) => async (dispatch: any) => {
             payload: res.data
         });
 
-    } catch (e) {
+    }catch (e) {
+        console.log("in the catch of fetch user yawps")
+        return dispatch({
+            type: FETCH_USER_YAWPS,
+            payload: []
+        })
     }
 
 }

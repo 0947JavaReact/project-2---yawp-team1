@@ -23,7 +23,7 @@ export const UserCard: React.FC<any> = (props) => {
             user_id: state.user.user.id,
             following_id: props.id
         });
-
+        
         props.incLogginFollowers();
     };
 

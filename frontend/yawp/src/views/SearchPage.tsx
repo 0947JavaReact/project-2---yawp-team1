@@ -27,6 +27,8 @@ function SearchPage(props: any) {
     }
 
     const getLoggedInFollowers = async () => {
+        try{
+
         let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following', {
             user_id: state.user.user.id
         });
@@ -37,6 +39,11 @@ function SearchPage(props: any) {
         }
 
         setLoggedInFollowers(loggedInFollowerIds);
+        }catch(e){
+            console.log("in the catch");
+            setLoggedInFollowers([-1]);
+            console.log(loggedInFollowers);
+        }
     }
     
     return (
@@ -48,7 +55,7 @@ function SearchPage(props: any) {
                     {users.map((user: any) => {
                         console.log(user.userId);
                         console.log(loggedInFollowers);
-                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)} incLogginFollowers={()=>setLoggedInFollowers(loggedInFollowers.push(user.id))}/>
+                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.length > 0 ? loggedInFollowers.includes(user.userId) : true} incLogginFollowers={()=>setLoggedInFollowers(loggedInFollowers.push(user.id))}/>
                     })}
                 </div>
             </div>

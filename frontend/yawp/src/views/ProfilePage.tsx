@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {ProfileHeader} from '../components/ProfileHeader/ProfileHeader';
 import { useDispatch, useSelector } from 'react-redux';
 //import { fetchUser } from '../actions/userActions';
-import { fetchUserYawps } from '../actions/yawpActions';
+import { clearYawps, fetchUserYawps } from '../actions/yawpActions';
 import YawpPost from '../components/YawpPost/YawpPost';
 import './ProfilePage.css';
 import Navbar from '../components/Navbar/Navbar';
@@ -15,13 +15,14 @@ function ProfilePage(props:any) {
     let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
     let [loading, setLoading] = React.useState(true);
     const username = props.match.params.username 
-
+    const state = useSelector<any, any>((state) => state);
     React.useEffect(() => {
         setLoading(true);
+        deleteYawps();
         getUser();
         getLoggedInFollowers();
         console.log("In the profile page: " + JSON.stringify(state.user.user));
-    }, [user.userId, username, user.bio, user.profilePic]);
+    }, [user.userId, username, user.bio, user.profilePic, state.yawps]);
 
     const getUser = async () => {
         let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/username/${username}`);
@@ -50,8 +51,11 @@ function ProfilePage(props:any) {
         setLoggedInFollowers(loggedInFollowerIds);
     }
 
-    const state = useSelector<any, any>((state) => state);
     const dispatch = useDispatch();
+
+    const deleteYawps = async () => {
+        dispatch(clearYawps);
+    }
 
     const getYawps = async (userId:number) => {
         await dispatch(
