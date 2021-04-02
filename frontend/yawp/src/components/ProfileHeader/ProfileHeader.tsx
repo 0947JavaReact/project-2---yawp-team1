@@ -42,7 +42,7 @@ export const ProfileHeader: React.FC<any> = (props) => {
             user_id: state.user.user.id,
             following_id: props.userId
         });
-        setButtonRemoval(true);
+        setLoggedInFollowers([...loggedInFollowers, props.userId]);
     } 
 
     const pushToFollowers = () => {
