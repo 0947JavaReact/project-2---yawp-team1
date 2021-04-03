@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './CreateYawp.css';
 import img from '../../img/profile-picture-default.jpeg';
 import { postYawp } from "../../actions/yawpActions";
+import { StrikethroughSSharp } from '@material-ui/icons';
 
 export interface Yawp {
     id: number,
@@ -28,6 +29,14 @@ export const CreateYawp: React.FC<any> = () => {
     const dispatch = useDispatch();
 
     const sendYawp = () => {
+        if(!cyTextarea.current?.value) {
+            return;
+        }
+
+        if(cyTextarea.current.value.trim().length === 0){
+            return;
+        }
+
         if (cyTextarea && cyTextarea.current) {
             const yawp = {
                 message: cyTextarea.current.value,
@@ -43,6 +52,7 @@ export const CreateYawp: React.FC<any> = () => {
 
             cyTextarea.current.value = '';
         }
+    
     };
 
     console.log(state);
