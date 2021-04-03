@@ -1,0 +1,73 @@
+:root {
+    --independence: #383e56;
+    --purple: #111344;
+    --orange: #fb743e;
+    --light-blue: #9fb8ad;
+    --white: #ebebeb;
+}
+
+.yawp-container {
+    width: 1000px;
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+    padding: 25px;
+    border: 2px solid #dedede;
+}
+
+.yawp-image {
+    height: 60px;
+    width: 60px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.yawp-profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.yawp-username {
+    margin-left: 15px;
+}
+
+.yawp-content {
+    margin-left: 75px;
+    margin-right: 75px;
+    margin-top: 10px;
+}
+
+.yawp-likes {
+    align-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.yawp-like-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    background: transparent;
+    align-self: flex-end;
+    color: var(--purple);
+    font-weight: 600;
+    outline: none;
+}
+
+.yawp-like-button:hover {
+    cursor: pointer;
+}
+
+.likes {
+    margin-left: 10px;
+}
+
+.yawp-likes {
+    margin-right: 75px;
+}

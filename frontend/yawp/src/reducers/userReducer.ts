@@ -1,5 +1,6 @@
+import userEvent from "@testing-library/user-event";
 import { bindActionCreators } from "redux";
-import { ADD_USER, FETCH_USER, UPDATE_USER, LOGIN_USER } from "../actions/types";
+import { ADD_USER, SET_USER, UPDATE_USER, LOGIN_USER, LOGOUT_USER, ADD_FOLLOWING } from "../actions/types";
 
 export interface User {
   username: string;
@@ -13,20 +14,23 @@ const initialState = {
     username: "",
     id: -1,
     bio: "",
+    email: "",
+    loggedInFollowing: [],
     profile_pic: "",
-    loggedIn: false
-  },
+    loggedIn: false,
+    loginAttempt: "none"
+  }
 };
 export type Action = { type: string; payload: string };
 export const userReducer = (state: any = initialState, action: Action) => {
+  console.log('In user reducer');
   switch (action.type) {
     case ADD_USER:
       return {
         ...state,
         user: action.payload,
       };
-    case FETCH_USER:
-      console.log("in fetch" + JSON.stringify(action.payload));
+    case SET_USER:
       return {
         ...state,
         user: action.payload,
@@ -41,9 +45,19 @@ export const userReducer = (state: any = initialState, action: Action) => {
         ...state,
         user: action.payload
       }
+    case LOGOUT_USER:
+      return{
+        ...state,
+        user: action.payload
+      }
+    case ADD_FOLLOWING:
+      let u = state.user;
+      u.loggedInFollowing.push(action.payload);
+      return{
+        ...state,
+        user: u
+      }
     default:
-      console.log("reducer call" + action.type);
-      console.log(state);
       return state;
   }
 };

@@ -1,38 +1,72 @@
-import React from 'react';
-import logo from './logo.svg';
+import * as React from 'react';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from './actions/userActions';
+import LoginPage from './views/LoginPage';
+import RegisterPage from './views/RegisterPage';
+import HomePage from './views/HomePage';
+import ProfilePage from './views/ProfilePage';
+import FollowerPage from './views/FollowerPage';
+import FollowingPage from './views/FollowingPage';
+import EditProfilePage from './views/EditProfilePage';
+import ResetPage from "./views/ResetPage"
 import './App.css';
-import {useDispatch, useSelector} from 'react-redux';
-import { store } from './store';
-import { fetchUser } from './actions/userActions';
-import { User } from './reducers/userReducer';
-import {LoginForm} from './components/LoginForm/LoginForm';
-//import { TestButton } from './components/TestButton';
+import SearchPage from './views/SearchPage';
+import axios from 'axios';
 
 function App() {
-  function handleOnClick():void {
-    //console.log(storedUser.user);
-    console.log(localStorage.getItem("id"));
-  }
-  const storedUser = useSelector<User, any>(
-    
-    (state:User) => state
-  );
 
-  const dispatch =  useDispatch();
-  const getUser = ()=> {
-    dispatch( 
-      fetchUser()
+  const state = useSelector<any, any>((state) => state);
+
+  React.useEffect(() => {
+    if (state.user.user.id < 0) {
+      if (!localStorage.getItem('id')) {
+        return;
+      }
+      else {
+          getUser(localStorage.getItem('id'));
+      }
+    }
+  }, [state.user.user.username]);
+
+  const dispatch = useDispatch();
+
+  const getUser = async (id:any) => {
+
+    let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/userid/${id}`);
+    const following = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following",{user_id: res.data.userId});
+    let loggedInFollowing = following.data.map((user:any) => {
+      return user.userId;
+    });
+    let user = {
+      username: res.data.username,
+      id: res.data.userId,
+      email: res.data.email,
+      bio: res.data.bio,
+      loggedInFollowing: loggedInFollowing,
+      profilePic: res.data.picUrl,
+      loggedIn: true
+    }
+
+    dispatch(
+      setUser(user)
     )
-    console.log(`out side dispatch ${storedUser.user.user.username}`);
-  }
+  };
   return (
-    
-    <div className="App">
-      <h1 >{`Helloworld ${storedUser.user.user.username}`}</h1>
-      <button onClick={handleOnClick}>Handle button</button>
-      <button onClick={getUser}>Get Button</button>
-      <LoginForm />
-      <h1>{`${storedUser.user.user.loggedIn}, ${storedUser.user.user.id}`}</h1>
+    <div className="app">
+      <Router>
+        <Switch>
+          <Route exact path="/"><LoginPage /></Route>
+          <Route exact path="/forgotpass"><ResetPage></ResetPage></Route>
+          <Route exact path="/register"><RegisterPage /></Route>
+          <Route exact path="/home"><HomePage /></Route>
+          <Route exact path="/user/:username" component={ProfilePage}></Route>
+          <Route exact path="/followers/:username" component={FollowerPage}></Route>
+          <Route exact path="/following/:username" component={FollowingPage}></Route>
+          <Route exact path="/edit"><EditProfilePage /></Route>
+          <Route exact path="/search/:keyword" component={SearchPage}></Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

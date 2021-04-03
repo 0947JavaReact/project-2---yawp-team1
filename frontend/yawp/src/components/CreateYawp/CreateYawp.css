@@ -1,0 +1,61 @@
+:root {
+    --independence: #383e56;
+    --purple: #111344;
+    --orange: #fb743e;
+    --light-blue: #9fb8ad;
+    --white: #ebebeb;
+}
+
+.create-yawp-textarea {
+    resize: none;
+    overflow: hidden;
+    font-size: 25px;
+    height: 30px;
+    border: none;
+    margin: 35px;
+    background: var(--white);
+}
+
+.create-yawp-textarea:focus {
+    outline-width: 0;
+}
+
+.create-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #dedede;
+    padding: 25px;
+    position: relative;
+    width: 1000px;
+}
+
+.content-container {
+    display: flex;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.create-yawp-button {
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+    border: none;
+    align-self: flex-end;
+    background: var(--orange);
+    color: var(--purple);
+    font-size: 1.2rem;
+    font-weight: 600;
+    outline: none;
+}
+
+.create-yawp-button:hover {
+    cursor: pointer;
+    background: var(--purple);
+    color: var(--orange);
+    transition: 250ms;
+}
