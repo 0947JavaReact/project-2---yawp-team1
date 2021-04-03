@@ -53,7 +53,6 @@ export const UserCard: React.FC<any> = (props) => {
                 <div className="card-name-button">
                     <h4 className="user-card-bio">{props.bio}</h4>
                 </div>
-                {props.showFollowButton}
                 {getFollowButton()}
             </div>
         </div>
