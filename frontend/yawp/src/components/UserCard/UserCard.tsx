@@ -8,6 +8,7 @@ import './UserCard.css';
 export const UserCard: React.FC<any> = (props) => {
     const dispatch = useDispatch();
     const state = useSelector<any, any>((state) => state);
+    let [loading, setLoading] = useState(true);
 
     const followUser = async () => {
         
@@ -22,13 +23,19 @@ export const UserCard: React.FC<any> = (props) => {
     };
 
     useEffect(()=> {
-        getFollowButton();
-        console.log(state.user.user.loggedInFollowing);
-        console.log(props.id);
-    }, [props.username, state.user.user.loggedInFollowing]);
+        //getFollowButton();
+        //console.log(state.user.user.loggedInFollowing);
+        //console.log(props.id);
+        setLoading(false);
+    }, [props.username, state.user.user.loggedInFollowing, loading]);
 
     const getFollowButton = () => {
-        if(props.username === state.user.user.username){
+        if(loading){
+            return (
+                <></>
+            );
+        }
+        else if(props.username === state.user.user.username){
             return (
                 <></>
             );

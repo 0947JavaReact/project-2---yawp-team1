@@ -18,6 +18,7 @@ function FollowerPage(props: any) {
 
         if(user.userId)
         {
+            console.log(user.userId);
             getFollowers(user.userId);
         }
     }, [user.userId, followers.length]);
@@ -32,15 +33,14 @@ function FollowerPage(props: any) {
        
         try{
             let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/followers', {
-            user_id: user.userId
-
-        });
+            user_id: userId
+            });
 
         setFollowers(res.data);
         }
         catch(e)
         {
-            setFollowers([])
+            setFollowers([]);
         }
 
         setLoading(false);

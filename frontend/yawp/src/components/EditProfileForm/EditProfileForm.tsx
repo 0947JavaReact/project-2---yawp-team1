@@ -62,7 +62,16 @@ export const EditProfileForm: React.FC<any> = (props) => {
                 pic_url: state.user.user.profilePic
             });
 
-            await getUser(user);
+            let user2 = {
+                username: state.user.user.username,
+                id: state.user.user.id,
+                bio: bio,
+                email: state.user.user.email,
+                loggedInFollowing: state.user.user.loggedInFollowing,
+                profilePic: state.user.user.profilePic
+            }
+
+            await getUser(user2);
             console.log("in the update bio: " + state.user.user);
         }
     }
@@ -99,8 +108,9 @@ export const EditProfileForm: React.FC<any> = (props) => {
                         id: state.user.user.id,
                         bio: setBio,
                         email: state.user.user.email,
+                        loggedInFollowing: state.user.user.loggedInFollowing,
                         profilePic: `https://robertsrevbucket.s3-us-west-1.amazonaws.com/${key}`
-                    };
+                };
 
                 await getUser(user);
             } catch (error) {

@@ -10,12 +10,17 @@ export const setUser = (user:any) => async (dispatch:any) => {
 
 export const loginUser = (obj: any) => async (dispatch: any) => {
     let user;
+    let loggedInFollowing = [];
     try {
         const res = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/login", obj);
-        const following = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following",{user_id: res.data.userId});
-        let loggedInFollowing = following.data.map((user:any) => {
-            return user.userId;
-        });
+        try{
+            const following = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following",{user_id: res.data.userId});
+            loggedInFollowing = following.data.map((user:any) => {
+                return user.userId;
+            });
+        } catch(e){
+            console.log(e);
+        }
         console.log(`In the loginUser action, list of following: ${loggedInFollowing}`);
         user = {
             username: res.data.username,
@@ -33,12 +38,14 @@ export const loginUser = (obj: any) => async (dispatch: any) => {
             payload: user
         });
     } catch (e) {
+        console.log(e);
         user = {
             username: null,
             id: -1,
             bio: null,
             email: null,
             profilePic: null,
+            loggedInFollowing : loggedInFollowing,
             loggedIn: false,
             loginAttempt: 'invalid'
         }
