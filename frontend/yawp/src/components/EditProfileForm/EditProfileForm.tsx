@@ -80,7 +80,9 @@ export const EditProfileForm: React.FC<any> = (props) => {
                     Body: img,
                     ACL: 'public-read'
                 };
-
+                const rm = await s3.deleteObject({
+                    Bucket: "robertsrevbucket",
+                    Key: key}).promise();
                 const pic = await s3.putObject(params).promise();
                 let setBio = bio ? bio : state.user.user.bio;
                 await axios.post(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/update`, {
