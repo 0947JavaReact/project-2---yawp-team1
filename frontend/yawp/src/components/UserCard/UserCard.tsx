@@ -2,34 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import {updateFollowingList} from '../../actions/userActions';
 import './UserCard.css';
 
-/*
-export interface User {
-    id: number,
-    username: string,
-    profilePic: string,
-    bio: string,
-    showFollowButton: boolean,
-    incLogginFollowers: any
-};
-*/
-
 export const UserCard: React.FC<any> = (props) => {
-    let [buttonRemoval, setButtonRemoval] = useState(props.showFollowButton);
+    const dispatch = useDispatch();
     const state = useSelector<any, any>((state) => state);
+
     const followUser = async () => {
+        
         let res = await axios.post(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/startfollowing`, {
             user_id: state.user.user.id,
             following_id: props.id
         });
         
-        props.incLogginFollowers();
+        dispatch(
+            updateFollowingList(props.id)
+        );
     };
 
     useEffect(()=> {
         getFollowButton();
-    }, [props.username]);
+        console.log(state.user.user.loggedInFollowing);
+        console.log(props.id);
+    }, [props.username, state.user.user.loggedInFollowing]);
 
     const getFollowButton = () => {
         if(props.username === state.user.user.username){
@@ -37,7 +33,7 @@ export const UserCard: React.FC<any> = (props) => {
                 <></>
             );
         }
-        else if(props.showFollowButton){
+        else if(state.user.user.loggedInFollowing.includes(props.id)){
             return (
                 <></>
             );

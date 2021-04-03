@@ -8,7 +8,6 @@ import logo from '../img/YAWP_logo.gif';
 
 function FollowerPage(props: any) {
     let [followers, setFollowers] = React.useState<any>([])
-    let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
     let [user, setUser] = React.useState<any>({});
     let [loading, setLoading] = React.useState(true);
     const state = useSelector<any, any>((state) => state);
@@ -21,12 +20,11 @@ function FollowerPage(props: any) {
         {
             getFollowers(user.userId);
         }
-    }, [user.userId, loggedInFollowers.length, followers.length]);
+    }, [user.userId, followers.length]);
 
     const getUser = async () => {
         let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/username/${username}`);
         setUser(res.data);
-        getLoggedInFollowers();
     }
 
     const getFollowers = async (userId: number) => {
@@ -49,19 +47,6 @@ function FollowerPage(props: any) {
 
     }
 
-    const getLoggedInFollowers = async () => {
-        let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following', {
-            user_id: state.user.user.id
-        });
-
-        let loggedInFollowerIds = [];
-        for (let i = 0; i < res.data.length; i++) {
-            loggedInFollowerIds.push(res.data[i].userId);
-        }
-
-        setLoggedInFollowers(loggedInFollowerIds);
-    }
-
     return (
         <div> {loading ? <div className="following-loading"><img src={logo} height={500} width={500}/></div> : (
         <div>
@@ -70,7 +55,7 @@ function FollowerPage(props: any) {
                 <div className="follower-container">
                     <h1 className="follower-h1">{`${username}'s followers`}</h1>
                     {followers.map((user: any) => {
-                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl} showFollowButton={loggedInFollowers.includes(user.userId)}></UserCard>
+                        return <UserCard id={user.userId} username={user.username} bio={user.bio} profilePic={user.picUrl}></UserCard>
                     })}
                 </div>
             </div>
