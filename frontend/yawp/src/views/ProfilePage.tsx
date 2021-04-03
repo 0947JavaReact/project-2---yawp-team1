@@ -12,7 +12,6 @@ import logo from '../img/YAWP_logo.gif';
 
 function ProfilePage(props:any) {
     let [user, setUser] = React.useState<any>({});
-    let [loggedInFollowers, setLoggedInFollowers] = React.useState<any>([]);
     let [loading, setLoading] = React.useState(true);
     const username = props.match.params.username 
     const state = useSelector<any, any>((state) => state);
@@ -20,8 +19,6 @@ function ProfilePage(props:any) {
         setLoading(true);
         deleteYawps();
         getUser();
-        getLoggedInFollowers();
-        console.log("In the profile page: " + JSON.stringify(state.user.user));
     }, [user.userId, username, user.bio, user.profilePic, state.yawps]);
 
     const getUser = async () => {
@@ -36,19 +33,6 @@ function ProfilePage(props:any) {
         setUser(user);
         console.log("in the profile page: " + JSON.stringify(user));
         getYawps(res.data.userId);
-    }
-
-    const getLoggedInFollowers = async () => {
-        let res = await axios.post('http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following', {
-            user_id: state.user.user.id
-        });
-
-        let loggedInFollowerIds = [];
-        for (let i = 0; i < res.data.length; i++) {
-            loggedInFollowerIds.push(res.data[i].userId);
-        }
-
-        setLoggedInFollowers(loggedInFollowerIds);
     }
 
     const dispatch = useDispatch();
@@ -71,7 +55,7 @@ function ProfilePage(props:any) {
                 <Navbar />
                 <div className="profile-page">
                     <div className="profile-container">
-                        <ProfileHeader userId={user.id} username={username} bio={user.bio} profilePic={user.profilePic} showFollowButton={loggedInFollowers.includes(user.userId)}/>
+                        <ProfileHeader userId={user.id} username={username} bio={user.bio} profilePic={user.profilePic}/>
                         {state.yawp.items.map((item: any) => {
                                 return (
                                     <YawpPost yawp={item} key={item.yawpId} />

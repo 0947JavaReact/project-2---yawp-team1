@@ -34,12 +34,16 @@ function App() {
   const getUser = async (id:any) => {
 
     let res = await axios.get(`http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/userid/${id}`);
-
+    const following = await axios.post("http://ec2-3-101-86-38.us-west-1.compute.amazonaws.com:9025/users/following",{user_id: res.data.userId});
+    let loggedInFollowing = following.data.map((user:any) => {
+      return user.userId;
+    });
     let user = {
       username: res.data.username,
       id: res.data.userId,
       email: res.data.email,
       bio: res.data.bio,
+      loggedInFollowing: loggedInFollowing,
       profilePic: res.data.picUrl,
       loggedIn: true
     }
