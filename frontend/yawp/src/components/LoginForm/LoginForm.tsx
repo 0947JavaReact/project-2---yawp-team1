@@ -54,7 +54,7 @@ export const LoginForm: React.FC<any> = () => {
             </form>
             <button className="login-button" onClick={login}>Login</button>
             <div className="login-links">
-                <h4 className="login-h4">Dont have an account? <Link className="login-link" to="/register">Click here!</Link></h4>
+                <h4 className="login-h4">Don't have an account? <Link className="login-link" to="/register">Click here!</Link></h4>
                 <h4 className="login-h4">Forgot your password? <Link className="login-link" to="/forgotpass">Reset it here!</Link></h4>
             </div>
         </div>
