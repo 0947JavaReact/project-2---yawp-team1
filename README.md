@@ -21,7 +21,7 @@ A Social media platform designed for communication between users. Users can regi
 
 ## Features
 - User can login with their existing account.
-- User can create an account
+- User can create an account.
 - User can look at all Yawp posts by people they are following.
 - User can look at their own profile.
 - User can look at other users' profiles.
@@ -35,8 +35,9 @@ A Social media platform designed for communication between users. Users can regi
 ## Getting Started
 ### Backend
 1. Have an account on AWS with an S3 bucket.
-2. Have an email in order to change your password if you forget your password.
-3. Have Java 8 runtime environment installed.
+2. Have an account on AWS with RDS and put settings into application.yaml.
+3. Have an email in order to change your password if you forget your password.
+4. Have Java 8 runtime environment installed.
 
 ### Frontend
 1. npm install
